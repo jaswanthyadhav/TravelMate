@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Travel Mate</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #f0f4f8;
+  --surface:  #ffffff;
+  --navy:     #1e3a5f;
+  --teal:     #2a9d8f;
+  --amber:    #e9c46a;
+  --rose:     #e76f51;
+  --ink:      #1a2433;
+  --muted:    #8899aa;
+  --border:   rgba(30,58,95,0.09);
+  --sidebar-w: 270px;
+  --radius-xl: 28px;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --shadow-sm: 0 2px 12px rgba(30,58,95,0.07);
+  --shadow-md: 0 8px 32px rgba(30,58,95,0.11);
+  --shadow-lg: 0 20px 60px rgba(30,58,95,0.14);
+  --ease: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(30,58,95,0.15); border-radius: 10px; }
+
+/* ══ SIDEBAR ══ */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  z-index: 200;
+  transition: transform 0.4s cubic-bezier(0.77,0,0.18,1);
+  overflow: hidden;
+}
+
+.sidebar::before {
+  content: '';
+  position: absolute;
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(42,157,143,0.2) 0%, transparent 70%);
+  top: -60px; right: -80px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.sidebar::after {
+  content: '';
+  position: absolute;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(233,196,106,0.12) 0%, transparent 70%);
+  bottom: 80px; left: -60px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.sidebar-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  padding-bottom: 24px;
+}
+
+.sidebar-logo { padding: 32px 28px 24px; }
+
+.logo-mark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 2px;
+}
+
+.logo-icon {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--teal), var(--amber));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+}
+
+.logo-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+.logo-text em { color: var(--amber); font-style: italic; }
+
+.logo-tagline {
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  padding-left: 46px;
+}
+
+.user-chip {
+  margin: 0 20px 24px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: background 0.2s;
+}
+
+.user-chip:hover { background: rgba(255,255,255,0.1); }
+
+.u-avatar {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--teal) 0%, var(--amber) 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.u-name { font-size: 0.88rem; font-weight: 600; color: #fff; line-height: 1.2; }
+.u-tier { font-size: 0.7rem; color: var(--amber); margin-top: 2px; letter-spacing: 0.5px; }
+
+.nav-group { padding: 0 12px; margin-bottom: 8px; }
+
+.nav-group-label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+  padding: 0 10px;
+  margin-bottom: 6px;
+}
+
+.nav-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.55);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+  margin-bottom: 2px;
+}
+
+.nav-btn:hover {
+  background: rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.9);
+  transform: translateX(2px);
+}
+
+.nav-btn.active {
+  background: rgba(42,157,143,0.22);
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgba(42,157,143,0.3);
+}
+
+.n-icon {
+  width: 32px; height: 32px;
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.06);
+  transition: background 0.2s;
+}
+
+.nav-btn.active .n-icon { background: rgba(42,157,143,0.3); }
+.nav-btn:hover .n-icon { background: rgba(255,255,255,0.1); }
+
+.n-badge {
+  margin-left: auto;
+  font-size: 0.67rem;
+  font-weight: 700;
+  background: var(--rose);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.pts-widget {
+  margin: auto 20px 0;
+  background: linear-gradient(135deg, rgba(42,157,143,0.2), rgba(233,196,106,0.15));
+  border: 1px solid rgba(42,157,143,0.25);
+  border-radius: var(--radius-lg);
+  padding: 18px 18px 16px;
+}
+
+.pts-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.pts-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); }
+.pts-num { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 600; color: #fff; line-height: 1; margin-bottom: 2px; }
+.pts-sub { font-size: 0.72rem; color: rgba(255,255,255,0.45); margin-bottom: 12px; }
+.pts-sub strong { color: var(--amber); }
+.pts-track { height: 5px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
+.pts-fill { height: 100%; width: 68%; background: linear-gradient(90deg, var(--teal), var(--amber)); border-radius: 10px; animation: fillBar 1.4s var(--ease) 0.5s both; }
+
+@keyframes fillBar { from { width: 0; } to { width: 68%; } }
+
+/* ══ MAIN ══ */
+.main {
+  margin-left: var(--sidebar-w);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.4s cubic-bezier(0.77,0,0.18,1);
+}
+
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(240,244,248,0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topbar-left { display: flex; align-items: center; gap: 14px; }
+
+.hamburger {
+  display: none;
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: var(--ink);
+  transition: background 0.2s;
+}
+
+.hamburger:hover { background: #e8edf3; }
+
+.page-title { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 600; color: var(--ink); }
+
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+
+.icon-btn {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  position: relative;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.icon-btn:hover { background: #e8edf3; transform: scale(1.05); }
+.icon-btn .dot { position: absolute; top: 7px; right: 7px; width: 7px; height: 7px; background: var(--rose); border-radius: 50%; border: 2px solid var(--bg); }
+
+.topbar-avatar {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--teal), var(--amber));
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600; color: #fff; font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.topbar-avatar:hover { transform: scale(1.06); box-shadow: 0 4px 14px rgba(42,157,143,0.35); }
+
+.content { padding: 32px 36px 60px; flex: 1; }
+
+/* ══ TAB PANELS ══ */
+.tab-panel { display: none; }
+.tab-panel.active { display: block; animation: panelIn 0.45s cubic-bezier(0.34,1.26,0.64,1) both; }
+
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(18px) scale(0.99); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ══ STAT CARDS ══ */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  background: var(--surface);
+  border-radius: var(--radius-xl);
+  padding: 24px 22px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s;
+  animation: cardIn 0.5s var(--ease) both;
+}
+
+.stat-card:nth-child(1) { animation-delay: 0.05s; }
+.stat-card:nth-child(2) { animation-delay: 0.12s; }
+.stat-card:nth-child(3) { animation-delay: 0.19s; }
+.stat-card:nth-child(4) { animation-delay: 0.26s; }
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.stat-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+
+.sc-top { display: flex; align-items: center; justify-content: space-between; }
+
+.sc-icon {
+  width: 42px; height: 42px;
+  border-radius: 13px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+}
+
+.ic-teal  { background: rgba(42,157,143,0.12); }
+.ic-amber { background: rgba(233,196,106,0.18); }
+.ic-rose  { background: rgba(231,111,81,0.1); }
+.ic-navy  { background: rgba(30,58,95,0.08); }
+
+.sc-trend { font-size: 0.7rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; background: rgba(42,157,143,0.1); color: var(--teal); }
+.sc-val { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 600; color: var(--ink); line-height: 1; }
+.sc-label { font-size: 0.78rem; color: var(--muted); font-weight: 500; }
+
+/* ══ SECTION HEADER ══ */
+.sec-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 18px; }
+.sec-title { font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; font-weight: 600; color: var(--ink); line-height: 1.1; }
+.sec-sub { font-size: 0.78rem; color: var(--muted); margin-top: 3px; }
+.sec-link { font-size: 0.78rem; font-weight: 600; color: var(--teal); background: none; border: none; cursor: pointer; transition: opacity 0.2s; padding: 0; white-space: nowrap; }
+.sec-link:hover { opacity: 0.7; }
+
+/* ══ HIGHLIGHT CARD ══ */
+.highlight-card {
+  background: linear-gradient(135deg, var(--navy) 0%, #2a5080 100%);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  display: flex;
+  align-items: stretch;
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 28px;
+  animation: cardIn 0.5s var(--ease) 0.1s both;
+  position: relative;
+}
+
+.highlight-card::before {
+  content: '';
+  position: absolute;
+  width: 250px; height: 250px;
+  background: radial-gradient(circle, rgba(42,157,143,0.25) 0%, transparent 70%);
+  top: -50px; right: 200px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hl-img { width: 200px; flex-shrink: 0; object-fit: cover; display: block; }
+.hl-body { padding: 28px 30px; flex: 1; }
+.hl-eyebrow { font-size: 0.68rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+.hl-name { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 600; color: #fff; margin-bottom: 6px; line-height: 1.1; }
+.hl-meta { font-size: 0.8rem; color: rgba(255,255,255,0.55); margin-bottom: 20px; }
+.hl-pill { display: inline-flex; align-items: center; gap: 6px; background: rgba(42,157,143,0.25); border: 1px solid rgba(42,157,143,0.4); color: rgba(255,255,255,0.9); padding: 6px 16px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+.hl-right { padding: 28px 28px; display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; flex-shrink: 0; }
+.hl-price { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 600; color: var(--amber); line-height: 1; }
+.hl-price small { display: block; font-family: 'Outfit', sans-serif; font-size: 0.68rem; color: rgba(255,255,255,0.35); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; }
+.hl-action { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 9px 20px; border-radius: 50px; font-size: 0.78rem; font-weight: 600; cursor: pointer; font-family: 'Outfit', sans-serif; transition: background 0.2s; }
+.hl-action:hover { background: rgba(255,255,255,0.2); }
+
+/* ══ TRIP CARDS ══ */
+.trip-card {
+  background: var(--surface);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+  margin-bottom: 14px;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s;
+  animation: cardIn 0.4s var(--ease) both;
+}
+
+.trip-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.trip-thumb { width: 120px; flex-shrink: 0; object-fit: cover; display: block; }
+.trip-body { padding: 18px 20px; flex: 1; min-width: 0; }
+.trip-name { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 600; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.trip-meta { font-size: 0.78rem; color: var(--muted); margin-bottom: 12px; }
+
+.status-pill { display: inline-flex; align-items: center; gap: 5px; font-size: 0.7rem; font-weight: 600; padding: 4px 11px; border-radius: 20px; letter-spacing: 0.3px; }
+.s-upcoming  { background: rgba(42,157,143,0.1); color: var(--teal); }
+.s-completed { background: rgba(30,58,95,0.08); color: var(--navy); }
+.s-cancelled { background: rgba(231,111,81,0.1); color: var(--rose); }
+
+.trip-right { padding: 18px 22px; display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; flex-shrink: 0; }
+.trip-price { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; color: var(--navy); }
+.trip-action { font-size: 0.75rem; font-weight: 600; color: var(--teal); background: none; border: none; padding: 0; cursor: pointer; transition: opacity 0.2s; }
+.trip-action:hover { opacity: 0.6; }
+
+/* ══ WISHLIST ══ */
+.wish-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(195px, 1fr)); gap: 18px; }
+
+.wish-card {
+  background: var(--surface);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.35s var(--ease), box-shadow 0.35s;
+  animation: cardIn 0.4s var(--ease) both;
+}
+
+.wish-card:hover { transform: translateY(-6px) scale(1.01); box-shadow: var(--shadow-md); }
+.wish-img-wrap { position: relative; height: 145px; overflow: hidden; }
+.wish-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; display: block; }
+.wish-card:hover .wish-img-wrap img { transform: scale(1.07); }
+
+.wish-cat-tag { position: absolute; bottom: 10px; left: 10px; background: rgba(255,255,255,0.88); backdrop-filter: blur(6px); font-size: 0.68rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; color: var(--navy); letter-spacing: 0.5px; }
+.wish-remove { position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.88); border: none; cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; color: var(--muted); transition: background 0.2s, color 0.2s, transform 0.2s; }
+.wish-remove:hover { background: #fff; color: var(--rose); transform: scale(1.15); }
+
+.wish-body { padding: 14px 16px 16px; }
+.wish-name { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 600; margin-bottom: 2px; }
+.wish-sub { font-size: 0.73rem; color: var(--muted); margin-bottom: 10px; }
+.wish-footer { display: flex; align-items: center; justify-content: space-between; }
+.wish-price { font-size: 0.85rem; font-weight: 600; color: var(--navy); }
+.book-btn { font-size: 0.72rem; font-weight: 600; background: var(--navy); color: #fff; border: none; padding: 6px 14px; border-radius: 20px; cursor: pointer; transition: background 0.2s, transform 0.15s; }
+.book-btn:hover { background: var(--teal); transform: scale(1.04); }
+
+/* ══ ACHIEVEMENTS ══ */
+.ach-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 16px; margin-bottom: 36px; }
+
+.ach-card {
+  background: var(--surface);
+  border-radius: var(--radius-xl);
+  padding: 22px 16px 18px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s;
+  animation: cardIn 0.45s var(--ease) both;
+}
+
+.ach-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.ach-card.locked { opacity: 0.38; filter: grayscale(1); pointer-events: none; }
+.ach-icon { font-size: 2.2rem; margin-bottom: 10px; }
+.ach-name { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; color: var(--ink); }
+.ach-desc { font-size: 0.7rem; color: var(--muted); line-height: 1.4; margin-bottom: 8px; }
+.ach-ok { font-size: 0.67rem; font-weight: 700; color: var(--teal); letter-spacing: 0.5px; }
+.ach-lock { font-size: 0.67rem; color: #ccc; }
+
+/* ══ POINTS HISTORY ══ */
+.pts-history { background: var(--surface); border-radius: var(--radius-xl); border: 1px solid var(--border); box-shadow: var(--shadow-sm); overflow: hidden; }
+.ph-row { display: flex; align-items: center; gap: 14px; padding: 15px 22px; border-bottom: 1px solid var(--border); transition: background 0.15s; }
+.ph-row:last-child { border-bottom: none; }
+.ph-row:hover { background: rgba(42,157,143,0.03); }
+.ph-dot { width: 36px; height: 36px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; flex-shrink: 0; }
+.ph-dot.earn  { background: rgba(42,157,143,0.1); }
+.ph-dot.spend { background: rgba(231,111,81,0.1); }
+.ph-info { flex: 1; }
+.ph-title { font-size: 0.85rem; font-weight: 500; }
+.ph-date  { font-size: 0.72rem; color: var(--muted); margin-top: 1px; }
+.ph-val { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 600; }
+.ph-val.earn  { color: var(--teal); }
+.ph-val.spend { color: var(--rose); }
+
+/* ══ PROFILE ══ */
+.profile-card { background: var(--surface); border-radius: var(--radius-xl); border: 1px solid var(--border); box-shadow: var(--shadow-sm); padding: 32px; margin-bottom: 20px; animation: cardIn 0.45s var(--ease) both; }
+.prof-top { display: flex; align-items: center; gap: 20px; padding-bottom: 26px; border-bottom: 1px solid var(--border); margin-bottom: 26px; }
+.prof-avatar { width: 70px; height: 70px; border-radius: 22px; background: linear-gradient(135deg, var(--teal) 0%, var(--amber) 100%); display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 600; color: #fff; flex-shrink: 0; box-shadow: 0 8px 24px rgba(42,157,143,0.3); }
+.prof-meta h5 { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 600; margin-bottom: 4px; }
+.prof-meta p { font-size: 0.78rem; color: var(--muted); margin: 0 0 10px; }
+.photo-btn { font-size: 0.75rem; font-weight: 600; background: rgba(42,157,143,0.1); color: var(--teal); border: 1px solid rgba(42,157,143,0.2); padding: 7px 16px; border-radius: 20px; cursor: pointer; transition: background 0.2s; }
+.photo-btn:hover { background: rgba(42,157,143,0.18); }
+
+.f-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); margin-bottom: 7px; }
+.f-input { width: 100%; border: 1.5px solid var(--border); border-radius: var(--radius-md); padding: 12px 16px; font-family: 'Outfit', sans-serif; font-size: 0.88rem; color: var(--ink); outline: none; transition: border-color 0.2s, box-shadow 0.2s; background: var(--surface); }
+.f-input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(42,157,143,0.1); }
+
+.save-btn { background: var(--navy); color: #fff; border: none; border-radius: 50px; padding: 13px 36px; font-family: 'Outfit', sans-serif; font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: background 0.25s, transform 0.2s var(--ease), box-shadow 0.25s; }
+.save-btn:hover { background: var(--teal); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(42,157,143,0.35); }
+.save-btn:active { transform: scale(0.97); }
+
+.pref-row { display: flex; align-items: center; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid var(--border); }
+.pref-row:last-child { border-bottom: none; }
+.pref-info h6 { font-size: 0.88rem; font-weight: 600; margin: 0 0 2px; }
+.pref-info p  { font-size: 0.75rem; color: var(--muted); margin: 0; }
+
+.toggle { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle-bg { position: absolute; inset: 0; background: #dde3eb; border-radius: 24px; cursor: pointer; transition: background 0.3s; }
+.toggle-bg::after { content: ''; position: absolute; width: 18px; height: 18px; top: 3px; left: 3px; background: #fff; border-radius: 50%; transition: transform 0.3s var(--ease); box-shadow: 0 1px 5px rgba(0,0,0,0.2); }
+.toggle input:checked + .toggle-bg { background: var(--teal); }
+.toggle input:checked + .toggle-bg::after { transform: translateX(20px); }
+
+/* ══ FILTER PILLS ══ */
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; border-radius: 50px; border: 1.5px solid var(--border); background: var(--surface); font-family: 'Outfit', sans-serif; font-size: 0.82rem; font-weight: 500; color: var(--muted); cursor: pointer; transition: all 0.25s var(--ease); }
+.pill:hover { border-color: var(--teal); color: var(--teal); }
+.pill.active { background: var(--navy); border-color: var(--navy); color: #fff; box-shadow: 0 4px 14px rgba(30,58,95,0.2); }
+
+/* ══ TOAST ══ */
+.toast-msg { position: fixed; bottom: 28px; right: 28px; background: var(--navy); color: #fff; padding: 13px 24px; border-radius: 50px; font-size: 0.83rem; font-weight: 500; box-shadow: var(--shadow-lg); z-index: 999; opacity: 0; transform: translateY(12px); transition: all 0.35s var(--ease); pointer-events: none; border-left: 3px solid var(--teal); }
+
+/* ══ OVERLAY ══ */
+.overlay { display: none; position: fixed; inset: 0; background: rgba(10,20,40,0.45); z-index: 199; backdrop-filter: blur(3px); }
+.overlay.open { display: block; animation: fadeIn 0.3s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* ══ RESPONSIVE ══ */
+@media (max-width: 1100px) {
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .hl-img { width: 150px; }
+}
+
+@media (max-width: 900px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .main { margin-left: 0; }
+  .hamburger { display: flex; }
+  .content { padding: 24px 20px 50px; }
+  .topbar { padding: 14px 20px; }
+  .hl-right { padding: 20px 18px; }
+}
+
+@media (max-width: 640px) {
+  .stats-row { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .highlight-card { flex-direction: column; }
+  .hl-img { width: 100%; height: 160px; }
+  .hl-right { flex-direction: row; align-items: center; padding: 0 20px 20px; }
+  .trip-card { flex-direction: column; }
+  .trip-thumb { width: 100%; height: 140px; }
+  .trip-right { flex-direction: row; padding: 0 18px 16px; }
+  .wish-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+}
+
+@media (max-width: 420px) {
+  .stats-row { grid-template-columns: 1fr; }
+  .wish-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-inner">
+    <div class="sidebar-logo">
+      <div class="logo-mark">
+        <div class="logo-icon">✈</div>
+        <div class="logo-text">Travel <em>Mate</em></div>
+      </div>
+      <div class="logo-tagline">Discover the world</div>
+    </div>
+
+    <div class="user-chip">
+      <div class="u-avatar">AJ</div>
+      <div>
+        <div class="u-name">Arjun Joshi</div>
+        <div class="u-tier">⭐ Gold Explorer</div>
+      </div>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group-label">Main</div>
+      <button class="nav-btn active" onclick="showTab('overview',this)"><span class="n-icon">🏠</span> Overview</button>
+      <button class="nav-btn" onclick="showTab('trips',this)"><span class="n-icon">🧳</span> My Trips <span class="n-badge">3</span></button>
+      <button class="nav-btn" onclick="showTab('wishlist',this)"><span class="n-icon">❤️</span> Wishlist <span class="n-badge">5</span></button>
+      <button class="nav-btn" onclick="showTab('achievements',this)"><span class="n-icon">🏆</span> Achievements</button>
+      <button class="nav-btn" onclick="showTab('profile',this)"><span class="n-icon">👤</span> Profile</button>
+    </div>
+
+    <div class="nav-group" style="margin-top:12px;">
+      <div class="nav-group-label">Other</div>
+      <button class="nav-btn"><span class="n-icon">🌍</span> Explore</button>
+      <button class="nav-btn"><span class="n-icon">🚪</span> Sign Out</button>
+    </div>
+
+    <div class="pts-widget">
+      <div class="pts-top"><span class="pts-label">Travel Points</span><span>✦</span></div>
+      <div class="pts-num">3,480</div>
+      <div class="pts-sub">520 pts to <strong>Platinum</strong></div>
+      <div class="pts-track"><div class="pts-fill"></div></div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="hamburger" onclick="openSidebar()">☰</button>
+      <div class="page-title" id="pageTitle">Overview</div>
+    </div>
+    <div class="topbar-right">
+      <div class="icon-btn">🔔<div class="dot"></div></div>
+      <div class="icon-btn">⚙️</div>
+      <div class="topbar-avatar">AJ</div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- OVERVIEW -->
+    <div class="tab-panel active" id="tab-overview">
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="sc-top"><div class="sc-icon ic-teal">🧳</div><span class="sc-trend">+2 yr</span></div>
+          <div class="sc-val">12</div><div class="sc-label">Total Trips</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-top"><div class="sc-icon ic-amber">✦</div><span class="sc-trend">+340</span></div>
+          <div class="sc-val">3,480</div><div class="sc-label">Travel Points</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-top"><div class="sc-icon ic-rose">❤️</div><span class="sc-trend">+3</span></div>
+          <div class="sc-val">5</div><div class="sc-label">Wishlisted</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-top"><div class="sc-icon ic-navy">🏆</div><span class="sc-trend">+2</span></div>
+          <div class="sc-val">8</div><div class="sc-label">Achievements</div>
+        </div>
+      </div>
+
+      <div class="sec-header">
+        <div><div class="sec-title">Next Adventure</div><div class="sec-sub">Your nearest upcoming trip</div></div>
+        <button class="sec-link" onclick="showTab('trips',document.querySelectorAll('.nav-btn')[1])">View all →</button>
+      </div>
+
+      <div class="highlight-card">
+        <img class="hl-img" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80" alt="Maldives">
+        <div class="hl-body">
+          <div class="hl-eyebrow">✈ Upcoming — Mar 2025</div>
+          <div class="hl-name">Maldives Escape</div>
+          <div class="hl-meta">📅 Mar 15 – 22, 2025 &nbsp;·&nbsp; 👤 2 Travellers</div>
+          <div class="hl-pill">🏖️ Beach &nbsp;·&nbsp; 7 nights</div>
+        </div>
+        <div class="hl-right">
+          <div class="hl-price"><small>total</small>$1,200</div>
+          <button class="hl-action">Manage →</button>
+        </div>
+      </div>
+
+      <div class="sec-header"><div><div class="sec-title">Points Activity</div><div class="sec-sub">Recent earn & spend</div></div></div>
+      <div class="pts-history">
+        <div class="ph-row"><div class="ph-dot earn">⭐</div><div class="ph-info"><div class="ph-title">Booking Bonus — Paris Trip</div><div class="ph-date">Feb 10, 2025</div></div><div class="ph-val earn">+200</div></div>
+        <div class="ph-row"><div class="ph-dot earn">🎯</div><div class="ph-info"><div class="ph-title">Achievement: Globetrotter</div><div class="ph-date">Feb 8, 2025</div></div><div class="ph-val earn">+150</div></div>
+        <div class="ph-row"><div class="ph-dot spend">🎟️</div><div class="ph-info"><div class="ph-title">Redeemed — Hotel Discount</div><div class="ph-date">Jan 28, 2025</div></div><div class="ph-val spend">−500</div></div>
+        <div class="ph-row"><div class="ph-dot earn">⭐</div><div class="ph-info"><div class="ph-title">Booking Bonus — Goa Trip</div><div class="ph-date">Jan 20, 2025</div></div><div class="ph-val earn">+180</div></div>
+      </div>
+    </div>
+
+    <!-- TRIPS -->
+    <div class="tab-panel" id="tab-trips">
+      <div class="sec-header"><div><div class="sec-title">My Trips</div><div class="sec-sub">All bookings & history</div></div></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px;">
+        <button class="pill active" id="tp-All" onclick="filterTrips('All',this)">All</button>
+        <button class="pill" id="tp-Upcoming" onclick="filterTrips('Upcoming',this)">✈ Upcoming</button>
+        <button class="pill" id="tp-Completed" onclick="filterTrips('Completed',this)">✅ Completed</button>
+        <button class="pill" id="tp-Cancelled" onclick="filterTrips('Cancelled',this)">✗ Cancelled</button>
+      </div>
+      <div id="tripsContainer"></div>
+    </div>
+
+    <!-- WISHLIST -->
+    <div class="tab-panel" id="tab-wishlist">
+      <div class="sec-header"><div><div class="sec-title">My Wishlist</div><div class="sec-sub">Destinations you're dreaming about</div></div></div>
+      <div class="wish-grid" id="wishGrid"></div>
+    </div>
+
+    <!-- ACHIEVEMENTS -->
+    <div class="tab-panel" id="tab-achievements">
+      <div class="sec-header"><div><div class="sec-title">Achievements</div><div class="sec-sub">Badges & bonus points</div></div></div>
+      <div class="ach-grid" id="achGrid"></div>
+      <div class="sec-header"><div><div class="sec-title">Points History</div><div class="sec-sub">Full ledger</div></div></div>
+      <div class="pts-history">
+        <div class="ph-row"><div class="ph-dot earn">⭐</div><div class="ph-info"><div class="ph-title">Booking Bonus — Paris Trip</div><div class="ph-date">Feb 10, 2025</div></div><div class="ph-val earn">+200</div></div>
+        <div class="ph-row"><div class="ph-dot earn">🎯</div><div class="ph-info"><div class="ph-title">Achievement: Globetrotter</div><div class="ph-date">Feb 8, 2025</div></div><div class="ph-val earn">+150</div></div>
+        <div class="ph-row"><div class="ph-dot earn">⭐</div><div class="ph-info"><div class="ph-title">Booking Bonus — Goa Trip</div><div class="ph-date">Jan 20, 2025</div></div><div class="ph-val earn">+180</div></div>
+        <div class="ph-row"><div class="ph-dot spend">🎟️</div><div class="ph-info"><div class="ph-title">Redeemed — Hotel Discount</div><div class="ph-date">Jan 28, 2025</div></div><div class="ph-val spend">−500</div></div>
+        <div class="ph-row"><div class="ph-dot earn">⭐</div><div class="ph-info"><div class="ph-title">First Booking Bonus</div><div class="ph-date">Dec 5, 2024</div></div><div class="ph-val earn">+100</div></div>
+        <div class="ph-row"><div class="ph-dot earn">🎯</div><div class="ph-info"><div class="ph-title">Achievement: First Timer</div><div class="ph-date">Dec 5, 2024</div></div><div class="ph-val earn">+50</div></div>
+      </div>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="tab-panel" id="tab-profile">
+      <div class="sec-header"><div><div class="sec-title">Profile & Settings</div><div class="sec-sub">Your account information</div></div></div>
+      <div class="profile-card">
+        <div class="prof-top">
+          <div class="prof-avatar">AJ</div>
+          <div class="prof-meta">
+            <h5>Arjun Joshi</h5>
+            <p>Member since January 2024 · ⭐ Gold Explorer</p>
+            <button class="photo-btn">Change Photo</button>
+          </div>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-6"><div class="f-label">First Name</div><input class="f-input" type="text" value="Arjun"></div>
+          <div class="col-md-6"><div class="f-label">Last Name</div><input class="f-input" type="text" value="Joshi"></div>
+          <div class="col-md-6"><div class="f-label">Email</div><input class="f-input" type="email" value="arjun.joshi@email.com"></div>
+          <div class="col-md-6"><div class="f-label">Phone</div><input class="f-input" type="tel" value="+91 98765 43210"></div>
+          <div class="col-md-6"><div class="f-label">Nationality</div><input class="f-input" type="text" value="Indian"></div>
+          <div class="col-md-6"><div class="f-label">Currency</div>
+            <select class="f-input"><option>INR — Indian Rupee</option><option>USD — US Dollar</option><option>EUR — Euro</option></select>
+          </div>
+          <div class="col-12 mt-2"><button class="save-btn" onclick="toast('Profile saved!')">Save Changes</button></div>
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div class="sec-title" style="margin-bottom:4px;">Preferences</div>
+        <p style="font-size:0.78rem;color:var(--muted);margin-bottom:20px;">Customise your experience</p>
+        <div class="pref-row"><div class="pref-info"><h6>Email Notifications</h6><p>Booking confirmations & offers</p></div><label class="toggle"><input type="checkbox" checked><span class="toggle-bg"></span></label></div>
+        <div class="pref-row"><div class="pref-info"><h6>Points & Rewards Alerts</h6><p>Notified when you earn or spend</p></div><label class="toggle"><input type="checkbox" checked><span class="toggle-bg"></span></label></div>
+        <div class="pref-row"><div class="pref-info"><h6>Wishlist Price Drops</h6><p>Alert when saved places go on sale</p></div><label class="toggle"><input type="checkbox"><span class="toggle-bg"></span></label></div>
+        <div class="pref-row"><div class="pref-info"><h6>Trip Reminders</h6><p>Notify 7 days before a trip</p></div><label class="toggle"><input type="checkbox" checked><span class="toggle-bg"></span></label></div>
+      </div>
+
+      <div class="profile-card" style="border-color:rgba(231,111,81,0.25);">
+        <div class="sec-title" style="color:var(--rose);margin-bottom:4px;">Danger Zone</div>
+        <p style="font-size:0.78rem;color:var(--muted);margin-bottom:18px;">These actions cannot be undone.</p>
+        <button style="background:rgba(231,111,81,0.08);border:1.5px solid rgba(231,111,81,0.25);color:var(--rose);font-family:'Outfit',sans-serif;font-size:0.82rem;font-weight:600;padding:10px 22px;border-radius:50px;cursor:pointer;margin-right:10px;">Delete Account</button>
+        <button style="background:transparent;border:1.5px solid var(--border);color:var(--muted);font-family:'Outfit',sans-serif;font-size:0.82rem;padding:10px 22px;border-radius:50px;cursor:pointer;">Reset Points</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast-msg" id="toastEl"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const trips = [
+  { name:"Maldives Escape",   dates:"Mar 15–22, 2025", pax:2, price:"$1,200", status:"Upcoming",  img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&q=80" },
+  { name:"Paris Rendezvous",  dates:"Feb 1–7, 2025",   pax:2, price:"$890",   status:"Completed", img:"https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=300&q=80" },
+  { name:"Goa Beach Holiday", dates:"Jan 10–15, 2025", pax:4, price:"$480",   status:"Completed", img:"https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=300&q=80" },
+  { name:"Rishikesh Rafting", dates:"Dec 20–24, 2024", pax:3, price:"$210",   status:"Completed", img:"https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=300&q=80" },
+  { name:"Manali Trek",       dates:"Nov 5–9, 2024",   pax:2, price:"$340",   status:"Cancelled", img:"https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&q=80" }
+];
+
+const wishlist = [
+  { name:"Maldives",  cat:"Beach",        price:"$1,200", img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80" },
+  { name:"Manali",    cat:"Hill Station", price:"$340",   img:"https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80" },
+  { name:"Paris",     cat:"City",         price:"$890",   img:"https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400&q=80" },
+  { name:"Rishikesh", cat:"Adventure",    price:"$210",   img:"https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=400&q=80" },
+  { name:"Goa",       cat:"Beach",        price:"$480",   img:"https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=400&q=80" }
+];
+
+const achievements = [
+  { icon:"🌟", name:"First Timer",    desc:"Completed first booking",        unlocked:true  },
+  { icon:"🌍", name:"Globetrotter",   desc:"Visited 3 different countries",  unlocked:true  },
+  { icon:"🏖️", name:"Beach Bum",      desc:"Booked 2 beach destinations",    unlocked:true  },
+  { icon:"🏔️", name:"Summit Seeker",  desc:"Booked a hill station trip",     unlocked:true  },
+  { icon:"💎", name:"Loyal Explorer", desc:"Active for 1 full year",         unlocked:true  },
+  { icon:"⚡", name:"Speed Booker",   desc:"Booked within 24h of browsing",  unlocked:true  },
+  { icon:"👫", name:"Group Leader",   desc:"Book a trip for 4+ people",      unlocked:false },
+  { icon:"🌙", name:"Night Owl",      desc:"Book 3 city destinations",       unlocked:false },
+  { icon:"🎒", name:"Solo Wanderer",  desc:"Complete a solo trip",           unlocked:false },
+  { icon:"🏆", name:"Platinum Flyer", desc:"Reach 4,000 travel points",      unlocked:false }
+];
+
+const tabLabels = { overview:'Overview', trips:'My Trips', wishlist:'Wishlist', achievements:'Achievements', profile:'Profile & Settings' };
+
+function showTab(name, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  if (btn) btn.classList.add('active');
+  document.getElementById('pageTitle').textContent = tabLabels[name] || name;
+  closeSidebar();
+}
+
+function renderTrips(filter) {
+  const list = filter === 'All' ? trips : trips.filter(t => t.status === filter);
+  const cont = document.getElementById('tripsContainer');
+  if (!list.length) { cont.innerHTML = '<p style="text-align:center;color:var(--muted);padding:50px 0;">No trips found.</p>'; return; }
+  cont.innerHTML = list.map((t, i) => `
+    <div class="trip-card" style="animation-delay:${i*0.06}s">
+      <img class="trip-thumb" src="${t.img}" alt="${t.name}">
+      <div class="trip-body">
+        <div class="trip-name">${t.name}</div>
+        <div class="trip-meta">📅 ${t.dates} · 👤 ${t.pax} traveller${t.pax>1?'s':''}</div>
+        <span class="status-pill s-${t.status.toLowerCase()}">${t.status==='Upcoming'?'✈':t.status==='Completed'?'✅':'✗'} ${t.status}</span>
+      </div>
+      <div class="trip-right">
+        <div class="trip-price">${t.price}</div>
+        <button class="trip-action">${t.status==='Upcoming'?'Manage →':'Review →'}</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterTrips(filter, btn) {
+  document.querySelectorAll('[id^="tp-"]').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  renderTrips(filter);
+}
+
+let wl = [...wishlist];
+
+function renderWishlist() {
+  document.getElementById('wishGrid').innerHTML = wl.map((w, i) => `
+    <div class="wish-card" style="animation-delay:${i*0.07}s">
+      <div class="wish-img-wrap">
+        <img src="${w.img}" alt="${w.name}">
+        <span class="wish-cat-tag">${w.cat}</span>
+        <button class="wish-remove" onclick="removeWish(${i})">✕</button>
+      </div>
+      <div class="wish-body">
+        <div class="wish-name">${w.name}</div>
+        <div class="wish-sub">From ${w.price} per person</div>
+        <div class="wish-footer">
+          <span class="wish-price">${w.price}</span>
+          <button class="book-btn">Book Now</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function removeWish(i) { wl.splice(i, 1); renderWishlist(); toast('Removed from wishlist'); }
+
+function renderAch() {
+  document.getElementById('achGrid').innerHTML = achievements.map((a, i) => `
+    <div class="ach-card ${a.unlocked?'':'locked'}" style="animation-delay:${i*0.05}s">
+      <div class="ach-icon">${a.icon}</div>
+      <div class="ach-name">${a.name}</div>
+      <div class="ach-desc">${a.desc}</div>
+      ${a.unlocked ? '<div class="ach-ok">✓ Unlocked</div>' : '<div class="ach-lock">🔒 Locked</div>'}
+    </div>
+  `).join('');
+}
+
+function openSidebar() { document.getElementById('sidebar').classList.add('open'); document.getElementById('overlay').classList.add('open'); }
+function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('open'); }
+
+function toast(msg) {
+  const el = document.getElementById('toastEl');
+  el.textContent = '✓  ' + msg;
+  el.style.opacity = '1'; el.style.transform = 'translateY(0)';
+  clearTimeout(el._t);
+  el._t = setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateY(12px)'; }, 2800);
+}
+
+renderTrips('All');
+renderWishlist();
+renderAch();
+</script>
+</body>
+</html>
