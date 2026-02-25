@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Place Reviews - Travel Mate</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root{
+  --primary:#22c55e;
+  --primary-dark:#16a34a;
+  --light:#f0fdf4;
+  --white:#ffffff;
+  --text:#1f2937;
+}
+
+body{
+  font-family:'Poppins',sans-serif;
+  background:var(--light);
+  margin:0;
+  padding:0;
+  color:var(--text);
+}
+
+.container{
+  max-width:900px;
+  margin:40px auto;
+  padding:20px;
+}
+
+/* PLACE HEADER */
+.place-card{
+  background:white;
+  border-radius:25px;
+  padding:25px;
+  box-shadow:0 10px 30px rgba(34,197,94,0.15);
+  margin-bottom:40px;
+}
+
+.place-title{
+  font-size:26px;
+  font-weight:600;
+  margin-bottom:10px;
+}
+
+/* REVIEW SECTION */
+.review-section h2{
+  margin-bottom:20px;
+}
+
+.review-card{
+  background:white;
+  border-radius:20px;
+  padding:20px;
+  margin-bottom:20px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.05);
+  transition:0.3s;
+}
+
+.review-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 10px 30px rgba(34,197,94,0.2);
+}
+
+.review-user{
+  font-weight:600;
+  margin-bottom:5px;
+}
+
+.review-rating i{
+  color:#ddd;
+}
+
+.review-rating i.active{
+  color:var(--primary);
+}
+
+.review-text{
+  margin:10px 0;
+  color:#555;
+}
+
+.review-actions{
+  display:flex;
+  gap:15px;
+  align-items:center;
+}
+
+.like-btn{
+  cursor:pointer;
+  color:#888;
+  transition:0.3s;
+}
+
+.like-btn.liked{
+  color:red;
+}
+
+.like-count{
+  font-size:14px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- PLACE INFO -->
+  <div class="place-card">
+    <div class="place-title">Bali, Indonesia</div>
+    <p>Beautiful beaches, temples and cultural experiences.</p>
+  </div>
+
+  <!-- REVIEWS -->
+  <div class="review-section">
+    <h2>User Reviews</h2>
+
+    <div id="reviewsContainer">
+
+      <!-- Example Review -->
+      <div class="review-card">
+        <div class="review-user">Arjun Kumar</div>
+
+        <div class="review-rating">
+          <i class="fa fa-star active"></i>
+          <i class="fa fa-star active"></i>
+          <i class="fa fa-star active"></i>
+          <i class="fa fa-star active"></i>
+          <i class="fa fa-star"></i>
+        </div>
+
+        <div class="review-text">
+          Amazing experience! The beaches were stunning and very peaceful.
+        </div>
+
+        <div class="review-actions">
+          <div class="like-btn">
+            <i class="fa fa-heart"></i>
+          </div>
+          <div class="like-count">12 Likes</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+// Like functionality per review
+$(document).on("click",".like-btn",function(){
+
+  let countElement=$(this).siblings(".like-count");
+  let currentLikes=parseInt(countElement.text());
+
+  if($(this).hasClass("liked")){
+    currentLikes--;
+    $(this).removeClass("liked");
+  } else {
+    currentLikes++;
+    $(this).addClass("liked");
+  }
+
+  countElement.text(currentLikes+" Likes");
+
+});
+
+</script>
+
+</body>
+</html>

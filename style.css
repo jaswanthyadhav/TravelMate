@@ -143,7 +143,7 @@ h3 { font-size: clamp(1.1rem, 2vw, 1.35rem); }
 }
 .navbar.transparent { background: transparent; }
 .navbar.solid {
-  background: rgba(255,255,255,.96);
+  background: rgba(240, 238, 238, 0.96);
   backdrop-filter: blur(18px);
   box-shadow: var(--shadow-sm);
 }
@@ -162,7 +162,7 @@ h3 { font-size: clamp(1.1rem, 2vw, 1.35rem); }
 .nav-links li a {
   padding: .44rem .88rem; border-radius: 8px;
   font-size: .86rem; font-weight: 500;
-  color: rgba(255,255,255,.85); transition: all var(--ease);
+  color: var(--slate); transition: all var(--ease);
 }
 .navbar.solid .nav-links li a { color: var(--slate-mid); }
 .nav-links li a:hover { color: #fff; background: rgba(255,255,255,.15); }
