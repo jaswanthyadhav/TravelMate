@@ -15,14 +15,18 @@
     <div class="navbar-inner">
       <a href="#" class="nav-logo">&#10022; Travel<span class="dot">Mate</span></a>
       <ul class="nav-links" id="navLinks">
-        <li><a href="#" class="active">Home</a></li>
+        <li><a href="index.html" class="active">Home</a></li>
         <!--<li><a href="destinations.html">Destinations</a></li>-->
-        <li><a href="#">Reviews</a></li>
+        <li><a href="main_community.html">Community</a></li>
+        <li><a href="#">Find Guides</a></li>
         <li><a href="travel-mate-dashboard.html">DashBoard</a></li>
         <li><a href="login.html">Login</a></li>
         <li><a href="signup.html">Register</a></li>
         
       </ul>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div id="pointsCounter" class="badge badge-teal">0 pts</div>
+      </div>
       <button class="hamburger" id="hamburger" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
@@ -73,6 +77,15 @@
     </div>
   </section>
 
+  <script>
+    (function(){
+      const el = document.getElementById('pointsCounter');
+      if(!el) return;
+      const pts = Number(localStorage.getItem('tm_points') || 0);
+      el.textContent = pts + ' pts';
+    })();
+  </script>
+
   <!-- ══════════════ CATEGORIES ══════════════ -->
   <section class="section-pad bg-surface">
     <div class="container">
@@ -111,7 +124,7 @@
     <div class="container">
       <div class="section-heading fade-up">
         <p class="section-label">&#10022; Top Picks</p>
-        <h2>Featured Destinations</h2>
+        <h2>Popular Destinations</h2>
         <div class="divider"></div>
         <p class="section-sub">Hand-picked destinations loved by our community of seasoned travellers.</p>
       </div>
@@ -133,7 +146,7 @@
             </div>
             <div class="dest-footer">
               <span class="dest-price">From <strong>$45/night</strong></span>
-              <a href="#" class="btn btn-primary btn-sm">View Details</a>
+                <a href="community.html" class="btn btn-primary btn-sm">View Details</a>
             </div>
           </div>
         </div>
@@ -153,7 +166,7 @@
             </div>
             <div class="dest-footer">
               <span class="dest-price">From <strong>$120/night</strong></span>
-              <a href="#" class="btn btn-primary btn-sm">View Details</a>
+                <a href="community.html" class="btn btn-primary btn-sm">View Details</a>
             </div>
           </div>
         </div>
@@ -173,7 +186,7 @@
             </div>
             <div class="dest-footer">
               <span class="dest-price">From <strong>$200/night</strong></span>
-              <a href="#" class="btn btn-primary btn-sm">View Details</a>
+                <a href="community.html" class="btn btn-primary btn-sm">View Details</a>
             </div>
           </div>
         </div>
@@ -193,7 +206,7 @@
             </div>
             <div class="dest-footer">
               <span class="dest-price">From <strong>$350/night</strong></span>
-              <a href="#" class="btn btn-primary btn-sm">View Details</a>
+                <a href="community.html" class="btn btn-primary btn-sm">View Details</a>
             </div>
           </div>
         </div>
@@ -213,7 +226,7 @@
             </div>
             <div class="dest-footer">
               <span class="dest-price">From <strong>$80/night</strong></span>
-              <a href="#" class="btn btn-primary btn-sm">View Details</a>
+              <a href="community.html" class="btn btn-primary btn-sm">View Details</a>
             </div>
           </div>
         </div>
@@ -233,7 +246,7 @@
             </div>
             <div class="dest-footer">
               <span class="dest-price">From <strong>$90/night</strong></span>
-              <a href="#" class="btn btn-primary btn-sm">View Details</a>
+                <a href="community.html" class="btn btn-primary btn-sm">View Details</a>
             </div>
           </div>
         </div>
