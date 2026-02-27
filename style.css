@@ -571,3 +571,76 @@ body {
 .cm-actions { display:flex; gap:12px; margin-top:16px; justify-content:flex-start; }
 .toast { position: fixed; bottom: 22px; right: 22px; background: var(--primary); color:#fff; padding:12px 18px; border-radius:10px; box-shadow: var(--shadow-md); opacity:0; transform: translateY(8px); transition: all .28s ease; z-index:1400; }
 .toast.show { opacity:1; transform: translateY(0); }
+
+.chat-modal {
+	display: none;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	z-index: 9999;
+}
+
+.chat-box {
+	width: 320px;
+	background: #1e1e1e;
+	border-radius: 12px;
+	box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+.chat-header {
+	background: #2c2c2c;
+	padding: 10px;
+	color: white;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.chat-messages {
+	height: 250px;
+	overflow-y: auto;
+	padding: 10px;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	color: white;
+}
+
+.chat-input {
+	display: flex;
+}
+
+.chat-input input {
+	flex: 1;
+	padding: 8px;
+	border: none;
+	outline: none;
+}
+
+.chat-input button {
+	background: #ff7b00;
+	border: none;
+	padding: 8px 12px;
+	color: white;
+	cursor: pointer;
+}
+
+.message {
+	padding: 6px 10px;
+	border-radius: 10px;
+	max-width: 80%;
+	font-size: 14px;
+}
+
+.sent {
+	background: #ff7b00;
+	align-self: flex-end;
+}
+
+.received {
+	background: #444;
+	align-self: flex-start;
+}

@@ -1,4 +1,5 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
@@ -7,34 +8,29 @@
 	<link href="style.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 	<style>
-		/* small inline tweaks so page matches sample */
 		.community-wrap { padding: 40px 0 120px; }
 	</style>
 </head>
 <body>
-    <nav class="navbar transparent" id="navbar">
-    <div class="navbar-inner">
-      <a href="#" class="nav-logo">&#10022; Travel<span class="dot">Mate</span></a>
+	<nav class="navbar transparent" id="navbar">
+		<div class="navbar-inner">
+			<a href="#" class="nav-logo">&#10022; Travel<span class="dot">Mate</span></a>
 			<ul class="nav-links" id="navLinks">
-        <li><a href="index.html" class="active">Home</a></li>
-        <!--<li><a href="destinations.html">Destinations</a></li>-->
-        <li><a href="main_community.html">Community</a></li>
-        <li><a href="#">Find Guides</a></li>
-        <li><a href="travel-mate-dashboard.html">DashBoard</a></li>
-        <li><a href="login.html">Login</a></li>
-        <li><a href="signup.html">Register</a></li>
-        
-      </ul>
+				<li><a href="index.html" class="active">Home</a></li>
+				<li><a href="main_community.html">Community</a></li>
+				<li><a href="#">Find Guides</a></li>
+				<li><a href="travel-mate-dashboard.html">DashBoard</a></li>
+				<li><a href="login.html">Login</a></li>
+				<li><a href="signup.html">Register</a></li>
+			</ul>
 			<div style="display:flex;align-items:center;gap:12px;">
 				<div id="pointsCounter" class="badge badge-teal">0 pts</div>
 			</div>
-      <button class="hamburger" id="hamburger" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </nav>
-
-	
+			<button class="hamburger" id="hamburger" aria-label="Menu">
+				<span></span><span></span><span></span>
+			</button>
+		</div>
+	</nav>
 
 	<main class="community-wrap">
 		<div class="container">
@@ -42,21 +38,17 @@
 				<div style="max-width:720px;">
 					<h1 style="margin-bottom:6px;">Community</h1>
 					<p class="section-sub">Travel stories from around the world</p>
-
 					<div style="display:flex;gap:10px;margin-top:18px;align-items:center;">
 						<button class="filter-btn active">Latest</button>
 						<button class="filter-btn">Popular</button>
 						<button class="filter-btn">Top Rated</button>
 					</div>
 				</div>
-
 				<div style="display:flex;align-items:center;gap:12px;">
 					<button id="openCreatePost" class="btn btn-white">Create Post</button>
 				</div>
 			</div>
-
 			<div class="posts-list" style="margin-top:28px;">
-
 				<article class="post-card">
 					<header class="post-header">
 						<div class="author">
@@ -68,22 +60,18 @@
 						</div>
 						<div class="post-stars">★★★★☆</div>
 					</header>
-
 					<div class="post-image"><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1400&q=80" alt="rice terraces"></div>
-
 					<div class="post-body">
 						<p>Found this hidden temple in Ubud 🏯 The architecture is simply breathtaking. If you visit Bali, don't miss this spot!</p>
 					</div>
-
 					<footer class="post-footer">
 						<div class="post-actions">
 							<button class="icon-btn">❤ 234</button>
-							<button class="icon-btn">💬 45</button>
+							<button class="icon-btn message-btn">💬 Message</button>
 						</div>
 						<div class="post-share">🔗</div>
 					</footer>
 				</article>
-
 				<article class="post-card">
 					<header class="post-header">
 						<div class="author">
@@ -95,22 +83,18 @@
 						</div>
 						<div class="post-stars">★★★★★</div>
 					</header>
-
 					<div class="post-image"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1400&q=80" alt="temple"></div>
-
 					<div class="post-body">
 						<p>Autumn in Kyoto is unreal — temples and maple leaves everywhere. Highly recommend a morning visit before crowds.</p>
 					</div>
-
 					<footer class="post-footer">
 						<div class="post-actions">
 							<button class="icon-btn">❤ 512</button>
-							<button class="icon-btn">💬 88</button>
+							<button class="icon-btn message-btn">💬 Message</button>
 						</div>
 						<div class="post-share">🔗</div>
 					</footer>
 				</article>
-
 			</div>
 		</div>
 	</main>
@@ -122,24 +106,20 @@
 				<h2>Create Post</h2>
 				<button id="closeCreatePost" class="icon-btn">✕</button>
 			</header>
-
 			<form id="createPostForm" class="cm-form">
 				<label class="cm-label">Photos</label>
-				<div id="dropZone" class="drop-zone"> 
-					<input id="fileInput" type="file" accept="image/*" multiple hidden>
-					<div class="drop-inner"> 
+				<div id="dropZone" class="drop-zone">
+					<input id="fileInput" type="file" accept="image/*" multiple hidden />
+					<div class="drop-inner">
 						<div class="drop-icon">⬆</div>
 						<div class="drop-text">Drag & drop photos or click to browse<br><small>+10 points per photo uploaded</small></div>
 					</div>
 				</div>
 				<div id="preview" class="preview-grid"></div>
-
 				<label class="cm-label">Location</label>
-				<input id="locationInput" class="cm-input" placeholder="Where did you visit?">
-
+				<input id="locationInput" class="cm-input" placeholder="Where did you visit?" />
 				<label class="cm-label">Caption</label>
 				<textarea id="captionInput" class="cm-textarea" rows="3" placeholder="Share your experience..."></textarea>
-
 				<label class="cm-label">Rating</label>
 				<div id="rating" class="rating-stars" data-rating="0">
 					<span class="star" data-value="1">☆</span>
@@ -148,10 +128,8 @@
 					<span class="star" data-value="4">☆</span>
 					<span class="star" data-value="5">☆</span>
 				</div>
-
 				<label class="cm-label">Travel Blog (optional)</label>
 				<textarea id="blogInput" class="cm-textarea" rows="6" placeholder="Write a detailed blog about your experience..."></textarea>
-
 				<div class="cm-actions">
 					<button type="button" id="publishBtn" class="btn btn-primary btn-lg">Publish Post (+50 points)</button>
 					<button type="button" id="cancelBtn" class="btn btn-white">Cancel</button>
@@ -160,21 +138,39 @@
 		</div>
 	</div>
 
+
+	<!-- CHAT MODAL -->
+<div id="chatModal" class="chat-modal">
+	<div class="chat-box">
+		<div class="chat-header">
+			<span id="chatUser">Chat</span>
+			<button onclick="closeChat()">✖</button>
+		</div>
+
+		<div class="chat-messages" id="chatMessages"></div>
+
+		<div class="chat-input">
+			<input type="text" id="chatInput" placeholder="Type a message...">
+			<button onclick="sendMessage()">Send</button>
+		</div>
+	</div>
+</div>
+
 	<div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 	<script>
-        // Navbar scroll effect
-  window.addEventListener('scroll', function() {
-    const navbar = document.getElementById('navbar');
-    if(window.scrollY > 40) {
-      navbar.classList.remove('transparent');
-      navbar.classList.add('solid');
-    } else {
-      navbar.classList.remove('solid');
-      navbar.classList.add('transparent');
-    }
-  });
-		// Modal & form behavior
+		let uploadedImages = [];
+		window.addEventListener('scroll', function() {
+			const navbar = document.getElementById('navbar');
+			if(window.scrollY > 40) {
+				navbar.classList.remove('transparent');
+				navbar.classList.add('solid');
+			} else {
+				navbar.classList.remove('solid');
+				navbar.classList.add('transparent');
+			}
+		});
+		
 		const openBtn = document.getElementById('openCreatePost');
 		const modal = document.getElementById('createPostModal');
 		const closeBtn = document.getElementById('closeCreatePost');
@@ -185,49 +181,56 @@
 		const preview = document.getElementById('preview');
 		const toast = document.getElementById('toast');
 		const pointsCounter = document.getElementById('pointsCounter');
-
 		function openModal(){
 			modal.classList.add('open');
 			modal.setAttribute('aria-hidden','false');
-			// prevent background scrolling while modal is open
 			document.body.style.overflow = 'hidden';
-			// focus first input for accessibility
 			setTimeout(()=> document.getElementById('fileInput') && document.getElementById('fileInput').focus(), 50);
 		}
 		function closeModal(){
 			modal.classList.remove('open');
 			modal.setAttribute('aria-hidden','true');
 			clearForm();
-			// restore background scrolling
 			document.body.style.overflow = '';
 		}
-
 		openBtn && openBtn.addEventListener('click', openModal);
 		closeBtn && closeBtn.addEventListener('click', closeModal);
 		cancelBtn && cancelBtn.addEventListener('click', closeModal);
-
-		// drag & drop
 		dropZone.addEventListener('click', ()=> fileInput.click());
 		dropZone.addEventListener('dragover', (e)=>{ e.preventDefault(); dropZone.classList.add('over'); });
 		dropZone.addEventListener('dragleave', ()=> dropZone.classList.remove('over'));
 		dropZone.addEventListener('drop', (e)=>{ e.preventDefault(); dropZone.classList.remove('over'); handleFiles(e.dataTransfer.files); });
 		fileInput.addEventListener('change', (e)=> handleFiles(e.target.files));
-
 		function handleFiles(files){
-			const arr = Array.from(files);
-			arr.forEach(file=>{
-				if(!file.type.startsWith('image/')) return;
-				const fr = new FileReader();
-				fr.onload = ()=>{
-					const img = document.createElement('img'); img.src = fr.result; img.alt = file.name;
-					const box = document.createElement('div'); box.className='preview-item'; box.appendChild(img);
-					preview.appendChild(box);
-				};
-				fr.readAsDataURL(file);
-			});
-		}
+	const arr = Array.from(files);
 
-		// rating
+	arr.forEach(file=>{
+		if(!file.type.startsWith('image/')) return;
+
+		const fr = new FileReader();
+
+		fr.onload = ()=>{
+			uploadedImages.push(fr.result); // store image
+
+			const img = document.createElement('img');
+			img.src = fr.result;
+			img.alt = file.name;
+
+			const box = document.createElement('div');
+			box.className = 'preview-item';
+			box.appendChild(img);
+
+			preview.appendChild(box);
+		};
+
+		fr.readAsDataURL(file);
+	});
+}
+
+
+
+
+
 		const ratingEl = document.getElementById('rating');
 		ratingEl && ratingEl.addEventListener('click', (e)=>{
 			const s = e.target.closest('.star'); if(!s) return;
@@ -235,60 +238,279 @@
 			ratingEl.dataset.rating = val;
 			[...ratingEl.querySelectorAll('.star')].forEach(st=> st.textContent = (Number(st.dataset.value) <= val ? '★' : '☆'));
 		});
-
-		// points
 		function getPoints(){ return Number(localStorage.getItem('tm_points') || 0); }
 		function setPoints(n){ localStorage.setItem('tm_points', String(n)); pointsCounter.textContent = n + ' pts'; }
-		// init
 		setPoints(getPoints());
-
 		function showToast(msg){ toast.textContent = msg; toast.classList.add('show'); setTimeout(()=> toast.classList.remove('show'), 2600); }
-
-		// publish
 		publishBtn.addEventListener('click', ()=>{
-			// basic validation could be added here
 			const add = 50;
 			const newPoints = getPoints() + add;
 			setPoints(newPoints);
 			showToast('Post published — +' + add + ' points');
-			// optionally append a minimal post to the list
 			addPostToList();
 			closeModal();
 		});
-
 		function addPostToList(){
-			const title = document.querySelector('#captionInput').value || 'New travel post';
-			const loc = document.querySelector('#locationInput').value || '';
-			const rating = ratingEl ? ratingEl.dataset.rating : '0';
-			const post = document.createElement('article'); post.className='post-card';
-			post.innerHTML = `\
-				<header class="post-header">\
-					<div class="author">\
-						<img src="https://images.unsplash.com/photo-1544006659-f0b21884ce1d?w=120&q=80" alt="avatar">\
-						<div>\
-							<div class="author-name">You</div>\
-							<div class="author-meta">${loc} · just now</div>\
-						</div>\
-					</div>\
-					<div class="post-stars">${'★'.repeat(rating)}${'☆'.repeat(5-rating)}</div>\
-				</header>\
-				<div class="post-image"><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1400&q=80" alt="user photo"></div>\
-				<div class="post-body"><p>${escapeHtml(title)}</p></div>\
-				<footer class="post-footer">\
-					<div class="post-actions">\
-						<button class="icon-btn">❤ 0</button>\
-						<button class="icon-btn">💬 0</button>\
-					</div>\
-					<div class="post-share">🔗</div>\
-				</footer>`;
-			const list = document.querySelector('.posts-list');
-			list.insertBefore(post, list.firstChild);
-		}
 
-		function escapeHtml(s){ return String(s).replace(/[&"'<>]/g, c=> ({'&':'&amp;','"':'&quot;',"'":'&#39;','<':'&lt;','>':'&gt;'}[c])); }
+	const title = document.querySelector('#captionInput').value || 'New travel post';
+	const loc = document.querySelector('#locationInput').value || '';
+	const rating = Number(ratingEl ? ratingEl.dataset.rating : 0);
 
-		function clearForm(){ document.getElementById('createPostForm').reset(); preview.innerHTML=''; ratingEl && ([...ratingEl.querySelectorAll('.star')].forEach(st=> st.textContent='☆'), ratingEl.dataset.rating=0); }
+	const post = document.createElement('article');
+	post.className = 'post-card';
+
+	post.innerHTML = `
+		<header class="post-header">
+			<div class="author">
+				<img src="https://images.unsplash.com/photo-1544006659-f0b21884ce1d?w=120&q=80" alt="avatar" />
+				<div>
+					<div class="author-name">You</div>
+					<div class="author-meta">${escapeHtml(loc)} · just now</div>
+				</div>
+			</div>
+			<div class="post-stars">${'★'.repeat(rating)}${'☆'.repeat(5-rating)}</div>
+		</header>
+
+		<div class="post-image carousel">
+	${uploadedImages.length 
+		? uploadedImages.map(img => `<img src="${img}" />`).join('')
+		: `<img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1400&q=80" />`
+	}
+</div>
+
+		<div class="post-body">
+			<p>${escapeHtml(title)}</p>
+		</div>
+
+		<footer class="post-footer">
+			<div class="post-actions">
+
+				<button class="icon-btn like-btn" data-liked="false">
+					❤ <span class="like-count">0</span>
+				</button>
+
+			    <button class="icon-btn message-btn">💬 Message</button>
+
+				<button class="icon-btn save-btn" data-saved="false">🔖</button>
+
+				<button class="icon-btn share-btn">🔗</button>
+
+				<button class="icon-btn pin-btn">📌</button>
+
+			</div>
+		</footer>
+
+		<div class="comments-section" style="display:none;padding:10px 0;">
+			<div class="comments-list"></div>
+			<div style="display:flex;gap:8px;margin-top:8px;">
+				<input type="text" class="comment-input cm-input" placeholder="Write a comment...">
+				<button class="btn btn-primary add-comment">Post</button>
+			</div>
+		</div>
+	`;
+
+	document.querySelector('.posts-list').insertBefore(
+		post,
+		document.querySelector('.posts-list').firstChild
+	);
+}
+
+
+		function escapeHtml(s){ return String(s).replace(/[&"'<>]/g, c=> ({'&':'&amp;','"':'&quot;','\'':'&#39;','<':'&lt;','>':'&gt;'}[c])); }
+		function clearForm(){
+			 document.getElementById('createPostForm').reset();
+			 uploadedImages = []; preview.innerHTML=''; ratingEl && ([...ratingEl.querySelectorAll('.star')].forEach(st=> st.textContent='☆'), ratingEl.dataset.rating=0); }
+
+
+		
+
+
+		
+
+
+
+/* ===== ADD THIS RIGHT BELOW ===== */
+
+function upgradeExistingPosts(){
+
+	document.querySelectorAll('.post-card').forEach(post => {
+
+		// Skip if already upgraded
+		if(post.dataset.upgraded) return;
+
+		post.dataset.upgraded = "true";
+
+		const footer = post.querySelector('.post-footer');
+
+		footer.innerHTML = `
+			<div class="post-actions">
+
+				<button class="icon-btn like-btn" data-liked="false">
+					❤ <span class="like-count">0</span>
+				</button>
+
+				<button class="icon-btn message-btn">💬 Message</button>
+
+				<button class="icon-btn save-btn" data-saved="false">🔖</button>
+
+				<button class="icon-btn share-btn">🔗</button>
+
+				<button class="icon-btn pin-btn">📌</button>
+
+			</div>
+		`;
+
+		const commentSection = document.createElement('div');
+		commentSection.className = 'comments-section';
+		commentSection.style.display = 'none';
+		commentSection.style.padding = '10px 0';
+
+		commentSection.innerHTML = `
+			<div class="comments-list"></div>
+			<div style="display:flex;gap:8px;margin-top:8px;">
+				<input type="text" class="comment-input cm-input" placeholder="Write a comment...">
+				<button class="btn btn-primary add-comment">Post</button>
+			</div>
+		`;
+
+		post.appendChild(commentSection);
+	});
+}
+upgradeExistingPosts();
+
+/* ===============================
+   UPGRADE OLD POSTS FIRST
+=============================== */
+/* ===============================
+   UPGRADE OLD POSTS
+=============================== */
+
+
+
+
+
+/* ===============================
+   ONE UNIFIED CLICK HANDLER
+=============================== */
+document.addEventListener('click', function(e){
+// SHARE
+if(e.target.closest('.share-btn')){
+	const text = post.querySelector('.post-body p').textContent;
+	navigator.clipboard.writeText(text);
+	alert("Post copied!");
+}
+// LOCATION MAP
+if(e.target.closest('.location-link')){
+	const location = e.target.closest('.location-link').dataset.location;
+	window.open("https://www.google.com/maps/search/" + encodeURIComponent(location));
+}
+
+	const post = e.target.closest('.post-card');
+	if(!post) return;
+	// MESSAGE BUTTON
+if(e.target.closest('.message-btn')){
+	const post = e.target.closest('.post-card');
+	const username = post.querySelector('.author-name').textContent;
+	openChat(username);
+}
+
+	// LIKE
+	if(e.target.closest('.like-btn')){
+		const btn = post.querySelector('.like-btn');
+		const countEl = btn.querySelector('.like-count');
+
+		let count = Number(countEl.textContent);
+		const liked = btn.dataset.liked === "true";
+
+		btn.dataset.liked = liked ? "false" : "true";
+		btn.style.color = liked ? "" : "red";
+		countEl.textContent = liked ? count - 1 : count + 1;
+	}
+
+	// TOGGLE COMMENT
+	if(e.target.closest('.comment-toggle')){
+		const section = post.querySelector('.comments-section');
+		section.style.display =
+			section.style.display === "none" ? "block" : "none";
+	}
+
+	// ADD COMMENT
+	if(e.target.closest('.add-comment')){
+		const input = post.querySelector('.comment-input');
+		const list = post.querySelector('.comments-list');
+		const countEl = post.querySelector('.comment-count');
+
+		if(!input.value.trim()) return;
+
+		const p = document.createElement('p');
+		p.textContent = "You: " + input.value;
+
+		list.appendChild(p);
+		countEl.textContent = Number(countEl.textContent) + 1;
+
+		input.value = "";
+	}
+});
+
+/* ===============================
+   MINI CHAT SYSTEM
+=============================== */
+
+let currentChatUser = "";
+
+function openChat(userId){
+	currentChatUser = userId;
+	document.getElementById("chatModal").style.display = "block";
+	document.getElementById("chatUser").innerText = "Chat with " + userId;
+	loadMessages();
+}
+
+function closeChat(){
+	document.getElementById("chatModal").style.display = "none";
+}
+
+function sendMessage(){
+	const input = document.getElementById("chatInput");
+	const text = input.value.trim();
+	if(!text) return;
+
+	const message = {
+		text: text,
+		type: "sent",
+		time: Date.now()
+	};
+
+	let chats = JSON.parse(localStorage.getItem("tm_chats") || "{}");
+
+	if(!chats[currentChatUser])
+		chats[currentChatUser] = [];
+
+	chats[currentChatUser].push(message);
+
+	localStorage.setItem("tm_chats", JSON.stringify(chats));
+
+	input.value = "";
+	loadMessages();
+}
+
+function loadMessages(){
+	const box = document.getElementById("chatMessages");
+	box.innerHTML = "";
+
+	let chats = JSON.parse(localStorage.getItem("tm_chats") || "{}");
+	let messages = chats[currentChatUser] || [];
+
+	messages.forEach(msg=>{
+		const div = document.createElement("div");
+		div.className = "message " + msg.type;
+		div.textContent = msg.text;
+		box.appendChild(div);
+	});
+
+	box.scrollTop = box.scrollHeight;
+}
 	</script>
+	</body>
+	
 
-</body>
-</html>
+	</html>
