@@ -393,26 +393,24 @@ upgradeExistingPosts();
    ONE UNIFIED CLICK HANDLER
 =============================== */
 document.addEventListener('click', function(e){
-// SHARE
-if(e.target.closest('.share-btn')){
-	const text = post.querySelector('.post-body p').textContent;
-	navigator.clipboard.writeText(text);
-	alert("Post copied!");
-}
-// LOCATION MAP
-if(e.target.closest('.location-link')){
-	const location = e.target.closest('.location-link').dataset.location;
-	window.open("https://www.google.com/maps/search/" + encodeURIComponent(location));
-}
 
 	const post = e.target.closest('.post-card');
 	if(!post) return;
-	// MESSAGE BUTTON
-if(e.target.closest('.message-btn')){
-	const post = e.target.closest('.post-card');
-	const username = post.querySelector('.author-name').textContent;
-	openChat(username);
-}
+
+	// MESSAGE
+	if(e.target.closest('.message-btn')){
+		const username = post.querySelector('.author-name').textContent;
+		openChat(username);
+		return;
+	}
+
+	// SHARE
+	if(e.target.closest('.share-btn')){
+		const text = post.querySelector('.post-body p').textContent;
+		navigator.clipboard.writeText(text);
+		alert("Post copied!");
+		return;
+	}
 
 	// LIKE
 	if(e.target.closest('.like-btn')){
@@ -425,20 +423,13 @@ if(e.target.closest('.message-btn')){
 		btn.dataset.liked = liked ? "false" : "true";
 		btn.style.color = liked ? "" : "red";
 		countEl.textContent = liked ? count - 1 : count + 1;
-	}
-
-	// TOGGLE COMMENT
-	if(e.target.closest('.comment-toggle')){
-		const section = post.querySelector('.comments-section');
-		section.style.display =
-			section.style.display === "none" ? "block" : "none";
+		return;
 	}
 
 	// ADD COMMENT
 	if(e.target.closest('.add-comment')){
 		const input = post.querySelector('.comment-input');
 		const list = post.querySelector('.comments-list');
-		const countEl = post.querySelector('.comment-count');
 
 		if(!input.value.trim()) return;
 
@@ -446,8 +437,6 @@ if(e.target.closest('.message-btn')){
 		p.textContent = "You: " + input.value;
 
 		list.appendChild(p);
-		countEl.textContent = Number(countEl.textContent) + 1;
-
 		input.value = "";
 	}
 });
