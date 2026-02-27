@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Dashboard - TravelMate</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<style>
+  :root {
+    --primary: #26b85e;
+    --primary-dark: #0f766e;
+    --primary-light: #ccfbf1;
+    --bg: #f4f6f8;
+    --white: #ffffff;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --approved-bg: #f0fdf4;
+    --approved-text: #166534;
+    --pending-bg: #fffbeb;
+    --pending-text: #92400e;
+    --positive: #0d9488;
+    --negative: #ef4444;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+
+  /* MAIN CONTENT */
+  .main {
+    padding-top: 0; /* Removed top padding to eliminate the space */
+    max-width: 1300px;
+    margin: auto;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  /* PROFILE CARD */
+  .profile-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin: 28px 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .avatar {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .avatar-circle {
+    width: 88px;
+    height: 88px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+  }
+
+  .camera-btn {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    background: #f97316;
+    color: white;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+
+  .profile-info {
+    flex: 1;
+  }
+
+  .profile-info h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .profile-location {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+
+  .profile-bio {
+    color: #4b5563;
+    font-size: 14px;
+  }
+
+  .profile-stats {
+    display: flex;
+    gap: 12px;
+    margin-left: auto;
+  }
+
+  .stat-box {
+    background: #fafafa;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 28px;
+    text-align: center;
+    min-width: 90px;
+  }
+
+  .stat-icon {
+    font-size: 16px;
+    color: #d97706;
+    margin-bottom: 6px;
+  }
+
+  .stat-icon.star { color: #d97706; }
+  .stat-icon.trophy { color: #d97706; }
+  .stat-icon.arrow { color: #10b981; }
+
+  .stat-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* TABS */
+  .tabs-wrapper {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 6px;
+    display: flex;
+    gap: 4px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .tab {
+    flex: 1;
+    padding: 11px 16px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    transition: 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .tab:hover { background: var(--bg); color: var(--text); }
+
+  .tab.active {
+    background: var(--primary);
+    color: white;
+  }
+
+  /* TAB CONTENT */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* OVERVIEW GRID */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    gap: 20px;
+  }
+
+  .section-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .section-header i {
+    color: var(--primary);
+    font-size: 18px;
+  }
+
+  /* POINTS ACTIVITY */
+  .activity-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .activity-item:last-child { border-bottom: none; }
+
+  .activity-info p {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+
+  .activity-info span {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .activity-points {
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .activity-points.positive { color: var(--positive); }
+  .activity-points.negative { color: var(--negative); }
+
+  /* RECENT POSTS */
+  .post-item {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .post-item:last-child { border-bottom: none; }
+
+  .post-item h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+
+  .post-meta {
+    display: flex;
+    gap: 14px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .post-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* BOOKINGS */
+  .booking-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .booking-item:last-child { border-bottom: none; }
+
+  .booking-info h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 3px;
+    color: var(--text);
+  }
+
+  .booking-info p {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .badge.approved {
+    background: var(--approved-bg);
+    color: var(--approved-text);
+    border: 1px solid #bbf7d0;
+  }
+
+  .badge.pending {
+    background: var(--pending-bg);
+    color: var(--pending-text);
+    border: 1px solid #fde68a;
+  }
+
+  /* WISHLIST / POSTS / BOOKINGS TABS */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+  }
+
+  .grid-card {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .grid-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(13,148,136,0.12);
+  }
+
+  .grid-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .grid-card p {
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  /* SETTINGS */
+  .settings-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 28px;
+    max-width: 480px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    margin: 48px auto 0 auto;
+  }
+
+  .settings-card h2 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .profile-input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    margin-bottom: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+
+  .profile-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(13,148,136,0.1);
+  }
+
+  .save-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 11px 24px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: 0.2s;
+  }
+
+  .save-btn:hover { background: var(--primary-dark); }
+
+  @media (max-width: 900px) {
+    .overview-grid { grid-template-columns: 1fr; }
+    .profile-stats { flex-wrap: wrap; margin-left: 0; margin-top: 16px; }
+    .profile-card { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+  <!-- ══════════════ NAVBAR ══════════════ -->
+  <nav class="navbar transparent" id="navbar">
+    <div class="navbar-inner">
+      <a href="#" class="nav-logo">&#10022; Travel<span class="dot">Mate</span></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="active">Home</a></li>
+        <!--<li><a href="destinations.html">Destinations</a></li>-->
+        <li><a href="main_community.html">Community</a></li>
+        <li><a href="#">Find Guides</a></li>
+        <li><a href="travel-mate-dashboard.html">DashBoard</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="signup.html">Register</a></li>
+        
+      </ul>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div id="pointsCounter" class="badge badge-teal">0 pts</div>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+<div class="main">
+  <!-- PROFILE CARD -->
+  <div class="profile-card">
+    <div class="avatar">
+      <div class="avatar-circle">JD</div>
+      <div class="camera-btn"><i class="fas fa-camera"></i></div>
+    </div>
+    <div class="profile-info">
+      <h2>John Doe</h2>
+      <div class="profile-location">
+        <i class="fas fa-map-marker-alt"></i>
+        <span>New York, USA</span>
+      </div>
+      <p class="profile-bio">Passionate traveler exploring the world one city at a time ✈️</p>
+    </div>
+    <div class="profile-stats">
+      <div class="stat-box">
+        <div class="stat-icon trophy"><i class="fas fa-trophy"></i></div>
+        <span class="stat-value">1,250</span>
+        <span class="stat-label">Points</span>
+      </div>
+      <div class="stat-box">
+        <div class="stat-icon star"><i class="fas fa-star"></i></div>
+        <span class="stat-value">28</span>
+        <span class="stat-label">Reviews</span>
+      </div>
+      <div class="stat-box">
+        <div class="stat-icon arrow"><i class="fas fa-chart-line"></i></div>
+        <span class="stat-value">12</span>
+        <span class="stat-label">Trips</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs-wrapper">
+    <button class="tab active">Overview</button>
+    <button class="tab">Wishlist</button>
+    <button class="tab">My Posts</button>
+    <button class="tab">Bookings</button>
+    <button class="tab">Settings</button>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div class="tab-content active" id="overview">
+    <div class="overview-grid">
+      <!-- Points Activity -->
+      <div class="section-card">
+        <div class="section-header">
+          <i class="fas fa-trophy"></i> Points Activity
+        </div>
+        <div class="activity-item">
+          <div class="activity-info">
+            <p>Posted review of Bali</p>
+            <span>2 hours ago</span>
+          </div>
+          <span class="activity-points positive">+50</span>
+        </div>
+        <div class="activity-item">
+          <div class="activity-info">
+            <p>Uploaded 3 photos</p>
+            <span>1 day ago</span>
+          </div>
+          <span class="activity-points positive">+30</span>
+        </div>
+        <div class="activity-item">
+          <div class="activity-info">
+            <p>Contacted guide in Paris</p>
+            <span>3 days ago</span>
+          </div>
+          <span class="activity-points negative">-100</span>
+        </div>
+      </div>
+
+      <!-- Recent Posts -->
+      <div class="section-card">
+        <div class="section-header">
+          <i class="fas fa-book-open"></i> Recent Posts
+        </div>
+        <div class="post-item">
+          <h4>Sunset at Bali Temple</h4>
+          <div class="post-meta">
+            <span><i class="far fa-heart"></i> 45</span>
+            <span><i class="far fa-comment"></i> 12</span>
+          </div>
+        </div>
+        <div class="post-item">
+          <h4>Hidden gems in Paris</h4>
+          <div class="post-meta">
+            <span><i class="far fa-heart"></i> 89</span>
+            <span><i class="far fa-comment"></i> 23</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upcoming Bookings -->
+      <div class="section-card">
+        <div class="section-header">
+          <i class="fas fa-map-marker-alt"></i> Upcoming Bookings
+        </div>
+        <div class="booking-item">
+          <div class="booking-info">
+            <h4>Maria S. – Santorini</h4>
+            <p>Guide Booking</p>
+          </div>
+          <span class="badge approved">Approved</span>
+        </div>
+        <div class="booking-item">
+          <div class="booking-info">
+            <h4>Kenji T. – Tokyo</h4>
+            <p>Guide Booking</p>
+          </div>
+          <span class="badge pending">Pending</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WISHLIST -->
+  <div class="tab-content" id="wishlist">
+    <div class="card-grid">
+      <div class="grid-card"><h3>Paris</h3><p>City of Lights</p></div>
+      <div class="grid-card"><h3>Tokyo</h3><p>Land of the Rising Sun</p></div>
+      <div class="grid-card"><h3>Switzerland</h3><p>Alpine Paradise</p></div>
+    </div>
+  </div>
+
+  <!-- MY POSTS -->
+  <div class="tab-content" id="my-posts">
+    <div class="card-grid">
+      <div class="grid-card">
+        <h3>Sunset at Bali Temple</h3>
+        <p>❤️ 45 &nbsp;💬 12</p>
+      </div>
+      <div class="grid-card">
+        <h3>Hidden gems in Paris</h3>
+        <p>❤️ 89 &nbsp;💬 23</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOOKINGS -->
+  <div class="tab-content" id="bookings">
+    <div class="section-card" style="max-width:500px">
+      <div class="section-header"><i class="fas fa-calendar-check"></i> Bookings</div>
+      <div class="booking-item">
+        <div class="booking-info">
+          <h4>Maria S. – Santorini</h4>
+          <p>Guide Booking</p>
+        </div>
+        <span class="badge approved">Approved</span>
+      </div>
+      <div class="booking-item">
+        <div class="booking-info">
+          <h4>Kenji T. – Tokyo</h4>
+          <p>Guide Booking</p>
+        </div>
+        <span class="badge pending">Pending</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="tab-content" id="settings" style="padding-top: 50px; min-height: 500px;">
+    <div class="settings-card">
+      <h2>Settings</h2>
+      <input type="text" class="profile-input" placeholder="Full Name">
+      <input type="email" class="profile-input" placeholder="Email">
+      <input type="text" class="profile-input" placeholder="Phone Number">
+      <button class="save-btn">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const contents = document.querySelectorAll('.tab-content');
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      contents.forEach(c => c.classList.remove('active'));
+      tab.classList.add('active');
+      contents[i].classList.add('active');
+    });
+  });
+</script>
+</script>
+<script>
+  (function(){
+    const el = document.getElementById('pointsCounter');
+    if(!el) return;
+    const pts = Number(localStorage.getItem('tm_points') || 0);
+    el.textContent = pts + ' pts';
+  })();
+</script>
+</body>
+</html>

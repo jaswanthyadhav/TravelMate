@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Community - TravelMate</title>
+	<link href="style.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+	<style>
+		/* small inline tweaks so page matches sample */
+		.community-wrap { padding: 40px 0 120px; }
+	</style>
+</head>
+<body>
+    <nav class="navbar transparent" id="navbar">
+    <div class="navbar-inner">
+      <a href="#" class="nav-logo">&#10022; Travel<span class="dot">Mate</span></a>
+			<ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="active">Home</a></li>
+        <!--<li><a href="destinations.html">Destinations</a></li>-->
+        <li><a href="main_community.html">Community</a></li>
+        <li><a href="#">Find Guides</a></li>
+        <li><a href="travel-mate-dashboard.html">DashBoard</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="signup.html">Register</a></li>
+        
+      </ul>
+			<div style="display:flex;align-items:center;gap:12px;">
+				<div id="pointsCounter" class="badge badge-teal">0 pts</div>
+			</div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+	
+
+	<main class="community-wrap">
+		<div class="container">
+			<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;">
+				<div style="max-width:720px;">
+					<h1 style="margin-bottom:6px;">Community</h1>
+					<p class="section-sub">Travel stories from around the world</p>
+
+					<div style="display:flex;gap:10px;margin-top:18px;align-items:center;">
+						<button class="filter-btn active">Latest</button>
+						<button class="filter-btn">Popular</button>
+						<button class="filter-btn">Top Rated</button>
+					</div>
+				</div>
+
+				<div style="display:flex;align-items:center;gap:12px;">
+					<button id="openCreatePost" class="btn btn-white">Create Post</button>
+				</div>
+			</div>
+
+			<div class="posts-list" style="margin-top:28px;">
+
+				<article class="post-card">
+					<header class="post-header">
+						<div class="author">
+							<img src="https://images.unsplash.com/photo-1544006659-f0b21884ce1d?w=120&q=80" alt="avatar">
+							<div>
+								<div class="author-name">Sarah Miller</div>
+								<div class="author-meta">Bali, Indonesia · 2h ago</div>
+							</div>
+						</div>
+						<div class="post-stars">★★★★☆</div>
+					</header>
+
+					<div class="post-image"><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1400&q=80" alt="rice terraces"></div>
+
+					<div class="post-body">
+						<p>Found this hidden temple in Ubud 🏯 The architecture is simply breathtaking. If you visit Bali, don't miss this spot!</p>
+					</div>
+
+					<footer class="post-footer">
+						<div class="post-actions">
+							<button class="icon-btn">❤ 234</button>
+							<button class="icon-btn">💬 45</button>
+						</div>
+						<div class="post-share">🔗</div>
+					</footer>
+				</article>
+
+				<article class="post-card">
+					<header class="post-header">
+						<div class="author">
+							<img src="https://images.unsplash.com/photo-1545996124-1e2d6d6f9f3a?w=120&q=80" alt="avatar">
+							<div>
+								<div class="author-name">James Chen</div>
+								<div class="author-meta">Kyoto, Japan · 1d ago</div>
+							</div>
+						</div>
+						<div class="post-stars">★★★★★</div>
+					</header>
+
+					<div class="post-image"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1400&q=80" alt="temple"></div>
+
+					<div class="post-body">
+						<p>Autumn in Kyoto is unreal — temples and maple leaves everywhere. Highly recommend a morning visit before crowds.</p>
+					</div>
+
+					<footer class="post-footer">
+						<div class="post-actions">
+							<button class="icon-btn">❤ 512</button>
+							<button class="icon-btn">💬 88</button>
+						</div>
+						<div class="post-share">🔗</div>
+					</footer>
+				</article>
+
+			</div>
+		</div>
+	</main>
+
+	<!-- Create Post Modal -->
+	<div id="createPostModal" class="cm-modal" aria-hidden="true">
+		<div class="cm-dialog">
+			<header class="cm-header">
+				<h2>Create Post</h2>
+				<button id="closeCreatePost" class="icon-btn">✕</button>
+			</header>
+
+			<form id="createPostForm" class="cm-form">
+				<label class="cm-label">Photos</label>
+				<div id="dropZone" class="drop-zone"> 
+					<input id="fileInput" type="file" accept="image/*" multiple hidden>
+					<div class="drop-inner"> 
+						<div class="drop-icon">⬆</div>
+						<div class="drop-text">Drag & drop photos or click to browse<br><small>+10 points per photo uploaded</small></div>
+					</div>
+				</div>
+				<div id="preview" class="preview-grid"></div>
+
+				<label class="cm-label">Location</label>
+				<input id="locationInput" class="cm-input" placeholder="Where did you visit?">
+
+				<label class="cm-label">Caption</label>
+				<textarea id="captionInput" class="cm-textarea" rows="3" placeholder="Share your experience..."></textarea>
+
+				<label class="cm-label">Rating</label>
+				<div id="rating" class="rating-stars" data-rating="0">
+					<span class="star" data-value="1">☆</span>
+					<span class="star" data-value="2">☆</span>
+					<span class="star" data-value="3">☆</span>
+					<span class="star" data-value="4">☆</span>
+					<span class="star" data-value="5">☆</span>
+				</div>
+
+				<label class="cm-label">Travel Blog (optional)</label>
+				<textarea id="blogInput" class="cm-textarea" rows="6" placeholder="Write a detailed blog about your experience..."></textarea>
+
+				<div class="cm-actions">
+					<button type="button" id="publishBtn" class="btn btn-primary btn-lg">Publish Post (+50 points)</button>
+					<button type="button" id="cancelBtn" class="btn btn-white">Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+	<script>
+		// Modal & form behavior
+		const openBtn = document.getElementById('openCreatePost');
+		const modal = document.getElementById('createPostModal');
+		const closeBtn = document.getElementById('closeCreatePost');
+		const cancelBtn = document.getElementById('cancelBtn');
+		const publishBtn = document.getElementById('publishBtn');
+		const fileInput = document.getElementById('fileInput');
+		const dropZone = document.getElementById('dropZone');
+		const preview = document.getElementById('preview');
+		const toast = document.getElementById('toast');
+		const pointsCounter = document.getElementById('pointsCounter');
+
+		function openModal(){
+			modal.classList.add('open');
+			modal.setAttribute('aria-hidden','false');
+			// prevent background scrolling while modal is open
+			document.body.style.overflow = 'hidden';
+			// focus first input for accessibility
+			setTimeout(()=> document.getElementById('fileInput') && document.getElementById('fileInput').focus(), 50);
+		}
+		function closeModal(){
+			modal.classList.remove('open');
+			modal.setAttribute('aria-hidden','true');
+			clearForm();
+			// restore background scrolling
+			document.body.style.overflow = '';
+		}
+
+		openBtn && openBtn.addEventListener('click', openModal);
+		closeBtn && closeBtn.addEventListener('click', closeModal);
+		cancelBtn && cancelBtn.addEventListener('click', closeModal);
+
+		// drag & drop
+		dropZone.addEventListener('click', ()=> fileInput.click());
+		dropZone.addEventListener('dragover', (e)=>{ e.preventDefault(); dropZone.classList.add('over'); });
+		dropZone.addEventListener('dragleave', ()=> dropZone.classList.remove('over'));
+		dropZone.addEventListener('drop', (e)=>{ e.preventDefault(); dropZone.classList.remove('over'); handleFiles(e.dataTransfer.files); });
+		fileInput.addEventListener('change', (e)=> handleFiles(e.target.files));
+
+		function handleFiles(files){
+			const arr = Array.from(files);
+			arr.forEach(file=>{
+				if(!file.type.startsWith('image/')) return;
+				const fr = new FileReader();
+				fr.onload = ()=>{
+					const img = document.createElement('img'); img.src = fr.result; img.alt = file.name;
+					const box = document.createElement('div'); box.className='preview-item'; box.appendChild(img);
+					preview.appendChild(box);
+				};
+				fr.readAsDataURL(file);
+			});
+		}
+
+		// rating
+		const ratingEl = document.getElementById('rating');
+		ratingEl && ratingEl.addEventListener('click', (e)=>{
+			const s = e.target.closest('.star'); if(!s) return;
+			const val = Number(s.dataset.value);
+			ratingEl.dataset.rating = val;
+			[...ratingEl.querySelectorAll('.star')].forEach(st=> st.textContent = (Number(st.dataset.value) <= val ? '★' : '☆'));
+		});
+
+		// points
+		function getPoints(){ return Number(localStorage.getItem('tm_points') || 0); }
+		function setPoints(n){ localStorage.setItem('tm_points', String(n)); pointsCounter.textContent = n + ' pts'; }
+		// init
+		setPoints(getPoints());
+
+		function showToast(msg){ toast.textContent = msg; toast.classList.add('show'); setTimeout(()=> toast.classList.remove('show'), 2600); }
+
+		// publish
+		publishBtn.addEventListener('click', ()=>{
+			// basic validation could be added here
+			const add = 50;
+			const newPoints = getPoints() + add;
+			setPoints(newPoints);
+			showToast('Post published — +' + add + ' points');
+			// optionally append a minimal post to the list
+			addPostToList();
+			closeModal();
+		});
+
+		function addPostToList(){
+			const title = document.querySelector('#captionInput').value || 'New travel post';
+			const loc = document.querySelector('#locationInput').value || '';
+			const rating = ratingEl ? ratingEl.dataset.rating : '0';
+			const post = document.createElement('article'); post.className='post-card';
+			post.innerHTML = `\
+				<header class="post-header">\
+					<div class="author">\
+						<img src="https://images.unsplash.com/photo-1544006659-f0b21884ce1d?w=120&q=80" alt="avatar">\
+						<div>\
+							<div class="author-name">You</div>\
+							<div class="author-meta">${loc} · just now</div>\
+						</div>\
+					</div>\
+					<div class="post-stars">${'★'.repeat(rating)}${'☆'.repeat(5-rating)}</div>\
+				</header>\
+				<div class="post-image"><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1400&q=80" alt="user photo"></div>\
+				<div class="post-body"><p>${escapeHtml(title)}</p></div>\
+				<footer class="post-footer">\
+					<div class="post-actions">\
+						<button class="icon-btn">❤ 0</button>\
+						<button class="icon-btn">💬 0</button>\
+					</div>\
+					<div class="post-share">🔗</div>\
+				</footer>`;
+			const list = document.querySelector('.posts-list');
+			list.insertBefore(post, list.firstChild);
+		}
+
+		function escapeHtml(s){ return String(s).replace(/[&"'<>]/g, c=> ({'&':'&amp;','"':'&quot;',"'":'&#39;','<':'&lt;','>':'&gt;'}[c])); }
+
+		function clearForm(){ document.getElementById('createPostForm').reset(); preview.innerHTML=''; ratingEl && ([...ratingEl.querySelectorAll('.star')].forEach(st=> st.textContent='☆'), ratingEl.dataset.rating=0); }
+	</script>
+
+</body>
+</html>

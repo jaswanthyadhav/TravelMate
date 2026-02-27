@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Travel Community — Discover the World</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ══════════════ NAVBAR ══════════════ -->
+  <nav class="navbar transparent" id="navbar">
+    <div class="navbar-inner">
+      <a href="#" class="nav-logo">&#10022; Travel<span class="dot">Mate</span></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="active">Home</a></li>
+        <!--<li><a href="destinations.html">Destinations</a></li>-->
+        <li><a href="main_community.html">Community</a></li>
+        <li><a href="#">Find Guides</a></li>
+        <li><a href="travel-mate-dashboard.html">DashBoard</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="signup.html">Register</a></li>
+        
+      </ul>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div id="pointsCounter" class="badge badge-teal">0 pts</div>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ══════════════ HERO ══════════════ -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-dots"></div>
+    <div class="hero-circle"></div>
+
+    <div class="hero-content container">
+      <div class="hero-tag fade-up">
+        <i class="fas fa-compass"></i> Smart Travel Community
+      </div>
+      <h1 class="fade-up delay-1">Discover <em>Extraordinary</em><br>Places Together</h1>
+      <p class="hero-sub fade-up delay-2">
+        Join thousands of travellers sharing real experiences,
+        honest reviews, and hidden gems from around the world.
+      </p>
+
+      <div class="hero-search fade-up delay-3">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" id="heroSearch" placeholder="Search destinations, cities, experiences...">
+        <button class="btn btn-primary" onclick="handleSearch()">Search</button>
+      </div>
+
+      <div class="hero-stats fade-up delay-4">
+        <div class="hero-stat">
+          <div class="stat-num"><span class="counter" data-target="12000">0</span>+</div>
+          <div class="stat-lbl">Travellers</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-num"><span class="counter" data-target="480">0</span>+</div>
+          <div class="stat-lbl">Destinations</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-num"><span class="counter" data-target="38000">0</span>+</div>
+          <div class="stat-lbl">Reviews</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll">
+      <span>Scroll to explore</span>
+      <i class="fas fa-chevron-down"></i>
+    </div>
+  </section>
+
+  <script>
+    (function(){
+      const el = document.getElementById('pointsCounter');
+      if(!el) return;
+      const pts = Number(localStorage.getItem('tm_points') || 0);
+      el.textContent = pts + ' pts';
+    })();
+  </script>
+
+  <!-- ══════════════ CATEGORIES ══════════════ -->
+  <section class="section-pad bg-surface">
+    <div class="container">
+      <div class="section-heading center fade-up">
+        <p class="section-label">&#10022; Browse by Type</p>
+        <h2>Explore Categories</h2>
+        <div class="divider center"></div>
+      </div>
+      <div class="cat-grid">
+        <div class="cat-card fade-up delay-1">
+          <div class="cat-icon">&#127958;</div>
+          <h4>Beach</h4>
+          <p>142 destinations</p>
+        </div>
+        <div class="cat-card fade-up delay-2">
+          <div class="cat-icon">&#9968;</div>
+          <h4>Hill Station</h4>
+          <p>89 destinations</p>
+        </div>
+        <div class="cat-card fade-up delay-3">
+          <div class="cat-icon">&#127961;</div>
+          <h4>City</h4>
+          <p>215 destinations</p>
+        </div>
+        <div class="cat-card fade-up delay-4">
+          <div class="cat-icon">&#129495;</div>
+          <h4>Adventure</h4>
+          <p>67 destinations</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ FEATURED DESTINATIONS ══════════════ -->
+  <section class="section-pad" id="destinations">
+    <div class="container">
+      <div class="section-heading fade-up">
+        <p class="section-label">&#10022; Top Picks</p>
+        <h2>Popular Destinations</h2>
+        <div class="divider"></div>
+        <p class="section-sub">Hand-picked destinations loved by our community of seasoned travellers.</p>
+      </div>
+
+      <div class="dest-grid">
+
+        <div class="dest-card fade-up delay-1">
+          <div class="dest-card-img">
+            <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&q=80" alt="Bali">
+            <span class="card-badge badge badge-teal">Beach</span>
+            <button class="save-btn" onclick="toggleSave(this)"><i class="far fa-heart"></i></button>
+          </div>
+          <div class="dest-card-body">
+            <h3 class="dest-title">Bali, Indonesia</h3>
+            <p class="dest-loc"><i class="fas fa-map-marker-alt"></i> Indonesia</p>
+            <div class="rating">
+              <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></span>
+              <strong>4.8</strong><span class="review-count">(2,340 reviews)</span>
+            </div>
+            <div class="dest-footer">
+              <span class="dest-price">From <strong>$45/night</strong></span>
+                <a href="community.html" class="btn btn-primary btn-sm">View Details</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="dest-card fade-up delay-2">
+          <div class="dest-card-img">
+            <img src="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=600&q=80" alt="Paris">
+            <span class="card-badge badge badge-gold">City</span>
+            <button class="save-btn" onclick="toggleSave(this)"><i class="far fa-heart"></i></button>
+          </div>
+          <div class="dest-card-body">
+            <h3 class="dest-title">Paris, France</h3>
+            <p class="dest-loc"><i class="fas fa-map-marker-alt"></i> France</p>
+            <div class="rating">
+              <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+              <strong>4.9</strong><span class="review-count">(5,621 reviews)</span>
+            </div>
+            <div class="dest-footer">
+              <span class="dest-price">From <strong>$120/night</strong></span>
+                <a href="community.html" class="btn btn-primary btn-sm">View Details</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="dest-card fade-up delay-3">
+          <div class="dest-card-img">
+            <img src="https://images.unsplash.com/photo-1472791108553-c9405341e398?w=600&q=80" alt="Switzerland">
+            <span class="card-badge badge" style="background:#dcfce7;color:#166534">Hill Station</span>
+            <button class="save-btn" onclick="toggleSave(this)"><i class="far fa-heart"></i></button>
+          </div>
+          <div class="dest-card-body">
+            <h3 class="dest-title">Swiss Alps, Switzerland</h3>
+            <p class="dest-loc"><i class="fas fa-map-marker-alt"></i> Switzerland</p>
+            <div class="rating">
+              <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></span>
+              <strong>4.7</strong><span class="review-count">(1,980 reviews)</span>
+            </div>
+            <div class="dest-footer">
+              <span class="dest-price">From <strong>$200/night</strong></span>
+                <a href="community.html" class="btn btn-primary btn-sm">View Details</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="dest-card fade-up delay-1">
+          <div class="dest-card-img">
+            <img src="https://images.unsplash.com/photo-1515238152791-8216bfdf89a7?w=600&q=80" alt="Maldives">
+            <span class="card-badge badge badge-teal">Beach</span>
+            <button class="save-btn" onclick="toggleSave(this)"><i class="far fa-heart"></i></button>
+          </div>
+          <div class="dest-card-body">
+            <h3 class="dest-title">Maldives Islands</h3>
+            <p class="dest-loc"><i class="fas fa-map-marker-alt"></i> Maldives</p>
+            <div class="rating">
+              <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+              <strong>5.0</strong><span class="review-count">(4,210 reviews)</span>
+            </div>
+            <div class="dest-footer">
+              <span class="dest-price">From <strong>$350/night</strong></span>
+                <a href="community.html" class="btn btn-primary btn-sm">View Details</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="dest-card fade-up delay-2">
+          <div class="dest-card-img">
+            <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600&q=80" alt="Tokyo">
+            <span class="card-badge badge badge-gold">City</span>
+            <button class="save-btn" onclick="toggleSave(this)"><i class="far fa-heart"></i></button>
+          </div>
+          <div class="dest-card-body">
+            <h3 class="dest-title">Tokyo, Japan</h3>
+            <p class="dest-loc"><i class="fas fa-map-marker-alt"></i> Japan</p>
+            <div class="rating">
+              <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></span>
+              <strong>4.8</strong><span class="review-count">(6,800 reviews)</span>
+            </div>
+            <div class="dest-footer">
+              <span class="dest-price">From <strong>$80/night</strong></span>
+              <a href="community.html" class="btn btn-primary btn-sm">View Details</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="dest-card fade-up delay-3">
+          <div class="dest-card-img">
+            <img src="https://images.unsplash.com/photo-1533130061792-64b345e4a833?w=600&q=80" alt="Queenstown">
+            <span class="card-badge badge" style="background:#ffe4e6;color:#9f1239">Adventure</span>
+            <button class="save-btn" onclick="toggleSave(this)"><i class="far fa-heart"></i></button>
+          </div>
+          <div class="dest-card-body">
+            <h3 class="dest-title">Queenstown, New Zealand</h3>
+            <p class="dest-loc"><i class="fas fa-map-marker-alt"></i> New Zealand</p>
+            <div class="rating">
+              <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+              <strong>4.9</strong><span class="review-count">(3,102 reviews)</span>
+            </div>
+            <div class="dest-footer">
+              <span class="dest-price">From <strong>$90/night</strong></span>
+                <a href="community.html" class="btn btn-primary btn-sm">View Details</a>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /dest-grid -->
+
+      <div class="text-center mt-3 fade-up">
+        <a href="#" class="btn btn-outline btn-lg">Explore All Destinations <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ TRENDING BLOGS ══════════════ -->
+  <section class="section-pad bg-surface" id="blogs">
+    <div class="container">
+      <div class="section-heading fade-up">
+        <p class="section-label">&#10022; From the Community</p>
+        <h2>Trending Travel Stories</h2>
+        <div class="divider"></div>
+        <p class="section-sub">Real stories from real travellers — tips, guides, and adventures.</p>
+      </div>
+
+      <div class="blog-grid">
+
+        <article class="blog-card fade-up delay-1">
+          <div class="blog-img">
+            <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600&q=80" alt="Blog 1">
+          </div>
+          <div class="blog-body">
+            <div class="blog-meta">
+              <span class="badge badge-teal">Adventure</span>
+              <span class="meta-author">
+                <img src="https://ui-avatars.com/api/?name=Aria+Scott&background=0e7490&color=fff&size=22" alt=""> Aria Scott
+              </span>
+              <span><i class="far fa-clock"></i> 5 min read</span>
+            </div>
+            <h3 class="blog-title">10 Breathtaking Hidden Waterfalls in Southeast Asia You Must Visit</h3>
+            <p class="blog-excerpt">Escape the tourist crowds and discover nature's most spectacular hidden gems scattered across Thailand, Vietnam, and Indonesia...</p>
+          </div>
+          <div class="blog-footer">
+            <span class="blog-date">March 12, 2025</span>
+            <a href="#" class="btn btn-outline btn-sm">Read More</a>
+          </div>
+        </article>
+
+        <article class="blog-card fade-up delay-2">
+          <div class="blog-img">
+            <img src="https://images.unsplash.com/photo-1488085061387-422e29b40080?w=600&q=80" alt="Blog 2">
+          </div>
+          <div class="blog-body">
+            <div class="blog-meta">
+              <span class="badge badge-gold">Budget Travel</span>
+              <span class="meta-author">
+                <img src="https://ui-avatars.com/api/?name=James+Lin&background=d4a843&color=fff&size=22" alt=""> James Lin
+              </span>
+              <span><i class="far fa-clock"></i> 8 min read</span>
+            </div>
+            <h3 class="blog-title">How I Travelled Europe for 30 Days on a $1,500 Budget</h3>
+            <p class="blog-excerpt">Backpacking Europe doesn't have to drain your savings. My complete guide to free accommodation, cheap trains, and local food...</p>
+          </div>
+          <div class="blog-footer">
+            <span class="blog-date">Feb 28, 2025</span>
+            <a href="#" class="btn btn-outline btn-sm">Read More</a>
+          </div>
+        </article>
+
+        <article class="blog-card fade-up delay-3">
+          <div class="blog-img">
+            <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600&q=80" alt="Blog 3">
+          </div>
+          <div class="blog-body">
+            <div class="blog-meta">
+              <span class="badge" style="background:#fce7f3;color:#9d174d">Culture</span>
+              <span class="meta-author">
+                <img src="https://ui-avatars.com/api/?name=Mei+Zhang&background=9d174d&color=fff&size=22" alt=""> Mei Zhang
+              </span>
+              <span><i class="far fa-clock"></i> 6 min read</span>
+            </div>
+            <h3 class="blog-title">Tokyo Beyond the Guide Books: Local Neighbourhoods You've Never Heard Of</h3>
+            <p class="blog-excerpt">Skip Shibuya crossing and explore Tokyo's quieter, deeply authentic neighbourhoods where real local life unfolds daily...</p>
+          </div>
+          <div class="blog-footer">
+            <span class="blog-date">Feb 14, 2025</span>
+            <a href="#" class="btn btn-outline btn-sm">Read More</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ CTA BANNER ══════════════ -->
+  <section class="cta-section">
+    <div class="cta-bg"></div>
+    <div class="cta-dots"></div>
+    <div class="container cta-content">
+      <p class="section-label" style="color:rgba(255,255,255,.6)">&#10022; Join Today</p>
+      <h2 class="fade-up">Share Your Travel Story</h2>
+      <p class="cta-sub fade-up delay-1">Write reviews, upload photos, connect with fellow travellers,<br>and help others discover the world.</p>
+      <div class="cta-btns fade-up delay-2">
+        <a href="#" class="btn btn-white btn-lg">Create Free Account</a>
+        <a href="#" class="btn btn-lg btn-ghost">Browse Destinations</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ FOOTER ══════════════ -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+
+        <div class="footer-brand">
+          <div class="footer-logo">&#10022; TravelMate</div>
+          <p>Your community for authentic travel experiences, honest reviews, and unforgettable journeys worldwide.</p>
+          <div class="social-links">
+            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-pinterest-p"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h5>Explore</h5>
+          <ul>
+            <li><a href="#">All Destinations</a></li>
+            <li><a href="#">Beach Escapes</a></li>
+            <li><a href="#">Adventure Trips</a></li>
+            <li><a href="#">City Breaks</a></li>
+            <li><a href="#">Hill Stations</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Community</h5>
+          <ul>
+            <li><a href="#">Travel Blogs</a></li>
+            <li><a href="#">Reviews</a></li>
+            <li><a href="#">Forum</a></li>
+            <li><a href="#">Top Travellers</a></li>
+            <li><a href="#">Photo Gallery</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Help Center</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <span>&#169; 2026 Smart Travel Community. All rights reserved.</span>
+        <span class="footer-contact">
+          <i class="fas fa-envelope" style="color:#d4a843"></i> hello@travelmate.com &nbsp;&middot;&nbsp;
+          <i class="fas fa-phone" style="color:#d4a843"></i> +1 (800) 555-TRAVEL
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toastContainer"></div>
+
+  <script>
+    /* ── Navbar scroll ── */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.className = window.scrollY > 40 ? 'navbar solid' : 'navbar transparent';
+    });
+
+    /* ── Hamburger ── */
+    document.getElementById('hamburger').addEventListener('click', function () {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    /* ── Hero Search ── */
+    function handleSearch() {
+      const q = document.getElementById('heroSearch').value.trim();
+      if (q) showToast('Searching for: ' + q, 'info');
+    }
+    document.getElementById('heroSearch').addEventListener('keypress', e => {
+      if (e.key === 'Enter') handleSearch();
+    });
+
+    /* ── Save toggle ── */
+    function toggleSave(btn) {
+      btn.classList.toggle('saved');
+      const icon = btn.querySelector('i');
+      if (btn.classList.contains('saved')) {
+        icon.className = 'fas fa-heart';
+        showToast('Destination saved!', 'success');
+      } else {
+        icon.className = 'far fa-heart';
+        showToast('Removed from saved', 'info');
+      }
+    }
+
+    /* ── Counter animation ── */
+    function animateCounters() {
+      document.querySelectorAll('.counter').forEach(el => {
+        const target = parseInt(el.dataset.target, 10);
+        let current = 0;
+        const step = target / 80;
+        const timer = setInterval(() => {
+          current = Math.min(current + step, target);
+          el.textContent = Math.floor(current).toLocaleString();
+          if (current >= target) clearInterval(timer);
+        }, 16);
+      });
+    }
+
+    /* ── Intersection Observer ── */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    /* Hero loads immediately */
+    setTimeout(() => {
+      document.querySelectorAll('.hero .fade-up').forEach(el => el.classList.add('visible'));
+      animateCounters();
+    }, 150);
+
+    /* ── Toast ── */
+    function showToast(msg, type) {
+      const icons = { success: 'check-circle', error: 'times-circle', info: 'info-circle' };
+      const toast = document.createElement('div');
+      toast.className = 'toast toast-' + type;
+      toast.innerHTML = '<i class="fas fa-' + icons[type] + '"></i><span>' + msg + '</span>';
+      document.getElementById('toastContainer').appendChild(toast);
+      setTimeout(() => toast.classList.add('show'), 10);
+      setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 3000);
+    }
+  </script>
+</body>
+</html>
