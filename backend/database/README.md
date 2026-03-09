@@ -89,7 +89,7 @@ backend/database/
 │
 ├── schema.sql
 ├── seed.sql
-└── add_community_table.sql
+└── community_table.sql
 
 Then push that file.
 
