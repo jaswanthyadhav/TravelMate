@@ -1,0 +1,5 @@
+INSERT INTO `bookings` VALUES (1,1,1,'2025-07-10',5,3,'We want a city tour',5000.00,'Rejected','2026-03-06 12:27:36'),(2,1,1,'2025-07-10',5,3,'We want a city tour',5000.00,'Pending','2026-03-06 12:54:34');
+
+INSERT INTO `guides` VALUES (1,1,'Hyderabad','English, Hindi',5,'Experienced city guide','guide1.jpg',1000.00,'approved','2026-03-01 20:09:57','2026-03-01 23:04:50'),(8,1,'Delhi','English,Hindi',3,'Friendly tour guide','guide.jpg',300.00,'pending','2026-03-06 11:09:08','2026-03-06 11:09:08'),(10,2,'Delhi','English, Hindi',3,'Experienced local guide for historical places.','rahul.jpg',800.00,'pending','2026-03-06 11:17:36','2026-03-06 11:17:36'),(11,2,'Delhi','English, Hindi',3,'Experienced local guide for historical places.','rahul.jpg',800.00,'pending','2026-03-06 12:28:00','2026-03-06 12:28:00');
+
+INSERT INTO `users` VALUES (1,'Test Guide','guide@test.com','123456','guide'),(2,'Rahul Sharma','rahul@test.com','123456','guide');
