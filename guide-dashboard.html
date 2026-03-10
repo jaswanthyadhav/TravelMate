@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide Dashboard - Travel Mate</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<script src="tm-auth.js"></script>
+<style>
+/* ══════ VARIABLES ══════ */
+:root {
+  --primary:       #22c55e;
+  --primary-dark:  #16a34a;
+  --primary-light: #dcfce7;
+  --accent:        #f59e0b;
+  --bg:            #f0fdf4;
+  --white:         #ffffff;
+  --text:          #111827;
+  --muted:         #6b7280;
+  --border:        #e5e7eb;
+  --card-shadow:   0 2px 12px rgba(0,0,0,0.07);
+}
+*{ margin:0; padding:0; box-sizing:border-box; }
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+/* ══════ HERO BANNER ══════ */
+.guide-hero{
+  background:linear-gradient(135deg,#064e3b 0%,#065f46 50%,#047857 100%);
+  padding:100px 30px 0;
+  position:relative;
+  overflow:hidden;
+}
+.guide-hero::before{
+  content:'';
+  position:absolute; inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%2322c55e' fill-opacity='0.07'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* PROFILE HEADER */
+.profile-header{
+  max-width:1200px; margin:0 auto;
+  display:flex; align-items:flex-end; gap:28px;
+  position:relative; z-index:1;
+  padding-bottom:0;
+}
+.guide-avatar-wrap{ position:relative; flex-shrink:0; }
+.guide-avatar{
+  width:100px; height:100px; border-radius:50%;
+  border:4px solid #22c55e;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Playfair Display',serif;
+  font-size:32px; font-weight:700; color:#fff;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  overflow:hidden; flex-shrink:0;
+}
+.guide-avatar img{ width:100%; height:100%; object-fit:cover; }
+.online-dot{
+  position:absolute; bottom:6px; right:4px;
+  width:16px; height:16px; border-radius:50%;
+  background:#22c55e; border:2px solid #064e3b;
+}
+.guide-header-info{ flex:1; padding-bottom:24px; }
+.guide-header-info h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.5rem,3vw,2rem); color:#fff; margin-bottom:6px;
+}
+.guide-role-badge{
+  display:inline-flex; align-items:center; gap:6px;
+  background:rgba(34,197,94,.25); color:#86efac;
+  padding:4px 14px; border-radius:50px;
+  font-size:0.78rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase;
+  border:1px solid rgba(134,239,172,.35); margin-bottom:10px;
+}
+.guide-meta-row{
+  display:flex; flex-wrap:wrap; gap:14px;
+  color:rgba(255,255,255,.7); font-size:0.85rem;
+}
+.guide-meta-row span{ display:flex; align-items:center; gap:5px; }
+.guide-meta-row i{ color:#86efac; }
+
+/* STAT STRIP */
+.stat-strip{
+  background:rgba(255,255,255,.08); backdrop-filter:blur(6px);
+  border-top:1px solid rgba(255,255,255,.1);
+  margin-top:20px;
+}
+.stat-strip-inner{
+  max-width:1200px; margin:0 auto;
+  display:grid; grid-template-columns:repeat(5,1fr);
+  padding:0;
+}
+.strip-stat{
+  padding:20px 16px; text-align:center;
+  border-right:1px solid rgba(255,255,255,.1);
+}
+.strip-stat:last-child{ border-right:none; }
+.strip-stat .sv{
+  font-size:1.7rem; font-weight:800; color:#fff;
+  display:block; line-height:1;
+}
+.strip-stat .sl{ font-size:0.78rem; color:rgba(255,255,255,.65); margin-top:4px; display:block; }
+.strip-stat .si{ font-size:1.1rem; color:#86efac; margin-bottom:6px; display:block; }
+
+/* ══════ MAIN ══════ */
+.guide-main{
+  max-width:1200px; margin:0 auto;
+  padding:28px 30px 60px;
+}
+
+/* TABS */
+.tabs-wrapper{
+  background:var(--white); border-radius:14px; padding:6px;
+  display:flex; gap:4px; margin-bottom:24px;
+  box-shadow:var(--card-shadow);
+}
+.tab{
+  flex:1; padding:11px 14px; border:none; background:transparent;
+  border-radius:10px; font-size:13.5px; font-weight:600;
+  color:var(--muted); cursor:pointer;
+  transition:all .2s; font-family:'Plus Jakarta Sans',sans-serif;
+  display:flex; align-items:center; justify-content:center; gap:6px;
+}
+.tab:hover{ background:var(--bg); color:var(--text); }
+.tab.active{ background:var(--primary); color:#fff; }
+.tab-content{ display:none; }
+.tab-content.active{ display:block; animation:fadeUp .3s ease; }
+@keyframes fadeUp{ from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+/* CARDS */
+.card{
+  background:var(--white); border-radius:16px; padding:24px;
+  box-shadow:var(--card-shadow);
+}
+.card-title{
+  font-size:15px; font-weight:700; margin-bottom:18px;
+  display:flex; align-items:center; gap:8px; color:var(--text);
+}
+.card-title i{ color:var(--primary); font-size:16px; }
+
+/* OVERVIEW GRID */
+.overview-grid{ display:grid; grid-template-columns:1fr 1.2fr 1fr; gap:20px; }
+
+/* EARNINGS CHART BARS */
+.earn-bars{ display:flex; align-items:flex-end; gap:8px; height:80px; margin-bottom:8px; }
+.earn-bar-wrap{ flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; }
+.earn-bar{
+  width:100%; border-radius:6px 6px 0 0;
+  background:linear-gradient(180deg,#22c55e,#16a34a);
+  transition:height .5s ease; min-height:4px;
+}
+.earn-bar.dim{ background:#e5e7eb; }
+.earn-lbl{ font-size:0.7rem; color:var(--muted); }
+.earn-total{ font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:700; color:var(--text); }
+.earn-sub{ font-size:0.8rem; color:var(--muted); margin-top:2px; }
+
+/* RECENT BOOKINGS (overview) */
+.booking-row{
+  display:flex; align-items:center; gap:12px;
+  padding:12px 0; border-bottom:1px solid var(--border);
+}
+.booking-row:last-child{ border-bottom:none; }
+.booking-avatar{
+  width:36px; height:36px; border-radius:50%;
+  object-fit:cover; flex-shrink:0;
+  border:2px solid var(--primary-light);
+}
+.booking-info{ flex:1; }
+.booking-info h4{ font-size:13.5px; font-weight:700; margin-bottom:2px; }
+.booking-info p{ font-size:12px; color:var(--muted); }
+.status-pill{
+  padding:4px 12px; border-radius:20px;
+  font-size:11.5px; font-weight:700;
+}
+.status-pill.confirmed{ background:#dcfce7; color:#16a34a; }
+.status-pill.pending  { background:#fff7ed; color:#d97706; }
+.status-pill.completed{ background:#eff6ff; color:#2563eb; }
+
+/* RATING STARS */
+.star-row{ display:flex; gap:4px; margin-bottom:8px; }
+.star-row i{ color:#f59e0b; font-size:14px; }
+.review-item{ padding:14px 0; border-bottom:1px solid var(--border); }
+.review-item:last-child{ border-bottom:none; }
+.review-item h4{ font-size:13px; font-weight:700; margin-bottom:4px; }
+.review-item p{ font-size:12.5px; color:var(--muted); line-height:1.65; }
+.review-item .rv-meta{ font-size:11px; color:#9ca3af; margin-top:6px; }
+
+/* ── BOOKINGS TAB ── */
+.bk-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; }
+.bk-card{
+  background:var(--white); border-radius:16px; padding:20px;
+  box-shadow:var(--card-shadow); border-left:4px solid var(--primary);
+  transition:transform .2s, box-shadow .2s;
+}
+.bk-card:hover{ transform:translateY(-3px); box-shadow:0 10px 28px rgba(34,197,94,.12); }
+.bk-card.pending-card{ border-color:#f59e0b; }
+.bk-card.completed-card{ border-color:#3b82f6; }
+.bk-top{ display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+.bk-top img{ width:44px; height:44px; border-radius:50%; object-fit:cover; border:2px solid var(--primary-light); }
+.bk-top h3{ font-size:14.5px; font-weight:700; margin-bottom:2px; }
+.bk-top p{ font-size:12px; color:var(--muted); }
+.bk-details{ display:flex; flex-direction:column; gap:7px; margin-bottom:14px; }
+.bk-detail{ display:flex; align-items:center; gap:8px; font-size:12.5px; color:#374151; }
+.bk-detail i{ color:var(--primary); width:14px; text-align:center; }
+.bk-actions{ display:flex; gap:8px; }
+.btn-sm{
+  flex:1; padding:8px 12px; border-radius:20px; border:none;
+  font-size:12px; font-weight:700; cursor:pointer;
+  font-family:'Plus Jakarta Sans',sans-serif; transition:all .2s;
+}
+.btn-accept{ background:var(--primary); color:#fff; }
+.btn-accept:hover{ background:var(--primary-dark); }
+.btn-decline{ background:#fee2e2; color:#dc2626; }
+.btn-decline:hover{ background:#fecaca; }
+.btn-view{ background:var(--bg); color:var(--text); border:1px solid var(--border); }
+.btn-view:hover{ background:#e5e7eb; }
+
+/* ── AVAILABILITY TAB ── */
+.availability-grid{ display:grid; grid-template-columns:1fr 1.2fr; gap:24px; }
+.day-toggles{ display:flex; flex-direction:column; gap:10px; }
+.day-row{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 18px; background:var(--bg); border-radius:12px;
+  border:1.5px solid var(--border);
+}
+.day-name{ font-size:13.5px; font-weight:600; }
+.toggle-wrap{ display:flex; align-items:center; gap:10px; }
+.toggle-switch{ position:relative; width:42px; height:24px; }
+.toggle-switch input{ opacity:0; width:0; height:0; }
+.toggle-slider{
+  position:absolute; cursor:pointer; inset:0;
+  background:#d1d5db; border-radius:12px; transition:.3s;
+}
+.toggle-slider::before{
+  content:''; position:absolute;
+  height:18px; width:18px; left:3px; bottom:3px;
+  background:#fff; border-radius:50%; transition:.3s;
+  box-shadow:0 1px 4px rgba(0,0,0,.2);
+}
+.toggle-switch input:checked + .toggle-slider{ background:var(--primary); }
+.toggle-switch input:checked + .toggle-slider::before{ transform:translateX(18px); }
+.toggle-time{ font-size:12px; color:var(--muted); }
+
+.pricing-table{ width:100%; border-collapse:collapse; }
+.pricing-table th{
+  text-align:left; font-size:12px; font-weight:700; color:var(--muted);
+  text-transform:uppercase; letter-spacing:.06em;
+  padding:10px 14px; border-bottom:2px solid var(--border);
+}
+.pricing-table td{
+  padding:12px 14px; font-size:13.5px; border-bottom:1px solid var(--border);
+}
+.pricing-table tr:last-child td{ border-bottom:none; }
+.price-input{
+  width:90px; padding:6px 10px; border:1.5px solid var(--border);
+  border-radius:8px; font-size:13px; font-family:'Plus Jakarta Sans',sans-serif;
+  outline:none; transition:border-color .2s;
+}
+.price-input:focus{ border-color:var(--primary); }
+
+/* ── PROFILE SETTINGS ── */
+.settings-wrap{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.form-group{ display:flex; flex-direction:column; gap:6px; margin-bottom:16px; }
+.form-group label{ font-size:12.5px; font-weight:700; color:#374151; }
+.form-input{
+  padding:11px 14px; border:1.5px solid var(--border); border-radius:11px;
+  font-size:13.5px; font-family:'Plus Jakarta Sans',sans-serif; outline:none;
+  transition:border-color .2s, box-shadow .2s; width:100%;
+}
+.form-input:focus{ border-color:var(--primary); box-shadow:0 0 0 3px rgba(34,197,94,.1); }
+.tag-input-wrap{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:4px; }
+.spec-tag{
+  background:var(--primary-light); color:var(--primary-dark);
+  padding:5px 12px; border-radius:20px; font-size:12px; font-weight:600;
+  display:flex; align-items:center; gap:6px;
+}
+.spec-tag button{ background:none; border:none; cursor:pointer; color:var(--primary-dark); font-size:11px; padding:0; }
+.save-btn{
+  background:var(--primary); color:#fff; border:none; padding:12px 28px;
+  border-radius:50px; font-size:13.5px; font-weight:700; cursor:pointer;
+  font-family:'Plus Jakarta Sans',sans-serif; transition:background .2s, transform .15s;
+}
+.save-btn:hover{ background:var(--primary-dark); transform:translateY(-1px); }
+
+/* ── EARNINGS TAB ── */
+.earn-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:24px; }
+.earn-kpi{
+  background:var(--white); border-radius:14px; padding:20px;
+  box-shadow:var(--card-shadow); text-align:center;
+}
+.earn-kpi .kpi-icon{ font-size:1.4rem; margin-bottom:8px; display:block; }
+.earn-kpi .kpi-val{ font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:700; display:block; }
+.earn-kpi .kpi-lbl{ font-size:12px; color:var(--muted); margin-top:3px; display:block; }
+.earn-kpi.green .kpi-icon{ color:var(--primary); }
+.earn-kpi.amber .kpi-icon{ color:#f59e0b; }
+.earn-kpi.blue  .kpi-icon{ color:#3b82f6; }
+
+.transaction-row{
+  display:flex; align-items:center; gap:14px;
+  padding:13px 0; border-bottom:1px solid var(--border);
+}
+.transaction-row:last-child{ border-bottom:none; }
+.tx-icon{
+  width:38px; height:38px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:0.95rem; flex-shrink:0;
+}
+.tx-icon.credit{ background:#dcfce7; color:var(--primary); }
+.tx-icon.debit { background:#fee2e2; color:#dc2626; }
+.tx-info{ flex:1; }
+.tx-info h4{ font-size:13.5px; font-weight:600; margin-bottom:2px; }
+.tx-info p{ font-size:12px; color:var(--muted); }
+.tx-amount{ font-size:14px; font-weight:700; }
+.tx-amount.credit{ color:var(--primary); }
+.tx-amount.debit { color:#dc2626; }
+
+/* EMPTY STATES */
+.empty-state{
+  text-align:center; padding:50px 24px;
+  color:var(--muted); grid-column:1/-1;
+}
+.empty-state .ei{ font-size:3rem; margin-bottom:14px; display:block; }
+.empty-state h3{ font-size:17px; color:var(--text); margin-bottom:6px; }
+.empty-state p{ font-size:13.5px; }
+
+/* TOAST */
+.guide-toast{
+  position:fixed; bottom:24px; right:24px; z-index:9999;
+  background:var(--primary); color:#fff;
+  padding:14px 22px; border-radius:14px; font-weight:600; font-size:0.88rem;
+  box-shadow:0 8px 24px rgba(34,197,94,.35);
+  animation:fadeUp .35s ease; display:none;
+}
+
+@media(max-width:900px){
+  .overview-grid{ grid-template-columns:1fr; }
+  .availability-grid{ grid-template-columns:1fr; }
+  .settings-wrap{ grid-template-columns:1fr; }
+  .stat-strip-inner{ grid-template-columns:repeat(3,1fr); }
+}
+@media(max-width:600px){
+  .stat-strip-inner{ grid-template-columns:repeat(2,1fr); }
+  .earn-grid{ grid-template-columns:1fr 1fr; }
+  .tabs-wrapper{ flex-wrap:wrap; }
+  .guide-hero{ padding:90px 16px 0; }
+  .guide-main{ padding:20px 16px 50px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════ NAVBAR ══════ -->
+<nav class="navbar transparent" id="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="nav-logo">&#10022; Travel<span class="dot">Mate</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="destinations.html">Destinations</a></li>
+      <li><a href="main_community.html">Community</a></li>
+      <li><a href="findguides.html">Find Guides</a></li>
+      <li><a href="guide-dashboard.html">Dashboard</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="signup.html">Register</a></li>
+    </ul>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div id="pointsCounter" class="badge badge-teal">0 pts</div>
+    </div>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- ══════ HERO ══════ -->
+<div class="guide-hero">
+  <div class="profile-header">
+    <div class="guide-avatar-wrap">
+      <div class="guide-avatar" id="guideAvatar">GD</div>
+      <div class="online-dot"></div>
+    </div>
+    <div class="guide-header-info">
+      <div class="guide-role-badge"><i class="fas fa-compass"></i> Certified Guide</div>
+      <h1 id="guideName">Guide Name</h1>
+      <div class="guide-meta-row">
+        <span><i class="fas fa-map-marker-alt"></i> <span id="guideLocation">Location</span></span>
+        <span><i class="fas fa-envelope"></i> <span id="guideEmail">email</span></span>
+        <span><i class="fas fa-star"></i> 4.8 Rating</span>
+        <span><i class="fas fa-calendar-check"></i> <span id="joinDate">Joined</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-strip">
+    <div class="stat-strip-inner">
+      <div class="strip-stat">
+        <span class="si"><i class="fas fa-calendar-check"></i></span>
+        <span class="sv" id="statBookings">0</span>
+        <span class="sl">Total Bookings</span>
+      </div>
+      <div class="strip-stat">
+        <span class="si"><i class="fas fa-rupee-sign"></i></span>
+        <span class="sv" id="statEarnings">₹0</span>
+        <span class="sl">Total Earned</span>
+      </div>
+      <div class="strip-stat">
+        <span class="si"><i class="fas fa-star"></i></span>
+        <span class="sv">4.8</span>
+        <span class="sl">Avg Rating</span>
+      </div>
+      <div class="strip-stat">
+        <span class="si"><i class="fas fa-users"></i></span>
+        <span class="sv" id="statTravellers">0</span>
+        <span class="sl">Travellers Served</span>
+      </div>
+      <div class="strip-stat">
+        <span class="si"><i class="fas fa-trophy"></i></span>
+        <span class="sv" id="statPoints">0</span>
+        <span class="sl">Points</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ MAIN CONTENT ══════ -->
+<div class="guide-main">
+
+  <!-- TABS -->
+  <div class="tabs-wrapper">
+    <button class="tab active"><i class="fas fa-chart-pie"></i> Overview</button>
+    <button class="tab"><i class="fas fa-calendar-alt"></i> Bookings</button>
+    <button class="tab"><i class="fas fa-rupee-sign"></i> Earnings</button>
+    <button class="tab"><i class="fas fa-clock"></i> Availability</button>
+    <button class="tab"><i class="fas fa-cog"></i> Settings</button>
+  </div>
+
+  <!-- ── OVERVIEW ── -->
+  <div class="tab-content active" id="tab-overview">
+    <div class="overview-grid">
+
+      <!-- Earnings Summary -->
+      <div class="card">
+        <div class="card-title"><i class="fas fa-rupee-sign"></i> Monthly Earnings</div>
+        <div class="earn-bars" id="earningsChart"></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+          <span style="font-size:11px;color:var(--muted);">Last 6 months</span>
+        </div>
+        <div class="earn-total" id="overviewEarnings">₹0</div>
+        <div class="earn-sub">Total lifetime earnings</div>
+      </div>
+
+      <!-- Recent Bookings -->
+      <div class="card">
+        <div class="card-title"><i class="fas fa-calendar-check"></i> Recent Bookings</div>
+        <div id="recentBookingsList">
+          <div class="empty-state" style="padding:20px;">
+            <span class="ei">📅</span>
+            <p>No bookings yet. Share your profile!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reviews -->
+      <div class="card">
+        <div class="card-title"><i class="fas fa-star"></i> Recent Reviews</div>
+        <div id="reviewsList">
+          <div class="review-item">
+            <div class="star-row">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <h4>Amazing heritage walk!</h4>
+            <p>"Incredibly knowledgeable and friendly. Best tour I've had in years."</p>
+            <div class="rv-meta">— Priya S. &nbsp;·&nbsp; 3 days ago</div>
+          </div>
+          <div class="review-item">
+            <div class="star-row">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+            </div>
+            <h4>Great food tour</h4>
+            <p>"Showed us hidden gems no tourist would ever find. Highly recommend!"</p>
+            <div class="rv-meta">— Arjun M. &nbsp;·&nbsp; 1 week ago</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── BOOKINGS ── -->
+  <div class="tab-content" id="tab-bookings">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;">My Bookings</h2>
+      <div style="display:flex;gap:8px;">
+        <button class="btn-sm btn-view filter-btn active" onclick="filterBookings('all',this)">All</button>
+        <button class="btn-sm btn-view filter-btn" onclick="filterBookings('pending',this)">Pending</button>
+        <button class="btn-sm btn-view filter-btn" onclick="filterBookings('confirmed',this)">Confirmed</button>
+        <button class="btn-sm btn-view filter-btn" onclick="filterBookings('completed',this)">Completed</button>
+      </div>
+    </div>
+    <div class="bk-grid" id="bookingsGrid">
+      <div class="empty-state">
+        <span class="ei">🗓️</span>
+        <h3>No bookings yet</h3>
+        <p>When travellers book you from Find Guides, they'll appear here.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── EARNINGS ── -->
+  <div class="tab-content" id="tab-earnings">
+    <div class="earn-grid">
+      <div class="earn-kpi green">
+        <span class="kpi-icon"><i class="fas fa-rupee-sign"></i></span>
+        <span class="kpi-val" id="kpiTotal">₹0</span>
+        <span class="kpi-lbl">Total Earned</span>
+      </div>
+      <div class="earn-kpi amber">
+        <span class="kpi-icon"><i class="fas fa-clock"></i></span>
+        <span class="kpi-val" id="kpiPending">₹0</span>
+        <span class="kpi-lbl">Pending Payout</span>
+      </div>
+      <div class="earn-kpi blue">
+        <span class="kpi-icon"><i class="fas fa-calendar-alt"></i></span>
+        <span class="kpi-val" id="kpiThisMonth">₹0</span>
+        <span class="kpi-lbl">This Month</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><i class="fas fa-exchange-alt"></i> Transaction History</div>
+      <div id="transactionList">
+        <div class="empty-state" style="padding:24px;">
+          <span class="ei">💳</span>
+          <p>No transactions yet. Complete a booking to see earnings!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── AVAILABILITY ── -->
+  <div class="tab-content" id="tab-availability">
+    <div class="availability-grid">
+      <!-- Days -->
+      <div class="card">
+        <div class="card-title"><i class="fas fa-calendar-week"></i> Weekly Availability</div>
+        <div class="day-toggles" id="dayToggles">
+          <!-- rendered by JS -->
+        </div>
+        <button class="save-btn" style="margin-top:18px;width:100%;" onclick="saveAvailability()">
+          <i class="fas fa-save"></i> Save Availability
+        </button>
+      </div>
+
+      <!-- Pricing -->
+      <div class="card">
+        <div class="card-title"><i class="fas fa-tag"></i> Package Pricing</div>
+        <table class="pricing-table">
+          <thead>
+            <tr>
+              <th>Package</th>
+              <th>Duration</th>
+              <th>Price (₹)</th>
+            </tr>
+          </thead>
+          <tbody id="pricingBody">
+            <!-- rendered by JS -->
+          </tbody>
+        </table>
+        <button class="save-btn" style="margin-top:18px;width:100%;" onclick="savePricing()">
+          <i class="fas fa-save"></i> Save Pricing
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SETTINGS ── -->
+  <div class="tab-content" id="tab-settings">
+    <div class="settings-wrap">
+      <!-- Personal Info -->
+      <div class="card">
+        <div class="card-title"><i class="fas fa-user"></i> Personal Info</div>
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" class="form-input" id="setName" placeholder="Your name">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" class="form-input" id="setEmail" placeholder="email@example.com">
+        </div>
+        <div class="form-group">
+          <label>Location / Base City</label>
+          <input type="text" class="form-input" id="setLocation" placeholder="e.g. Jaipur, Rajasthan">
+        </div>
+        <div class="form-group">
+          <label>Bio</label>
+          <textarea class="form-input" id="setBio" rows="4" placeholder="Tell travellers about yourself..."></textarea>
+        </div>
+        <button class="save-btn" onclick="saveSettings()"><i class="fas fa-save"></i> Save Changes</button>
+      </div>
+
+      <!-- Guide Profile -->
+      <div class="card">
+        <div class="card-title"><i class="fas fa-compass"></i> Guide Profile</div>
+        <div class="form-group">
+          <label>Languages Spoken</label>
+          <input type="text" class="form-input" id="setLanguages" placeholder="e.g. English, Hindi, Tamil">
+        </div>
+        <div class="form-group">
+          <label>Experience (years)</label>
+          <input type="number" class="form-input" id="setExp" placeholder="5" min="0" max="50">
+        </div>
+        <div class="form-group">
+          <label>Specialties</label>
+          <div class="tag-input-wrap" id="specTags">
+            <!-- tags rendered by JS -->
+          </div>
+          <div style="display:flex;gap:8px;margin-top:10px;">
+            <input type="text" class="form-input" id="newSpecInput" placeholder="Add specialty..." style="flex:1;">
+            <button onclick="addSpec()" style="background:var(--primary);color:#fff;border:none;padding:0 16px;border-radius:11px;cursor:pointer;font-weight:700;"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Base Price per Day (₹)</label>
+          <input type="number" class="form-input" id="setPrice" placeholder="1200" min="100">
+        </div>
+        <button class="save-btn" onclick="saveGuideProfile()"><i class="fas fa-save"></i> Save Profile</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /guide-main -->
+
+<div id="guideToast" class="guide-toast"></div>
+
+<script>
+/* ════════════════════════════════
+   GUIDE DASHBOARD  — main script
+   ════════════════════════════════ */
+
+/* ── redirect non-guides ── */
+(function(){
+  const u = TmAuth.getUser();
+  if (!u) { window.location.href = 'login.html'; return; }
+  if (u.role !== 'Guide') { window.location.href = 'travel-mate-dashboard.html'; }
+})();
+
+/* ── TABS ── */
+const tabs     = document.querySelectorAll('.tab');
+const contents = document.querySelectorAll('.tab-content');
+tabs.forEach((tab, i) => {
+  tab.addEventListener('click', () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    contents.forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    contents[i].classList.add('active');
+  });
+});
+
+/* ── TOAST ── */
+function showToast(msg) {
+  const t = document.getElementById('guideToast');
+  t.textContent = msg; t.style.display = 'block';
+  setTimeout(() => { t.style.display = 'none'; }, 3200);
+}
+
+/* ── INIT profile header ── */
+function initProfile() {
+  const u       = TmAuth.getUser();
+  const profile = JSON.parse(localStorage.getItem('tm_guide_profile') || '{}');
+  const pts     = Number(localStorage.getItem('tm_points') || 0);
+  const bookings= JSON.parse(localStorage.getItem('tm_bookings') || '[]');
+
+  // Avatar
+  const initials = u.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  const avEl = document.getElementById('guideAvatar');
+  if (u.avatar) {
+    avEl.innerHTML = `<img src="${u.avatar}" alt="${u.name}">`;
+  } else {
+    avEl.textContent = initials;
+  }
+
+  document.getElementById('guideName').textContent     = u.name;
+  document.getElementById('guideEmail').textContent    = u.email;
+  document.getElementById('guideLocation').textContent = profile.location || 'Location not set';
+  document.getElementById('joinDate').textContent      = 'Joined ' + new Date(u.joinedAt).toLocaleDateString('en-IN',{month:'short',year:'numeric'});
+
+  // Stats
+  const totalEarnings = bookings.reduce((s, b) => s + (Number(b.price)||0), 0);
+  const totalTravellers= bookings.reduce((s, b) => s + (Number(b.people)||1), 0);
+  document.getElementById('statBookings').textContent   = bookings.length;
+  document.getElementById('statEarnings').textContent   = '₹' + totalEarnings.toLocaleString('en-IN');
+  document.getElementById('statTravellers').textContent = totalTravellers;
+  document.getElementById('statPoints').textContent     = pts;
+
+  // Overview
+  document.getElementById('overviewEarnings').textContent = '₹' + totalEarnings.toLocaleString('en-IN');
+
+  // Settings prefill
+  document.getElementById('setName').value     = u.name;
+  document.getElementById('setEmail').value    = u.email;
+  document.getElementById('setLocation').value = profile.location  || '';
+  document.getElementById('setBio').value      = profile.bio       || '';
+  document.getElementById('setLanguages').value= profile.languages || '';
+  document.getElementById('setExp').value      = profile.experience|| '';
+  document.getElementById('setPrice').value    = profile.basePrice || '';
+}
+
+/* ── EARNINGS CHART (simple bar) ── */
+function renderEarningsChart() {
+  const months = ['Aug','Sep','Oct','Nov','Dec','Jan'];
+  const values = [4200,6800,5100,9400,7200,8600];
+  const max    = Math.max(...values);
+  const chart  = document.getElementById('earningsChart');
+  chart.innerHTML = months.map((m,i) => `
+    <div class="earn-bar-wrap">
+      <div class="earn-bar" style="height:${Math.round((values[i]/max)*70)}px"></div>
+      <span class="earn-lbl">${m}</span>
+    </div>`).join('');
+}
+
+/* ── RECENT BOOKINGS (overview) ── */
+function renderRecentBookings() {
+  const bookings = JSON.parse(localStorage.getItem('tm_bookings') || '[]').slice(0,4);
+  const el = document.getElementById('recentBookingsList');
+  if (!bookings.length) return;
+  el.innerHTML = bookings.map(b => `
+    <div class="booking-row">
+      <img class="booking-avatar"
+           src="https://ui-avatars.com/api/?name=${encodeURIComponent(b.name||'T')}&background=dcfce7&color=16a34a&size=36"
+           alt="${b.name||'Traveller'}">
+      <div class="booking-info">
+        <h4>${b.name || 'Traveller'}</h4>
+        <p>${b.destination || ''} &nbsp;·&nbsp; ${b.date || ''}</p>
+      </div>
+      <span class="status-pill ${b.status==='confirmed'?'confirmed':b.status==='completed'?'completed':'pending'}">
+        ${b.status || 'Pending'}
+      </span>
+    </div>`).join('');
+}
+
+/* ── BOOKINGS TAB ── */
+let allBookings = [];
+function renderBookings(filter) {
+  allBookings = JSON.parse(localStorage.getItem('tm_bookings') || '[]');
+  const filtered = filter === 'all' ? allBookings
+    : allBookings.filter(b => (b.status||'pending').toLowerCase() === filter);
+  const grid = document.getElementById('bookingsGrid');
+  if (!filtered.length) {
+    grid.innerHTML = `<div class="empty-state"><span class="ei">🗓️</span><h3>No ${filter} bookings</h3><p>Nothing here yet!</p></div>`;
+    return;
+  }
+  grid.innerHTML = filtered.map((b,i) => {
+    const cls = b.status==='confirmed' ? '' : b.status==='completed' ? 'completed-card' : 'pending-card';
+    const actions = b.status === 'pending'
+      ? `<button class="btn-sm btn-accept" onclick="updateBooking(${i},'confirmed')">Accept</button>
+         <button class="btn-sm btn-decline" onclick="updateBooking(${i},'declined')">Decline</button>`
+      : `<button class="btn-sm btn-view" style="flex:none;padding:8px 16px;">View Details</button>`;
+    return `
+      <div class="bk-card ${cls}">
+        <div class="bk-top">
+          <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(b.name||'T')}&background=dcfce7&color=16a34a&size=44" alt="">
+          <div>
+            <h3>${b.name || 'Traveller'}</h3>
+            <p>${b.email || ''}</p>
+          </div>
+          <span class="status-pill ${b.status==='confirmed'?'confirmed':b.status==='completed'?'completed':'pending'}" style="margin-left:auto;">
+            ${b.status || 'Pending'}
+          </span>
+        </div>
+        <div class="bk-details">
+          <div class="bk-detail"><i class="fas fa-map-marker-alt"></i>${b.destination || 'Not specified'}</div>
+          <div class="bk-detail"><i class="fas fa-calendar"></i>${b.date || 'Date TBD'}</div>
+          <div class="bk-detail"><i class="fas fa-users"></i>${b.people || 1} traveller(s)</div>
+          <div class="bk-detail"><i class="fas fa-rupee-sign"></i>₹${Number(b.price||0).toLocaleString('en-IN')} &nbsp;·&nbsp; ${b.package || 'Full Day'}</div>
+        </div>
+        ${b.requests ? `<div class="bk-detail" style="margin-bottom:12px;font-size:12px;color:var(--muted);font-style:italic;">"${b.requests}"</div>` : ''}
+        <div class="bk-actions">${actions}</div>
+      </div>`;
+  }).join('');
+}
+
+function updateBooking(idx, status) {
+  let bk = JSON.parse(localStorage.getItem('tm_bookings') || '[]');
+  if (bk[idx]) { bk[idx].status = status; localStorage.setItem('tm_bookings', JSON.stringify(bk)); }
+  allBookings = bk;
+  renderBookings('all');
+  renderRecentBookings();
+  showToast(status === 'confirmed' ? '✅ Booking confirmed!' : '❌ Booking declined.');
+}
+
+function filterBookings(filter, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderBookings(filter);
+}
+
+/* ── EARNINGS TAB ── */
+function renderEarnings() {
+  const bk = JSON.parse(localStorage.getItem('tm_bookings') || '[]');
+  const total    = bk.reduce((s,b)=>s+(Number(b.price)||0),0);
+  const pending  = bk.filter(b=>b.status!=='completed').reduce((s,b)=>s+(Number(b.price)||0),0);
+  const now      = new Date(); const thisMonth = bk.filter(b=>{
+    if(!b.date) return false;
+    const d = new Date(b.date); return d.getMonth()===now.getMonth() && d.getFullYear()===now.getFullYear();
+  }).reduce((s,b)=>s+(Number(b.price)||0),0);
+  document.getElementById('kpiTotal').textContent      = '₹' + total.toLocaleString('en-IN');
+  document.getElementById('kpiPending').textContent    = '₹' + pending.toLocaleString('en-IN');
+  document.getElementById('kpiThisMonth').textContent  = '₹' + thisMonth.toLocaleString('en-IN');
+
+  const txList = document.getElementById('transactionList');
+  if (!bk.length) return;
+  txList.innerHTML = bk.map(b=>`
+    <div class="transaction-row">
+      <div class="tx-icon credit"><i class="fas fa-arrow-down"></i></div>
+      <div class="tx-info">
+        <h4>Booking — ${b.destination || 'Tour'}</h4>
+        <p>${b.name||'Traveller'} &nbsp;·&nbsp; ${b.date||''} &nbsp;·&nbsp; ${b.package||'Full Day'}</p>
+      </div>
+      <span class="tx-amount credit">+₹${Number(b.price||0).toLocaleString('en-IN')}</span>
+    </div>`).join('');
+}
+
+/* ── AVAILABILITY ── */
+const DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+function renderDayToggles() {
+  const avail = JSON.parse(localStorage.getItem('tm_guide_avail') || '{}');
+  document.getElementById('dayToggles').innerHTML = DAYS.map(d => {
+    const on = avail[d] !== false;
+    return `
+      <div class="day-row">
+        <span class="day-name">${d}</span>
+        <div class="toggle-wrap">
+          <span class="toggle-time">${on ? '9 AM – 6 PM' : 'Unavailable'}</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="day_${d}" ${on?'checked':''} onchange="updateDayLabel(this,'${d}')">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>`;
+  }).join('');
+}
+function updateDayLabel(el, day) {
+  el.closest('.day-row').querySelector('.toggle-time').textContent = el.checked ? '9 AM – 6 PM' : 'Unavailable';
+}
+function saveAvailability() {
+  const avail = {};
+  DAYS.forEach(d => { avail[d] = document.getElementById('day_'+d).checked; });
+  localStorage.setItem('tm_guide_avail', JSON.stringify(avail));
+  showToast('✅ Availability saved!');
+}
+
+const PACKAGES = [
+  { name:'Half Day Tour', dur:'~4 hrs',  key:'half',  def:600  },
+  { name:'Full Day Tour', dur:'~8 hrs',  key:'full',  def:1200 },
+  { name:'2-Day Package', dur:'2 days',  key:'two',   def:2200 },
+  { name:'Weekend Pack',  dur:'3 days',  key:'three', def:3200 },
+];
+function renderPricing() {
+  const prices = JSON.parse(localStorage.getItem('tm_guide_pricing') || '{}');
+  document.getElementById('pricingBody').innerHTML = PACKAGES.map(p => `
+    <tr>
+      <td style="font-weight:600;">${p.name}</td>
+      <td style="color:var(--muted)">${p.dur}</td>
+      <td><input type="number" class="price-input" id="price_${p.key}" value="${prices[p.key]||p.def}" min="100"></td>
+    </tr>`).join('');
+}
+function savePricing() {
+  const prices = {};
+  PACKAGES.forEach(p => { prices[p.key] = Number(document.getElementById('price_'+p.key).value)||p.def; });
+  localStorage.setItem('tm_guide_pricing', JSON.stringify(prices));
+  showToast('✅ Pricing saved!');
+}
+
+/* ── SPECIALTIES ── */
+let specs = [];
+function renderSpecs() {
+  document.getElementById('specTags').innerHTML = specs.map((s,i) => `
+    <div class="spec-tag">${s}<button onclick="removeSpec(${i})">✕</button></div>`).join('');
+}
+function addSpec() {
+  const v = document.getElementById('newSpecInput').value.trim();
+  if (v && !specs.includes(v)) { specs.push(v); renderSpecs(); document.getElementById('newSpecInput').value=''; }
+}
+function removeSpec(i) { specs.splice(i,1); renderSpecs(); }
+
+/* ── SETTINGS SAVE ── */
+function saveSettings() {
+  const u = TmAuth.getUser();
+  const profile = JSON.parse(localStorage.getItem('tm_guide_profile')||'{}');
+  profile.location = document.getElementById('setLocation').value.trim();
+  profile.bio      = document.getElementById('setBio').value.trim();
+  localStorage.setItem('tm_guide_profile', JSON.stringify(profile));
+  document.getElementById('guideLocation').textContent = profile.location || 'Location not set';
+  showToast('✅ Personal info saved!');
+}
+function saveGuideProfile() {
+  const profile = JSON.parse(localStorage.getItem('tm_guide_profile')||'{}');
+  profile.languages  = document.getElementById('setLanguages').value.trim();
+  profile.experience = document.getElementById('setExp').value.trim();
+  profile.specs      = specs;
+  profile.basePrice  = document.getElementById('setPrice').value.trim();
+  localStorage.setItem('tm_guide_profile', JSON.stringify(profile));
+  showToast('✅ Guide profile saved!');
+}
+
+/* ── INIT ── */
+function init() {
+  initProfile();
+  renderEarningsChart();
+  renderRecentBookings();
+  renderBookings('all');
+  renderEarnings();
+  renderDayToggles();
+  renderPricing();
+  // Load specs
+  const profile = JSON.parse(localStorage.getItem('tm_guide_profile')||'{}');
+  specs = profile.specs || ['Heritage','Culture'];
+  renderSpecs();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+
+/* ── NAVBAR ── */
+window.addEventListener('scroll', () => {
+  const n = document.getElementById('navbar');
+  n.className = window.scrollY > 40 ? 'navbar solid' : 'navbar transparent';
+});
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+</script>
+</body>
+</html>

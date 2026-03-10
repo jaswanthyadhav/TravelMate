@@ -5,6 +5,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>Community - TravelMate</title>
 	<link href="style.css" rel="stylesheet">
+	<script src="tm-auth.js"></script>
+	<script src="tm-auth.js"></script>
 	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 	<style>
 		.community-wrap { padding: 40px 0 120px; }
@@ -425,62 +427,95 @@
 		});
 
 		document.getElementById('publishBtn').addEventListener('click', ()=>{
-			const add = 50;
-			setPoints(getPoints() + add);
-			showToast('Post published — +' + add + ' points');
-			addPostToList();
+			const loc    = document.getElementById('locationInput').value.trim();
+			const cap    = document.getElementById('captionInput').value.trim();
+			const rating = Number(ratingEl.dataset.rating) || 0;
+			const blog   = document.getElementById('blogInput').value.trim();
+			if(!loc){ showToast('Please enter a location!'); return; }
+			if(!cap){ showToast('Please write a caption!'); return; }
+
+			// Save to localStorage as community_posts
+			const post = {
+				id:        Date.now(),
+				location:  loc,
+				caption:   cap,
+				blog:      blog,
+				rating:    rating,
+				images:    uploadedImages.slice(),
+				date:      new Date().toLocaleDateString('en-IN',{year:'numeric',month:'short',day:'numeric'}),
+				author:    (TmAuth.getUser() && TmAuth.getUser().name) || 'Traveller',
+				likes:     0
+			};
+			const allPosts = JSON.parse(localStorage.getItem('community_posts') || '[]');
+			allPosts.unshift(post);
+			localStorage.setItem('community_posts', JSON.stringify(allPosts));
+
+			// Also save to tm_posts (dashboard)
+			const dashPosts = JSON.parse(localStorage.getItem('tm_posts') || '[]');
+			dashPosts.unshift(post);
+			localStorage.setItem('tm_posts', JSON.stringify(dashPosts));
+
+			const pts = 50 + (uploadedImages.length * 10);
+			setPoints(getPoints() + pts);
+			showToast('Post published — +' + pts + ' points 🎉');
+			addPostToList(post);
 			closeModal();
-			// re-apply current sort after adding
 			setTimeout(()=> sortPosts(currentFilter), 50);
 		});
 
-		function addPostToList(){
-			const title  = document.querySelector('#captionInput').value || 'New travel post';
-			const loc    = document.querySelector('#locationInput').value || '';
-			const rating = Number(ratingEl.dataset.rating);
-			const nowTs  = Math.floor(Date.now() / 1000);
-
-			const post = document.createElement('article');
-			post.className = 'post-card';
-			post.dataset.timestamp = nowTs;
-			post.dataset.likes     = '0';
-			post.dataset.rating    = rating;
-
-			post.innerHTML = `
-				<header class="post-header">
-					<div class="author">
-						<img src="https://images.unsplash.com/photo-1544006659-f0b21884ce1d?w=120&q=80" alt="avatar">
-						<div>
-							<div class="author-name">You</div>
-							<div class="author-meta">${escapeHtml(loc)} · just now</div>
+		function buildPostCard(p){
+			const imgs = p.images && p.images.length
+				? p.images.map(img=>`<img src="${img}" style="width:100%;max-height:360px;object-fit:cover;display:block;">`).join('')
+				: `<img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1400&q=80" style="width:100%;max-height:360px;object-fit:cover;display:block;">`;
+			const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(p.author||'T')}&background=dcfce7&color=16a34a&size=40`;
+			const stars = '★'.repeat(p.rating||0)+'☆'.repeat(5-(p.rating||0));
+			const nowTs = p.id || Date.now();
+			return `
+				<article class="post-card" data-timestamp="${Math.floor(nowTs/1000)}" data-likes="${p.likes||0}" data-rating="${p.rating||0}">
+					<header class="post-header">
+						<div class="author">
+							<img src="${avatarUrl}" alt="avatar" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
+							<div>
+								<div class="author-name">${escapeHtml(p.author||'Traveller')}</div>
+								<div class="author-meta">${escapeHtml(p.location||'')} · ${p.date||'just now'}</div>
+							</div>
+						</div>
+						<div class="post-stars">${stars}</div>
+					</header>
+					${p.images && p.images.length > 1
+						? `<div class="post-image-scroll" style="display:flex;overflow-x:auto;gap:6px;scroll-snap-type:x mandatory;scrollbar-width:thin;">${p.images.map(img=>`<img src="${img}" style="min-width:100%;max-height:360px;object-fit:cover;scroll-snap-align:start;flex-shrink:0;">`).join('')}</div>`
+						: `<div class="post-image">${imgs}</div>`
+					}
+					<div class="post-body"><p>${escapeHtml(p.caption||'')}</p>${p.blog?`<p style="margin-top:6px;color:#6b7280;font-size:13px;">${escapeHtml(p.blog)}</p>`:''}</div>
+					<footer class="post-footer">
+						<div class="post-actions">
+							<button class="icon-btn like-btn" data-liked="false">❤ <span class="like-count">${p.likes||0}</span></button>
+							<button class="icon-btn message-btn">💬 Message</button>
+							<button class="icon-btn save-btn" data-saved="false">🔖</button>
+							<button class="icon-btn share-btn">🔗</button>
+						</div>
+					</footer>
+					<div class="comments-section" style="display:none;padding:10px 16px;">
+						<div class="comments-list"></div>
+						<div style="display:flex;gap:8px;margin-top:8px;">
+							<input type="text" class="comment-input cm-input" placeholder="Write a comment...">
+							<button class="btn btn-primary add-comment">Post</button>
 						</div>
 					</div>
-					<div class="post-stars">${'★'.repeat(rating)}${'☆'.repeat(5-rating)}</div>
-				</header>
-				<div class="post-image">
-					${uploadedImages.length
-						? uploadedImages.map(img=>`<img src="${img}">`).join('')
-						: `<img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1400&q=80">`}
-				</div>
-				<div class="post-body"><p>${escapeHtml(title)}</p></div>
-				<footer class="post-footer">
-					<div class="post-actions">
-						<button class="icon-btn like-btn" data-liked="false">❤ <span class="like-count">0</span></button>
-						<button class="icon-btn message-btn">💬 Message</button>
-						<button class="icon-btn save-btn" data-saved="false">🔖</button>
-						<button class="icon-btn share-btn">🔗</button>
-					</div>
-				</footer>
-				<div class="comments-section" style="display:none;padding:10px 16px;">
-					<div class="comments-list"></div>
-					<div style="display:flex;gap:8px;margin-top:8px;">
-						<input type="text" class="comment-input cm-input" placeholder="Write a comment...">
-						<button class="btn btn-primary add-comment">Post</button>
-					</div>
-				</div>`;
-
-			document.getElementById('postsList').insertBefore(post, document.getElementById('postsList').firstChild);
+				</article>`;
 		}
+
+		function addPostToList(p){
+			document.getElementById('postsList').insertAdjacentHTML('afterbegin', buildPostCard(p));
+		}
+
+		/* Load saved community posts on page load */
+		(function loadSavedPosts(){
+			const saved = JSON.parse(localStorage.getItem('community_posts') || '[]');
+			if (!saved.length) return;
+			const list = document.getElementById('postsList');
+			saved.forEach(p => list.insertAdjacentHTML('beforeend', buildPostCard(p)));
+		})();
 
 		function escapeHtml(s){ return String(s).replace(/[&"'<>]/g, c=>({'&':'&amp;','"':'&quot;','\'':'&#39;','<':'&lt;','>':'&gt;'}[c])); }
 		function clearForm(){

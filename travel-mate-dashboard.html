@@ -7,6 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="style.css">
+<script src="tm-auth.js"></script>
 <style>
   :root {
     --primary: #26b85e;
@@ -432,16 +433,17 @@
   <!-- PROFILE CARD -->
   <div class="profile-card">
     <div class="avatar">
-      <div class="avatar-circle">JD</div>
+      <div class="avatar-circle" id="dashAvatar">JD</div>
       <div class="camera-btn"><i class="fas fa-camera"></i></div>
     </div>
     <div class="profile-info">
-      <h2>John Doe</h2>
+      <h2 id="dashName">John Doe</h2>
+      <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(34,197,94,.12);color:#16a34a;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:700;border:1px solid rgba(34,197,94,.25);margin-bottom:4px;"><i class="fas fa-map-marker-alt"></i> Traveller</span>
       <div class="profile-location">
         <i class="fas fa-map-marker-alt"></i>
-        <span>New York, USA</span>
+        <span id="dashLocation">New York, USA</span>
       </div>
-      <p class="profile-bio">Passionate traveler exploring the world one city at a time ✈️</p>
+      <p class="profile-bio" id="dashBio">Passionate traveler exploring the world one city at a time ✈️</p>
     </div>
     <div class="profile-stats">
       <div class="stat-box">
@@ -648,6 +650,30 @@
 </div>
 
 <script>
+  /* ── Auth guard: redirect Guide users to guide-dashboard ── */
+  (function() {
+    var u = TmAuth.getUser();
+    if (!u) { window.location.href = 'login.html'; return; }
+    if (u.role === 'Guide') { window.location.href = 'guide-dashboard.html'; return; }
+
+    /* populate profile card */
+    var profile = JSON.parse(localStorage.getItem('tm_profile') || '{}');
+    var initials = u.name.split(' ').map(function(w){ return w[0]; }).join('').toUpperCase().slice(0,2);
+    var avEl = document.getElementById('dashAvatar');
+    if (avEl) avEl.textContent = initials;
+    var nameEl = document.getElementById('dashName');
+    if (nameEl) nameEl.textContent = u.name;
+    var locEl = document.getElementById('dashLocation');
+    if (locEl) locEl.textContent = profile.location || 'Location not set';
+    var bioEl = document.getElementById('dashBio');
+    if (bioEl) bioEl.textContent = profile.bio || 'Passionate traveller exploring the world ✈️';
+    var ptsEl = document.getElementById('dashPoints');
+    if (ptsEl) ptsEl.textContent = (Number(localStorage.getItem('tm_points')||0)).toLocaleString();
+    var bkEl = document.getElementById('dashBookings');
+    var bks   = JSON.parse(localStorage.getItem('tm_bookings')||'[]');
+    if (bkEl) bkEl.textContent = bks.length;
+  })();
+
   // Navbar scroll effect
   window.addEventListener('scroll', function() {
     const navbar = document.getElementById('navbar');

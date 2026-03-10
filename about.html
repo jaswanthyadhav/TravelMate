@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us - Travel Mate</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<script src="tm-auth.js"></script>
+<style>
+:root { --primary:#22c55e; --primary-dark:#16a34a; --bg:#f0fdf4; }
+*{ box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Plus Jakarta Sans',sans-serif; background:#fff; color:#1f2937; }
+
+/* HERO */
+.about-hero {
+  background: linear-gradient(135deg,#064e3b 0%,#065f46 40%,#047857 100%);
+  padding: 140px 24px 100px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.about-hero::before {
+  content:'';
+  position:absolute; inset:0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2322c55e' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.about-hero-tag {
+  display:inline-block; background:rgba(34,197,94,.2); color:#86efac;
+  padding:6px 18px; border-radius:50px; font-size:0.82rem; font-weight:600;
+  letter-spacing:.08em; text-transform:uppercase; margin-bottom:20px;
+  border:1px solid rgba(134,239,172,.3);
+}
+.about-hero h1 {
+  font-family:'Playfair Display',serif; font-size:clamp(2.4rem,5vw,3.8rem);
+  color:#fff; margin-bottom:20px; line-height:1.2;
+}
+.about-hero h1 em { font-style:italic; color:#86efac; }
+.about-hero p {
+  max-width:560px; margin:0 auto; color:rgba(255,255,255,.8);
+  font-size:1.05rem; line-height:1.75;
+}
+
+/* MISSION */
+.section { padding:80px 24px; }
+.container { max-width:1100px; margin:0 auto; }
+.section-label {
+  font-size:0.8rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--primary); margin-bottom:10px;
+}
+.section-title {
+  font-family:'Playfair Display',serif; font-size:clamp(1.8rem,3vw,2.6rem);
+  color:#111827; margin-bottom:16px; line-height:1.25;
+}
+.section-sub { color:#6b7280; font-size:1rem; line-height:1.75; max-width:600px; }
+
+.mission-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;
+  margin-top:0;
+}
+.mission-img-wrap {
+  border-radius:24px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,.12);
+  aspect-ratio:4/3;
+}
+.mission-img-wrap img { width:100%; height:100%; object-fit:cover; }
+.mission-text { display:flex; flex-direction:column; gap:20px; }
+.mission-text p { color:#4b5563; font-size:1rem; line-height:1.8; }
+
+/* STATS BAND */
+.stats-band {
+  background:linear-gradient(135deg,#064e3b,#065f46);
+  padding:60px 24px;
+}
+.stats-grid {
+  max-width:900px; margin:0 auto;
+  display:grid; grid-template-columns:repeat(4,1fr); gap:24px; text-align:center;
+}
+.stat-item .num {
+  font-family:'Playfair Display',serif; font-size:2.8rem; font-weight:700;
+  color:#fff; display:block; line-height:1;
+}
+.stat-item .lbl { color:rgba(255,255,255,.7); font-size:0.88rem; margin-top:6px; display:block; }
+.stat-item .ico { font-size:1.6rem; color:#86efac; margin-bottom:10px; display:block; }
+
+/* VALUES */
+.values-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:48px;
+}
+.value-card {
+  background:#f8fffe; border:1.5px solid #d1fae5; border-radius:20px;
+  padding:32px 28px; transition:transform .25s, box-shadow .25s;
+}
+.value-card:hover { transform:translateY(-6px); box-shadow:0 16px 40px rgba(34,197,94,.12); }
+.value-icon {
+  width:52px; height:52px; background:linear-gradient(135deg,#22c55e,#16a34a);
+  border-radius:14px; display:flex; align-items:center; justify-content:center;
+  font-size:1.3rem; color:#fff; margin-bottom:18px;
+}
+.value-card h3 { font-size:1.05rem; font-weight:700; margin-bottom:8px; color:#111827; }
+.value-card p  { font-size:0.88rem; color:#6b7280; line-height:1.7; }
+
+/* TEAM */
+.team-grid {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-top:48px;
+}
+.team-card {
+  background:#fff; border-radius:20px; overflow:hidden;
+  box-shadow:0 4px 20px rgba(0,0,0,.07);
+  transition:transform .25s, box-shadow .25s; text-align:center;
+}
+.team-card:hover { transform:translateY(-5px); box-shadow:0 14px 36px rgba(34,197,94,.14); }
+.team-card img { width:100%; height:200px; object-fit:cover; }
+.team-card-body { padding:20px 16px; }
+.team-card-body h3 { font-size:1rem; font-weight:700; margin-bottom:3px; }
+.team-card-body .role { font-size:0.8rem; color:var(--primary); font-weight:600; margin-bottom:10px; }
+.team-card-body p { font-size:0.82rem; color:#6b7280; line-height:1.6; }
+.team-socials { display:flex; justify-content:center; gap:10px; margin-top:12px; }
+.team-socials a {
+  width:30px; height:30px; background:#f0fdf4; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--primary); font-size:0.8rem; text-decoration:none;
+  transition:background .2s, color .2s;
+}
+.team-socials a:hover { background:var(--primary); color:#fff; }
+
+/* CTA */
+.about-cta {
+  background:var(--bg); padding:80px 24px; text-align:center;
+}
+.about-cta h2 { font-family:'Playfair Display',serif; font-size:2.2rem; margin-bottom:14px; }
+.about-cta p  { color:#6b7280; margin-bottom:28px; font-size:1rem; }
+.about-cta .cta-btns { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+.btn-green {
+  background:var(--primary); color:#fff; padding:13px 30px; border-radius:50px;
+  font-weight:700; font-size:0.95rem; text-decoration:none;
+  transition:background .2s, transform .15s; display:inline-flex; align-items:center; gap:8px;
+}
+.btn-green:hover { background:var(--primary-dark); transform:translateY(-2px); }
+.btn-outline-green {
+  background:transparent; color:var(--primary); padding:13px 30px; border-radius:50px;
+  font-weight:700; font-size:0.95rem; text-decoration:none; border:2px solid var(--primary);
+  transition:all .2s; display:inline-flex; align-items:center; gap:8px;
+}
+.btn-outline-green:hover { background:var(--primary); color:#fff; }
+
+@media(max-width:900px){
+  .mission-grid { grid-template-columns:1fr; }
+  .team-grid { grid-template-columns:repeat(2,1fr); }
+  .stats-grid { grid-template-columns:repeat(2,1fr); }
+}
+@media(max-width:580px){
+  .values-grid { grid-template-columns:1fr; }
+  .team-grid   { grid-template-columns:1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar page-bg" id="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="nav-logo">&#10022; Travel<span class="dot">Mate</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="destinations.html">Destinations</a></li>
+      <li><a href="main_community.html">Community</a></li>
+      <li><a href="findguides.html">Find Guides</a></li>
+      <li><a href="travel-mate-dashboard.html">Dashboard</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="signup.html">Register</a></li>
+    </ul>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div id="pointsCounter" class="badge badge-teal">0 pts</div>
+    </div>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="about-hero">
+  <div class="about-hero-tag">✦ Our Story</div>
+  <h1>Travel Together,<br><em>Discover More</em></h1>
+  <p>Travel Mate is a college project born from a simple idea — make travel planning smarter, more social, and more human.</p>
+</section>
+
+<!-- MISSION -->
+<section class="section">
+  <div class="container">
+    <div class="mission-grid">
+      <div class="mission-img-wrap">
+        <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80" alt="Travel together">
+      </div>
+      <div class="mission-text">
+        <div>
+          <p class="section-label">✦ Our Mission</p>
+          <h2 class="section-title">Connecting Travellers With Real Experiences</h2>
+        </div>
+        <p>Travel Mate was built to bridge the gap between travellers and authentic local experiences. We believe the best travel stories come from real people — not brochures.</p>
+        <p>Our platform lets travellers share honest reviews, discover hidden gems, connect with certified local guides, and build an itinerary that actually fits them — all in one place.</p>
+        <p>Started as a college project, Travel Mate represents our vision of what modern travel communities should look like: open, helpful, and beautifully simple.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-band">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <span class="ico"><i class="fas fa-map-marker-alt"></i></span>
+      <span class="num">500+</span>
+      <span class="lbl">Destinations</span>
+    </div>
+    <div class="stat-item">
+      <span class="ico"><i class="fas fa-users"></i></span>
+      <span class="num">10K+</span>
+      <span class="lbl">Community Members</span>
+    </div>
+    <div class="stat-item">
+      <span class="ico"><i class="fas fa-compass"></i></span>
+      <span class="num">120+</span>
+      <span class="lbl">Verified Guides</span>
+    </div>
+    <div class="stat-item">
+      <span class="ico"><i class="fas fa-star"></i></span>
+      <span class="num">50K+</span>
+      <span class="lbl">Reviews Written</span>
+    </div>
+  </div>
+</div>
+
+<!-- VALUES -->
+<section class="section" style="background:#fff;">
+  <div class="container">
+    <p class="section-label">✦ What We Stand For</p>
+    <h2 class="section-title">Our Core Values</h2>
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-icon"><i class="fas fa-heart"></i></div>
+        <h3>Authenticity First</h3>
+        <p>Every review, guide, and recommendation on Travel Mate comes from real people with real experiences — no paid promotions, no fake ratings.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon"><i class="fas fa-shield-alt"></i></div>
+        <h3>Safety & Trust</h3>
+        <p>All guides are verified before being listed. We take user safety seriously — from data privacy to safe travel practices.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon"><i class="fas fa-globe"></i></div>
+        <h3>Inclusive Community</h3>
+        <p>Travel is for everyone. We welcome all types of travellers — solo, family, backpacker, luxury — and celebrate every kind of journey.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon"><i class="fas fa-leaf"></i></div>
+        <h3>Responsible Travel</h3>
+        <p>We encourage eco-friendly choices, support local economies, and promote travel that leaves destinations better than we found them.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon"><i class="fas fa-lightbulb"></i></div>
+        <h3>Constant Innovation</h3>
+        <p>We're always building. From smart search to guide booking, we keep improving to make your travel planning effortless.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon"><i class="fas fa-handshake"></i></div>
+        <h3>Community Driven</h3>
+        <p>Our best features come from our users. We listen, learn, and build together — because Travel Mate belongs to its community.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="section" style="background:var(--bg);">
+  <div class="container">
+    <p class="section-label">✦ The Builders</p>
+    <h2 class="section-title">Meet Our Team</h2>
+    <p class="section-sub">A passionate group of students who love travel and technology, building something they'd actually want to use.</p>
+    <div class="team-grid">
+      <div class="team-card">
+        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Team member">
+        <div class="team-card-body">
+          <h3>Arjun Sharma</h3>
+          <div class="role">Lead Developer</div>
+          <p>Full-stack developer passionate about building products that make travel easier.</p>
+          <div class="team-socials">
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="team-card">
+        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Team member">
+        <div class="team-card-body">
+          <h3>Priya Nair</h3>
+          <div class="role">UI/UX Designer</div>
+          <p>Designing interfaces that feel intuitive, clean, and delightful to use every day.</p>
+          <div class="team-socials">
+            <a href="#"><i class="fab fa-dribbble"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="team-card">
+        <img src="https://randomuser.me/api/portraits/men/65.jpg" alt="Team member">
+        <div class="team-card-body">
+          <h3>Rahul Verma</h3>
+          <div class="role">Backend & Auth</div>
+          <p>Building secure, fast systems that keep Travel Mate running smoothly for everyone.</p>
+          <div class="team-socials">
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="team-card">
+        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Team member">
+        <div class="team-card-body">
+          <h3>Sneha Patel</h3>
+          <div class="role">Content & Research</div>
+          <p>Curating destination data, guide profiles, and making sure the content is always accurate.</p>
+          <div class="team-socials">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="about-cta">
+  <div class="container">
+    <h2>Ready to Start Exploring?</h2>
+    <p>Join thousands of travellers sharing real experiences on Travel Mate.</p>
+    <div class="cta-btns">
+      <a href="signup.html" class="btn-green"><i class="fas fa-user-plus"></i> Create Free Account</a>
+      <a href="destinations.html" class="btn-outline-green"><i class="fas fa-map"></i> Browse Destinations</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER (included via shared structure) -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">&#10022; Travel Mate</div>
+        <p>Your community for authentic travel experiences, honest reviews, and unforgettable journeys worldwide.</p>
+        <div class="social-links">
+          <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Explore</h5>
+        <ul>
+          <li><a href="destinations.html">Destinations</a></li>
+          <li><a href="main_community.html">Community</a></li>
+          <li><a href="findguides.html">Find Guides</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Travel Mate. All rights reserved. | College Project</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('scroll', () => {
+    const n = document.getElementById('navbar');
+    n.className = window.scrollY > 40 ? 'navbar solid' : 'navbar page-bg';
+  });
+  document.getElementById('hamburger').addEventListener('click', () => {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+</script>
+</body>
+</html>

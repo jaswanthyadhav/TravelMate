@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service - Travel Mate</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<script src="tm-auth.js"></script>
+<style>
+:root { --primary:#22c55e; --primary-dark:#16a34a; --bg:#f0fdf4; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Plus Jakarta Sans',sans-serif; background:#fff; color:#1f2937; }
+
+.doc-hero {
+  background: linear-gradient(135deg,#064e3b 0%,#065f46 50%,#047857 100%);
+  padding: 130px 24px 80px; text-align: center; position: relative; overflow: hidden;
+}
+.doc-hero::before {
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(ellipse at 40% 60%, rgba(34,197,94,.1) 0%, transparent 60%);
+}
+.hero-tag {
+  display:inline-block; background:rgba(34,197,94,.2); color:#86efac;
+  padding:6px 18px; border-radius:50px; font-size:0.8rem; font-weight:600;
+  letter-spacing:.08em; text-transform:uppercase; margin-bottom:16px;
+  border:1px solid rgba(134,239,172,.3); position:relative;
+}
+.doc-hero h1 {
+  font-family:'Playfair Display',serif; font-size:clamp(2rem,4vw,3rem);
+  color:#fff; margin-bottom:12px; position:relative;
+}
+.doc-hero p { color:rgba(255,255,255,.75); font-size:0.9rem; position:relative; }
+
+.doc-wrap {
+  max-width:900px; margin:0 auto; padding:60px 24px 80px;
+  display:grid; grid-template-columns:220px 1fr; gap:48px; align-items:start;
+}
+.toc {
+  position:sticky; top:90px; background:var(--bg);
+  border-radius:16px; padding:24px; border:1.5px solid #d1fae5;
+}
+.toc h4 {
+  font-size:0.78rem; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--primary); margin-bottom:14px;
+}
+.toc ul { list-style:none; display:flex; flex-direction:column; gap:4px; }
+.toc ul li a {
+  font-size:0.85rem; color:#374151; text-decoration:none;
+  padding:6px 10px; border-radius:8px; display:block; transition:all .15s; font-weight:500;
+}
+.toc ul li a:hover { background:#dcfce7; color:var(--primary); }
+
+.doc-content { display:flex; flex-direction:column; gap:38px; }
+.updated-badge {
+  background:#fff7ed; color:#92400e; border:1px solid #fed7aa;
+  padding:8px 16px; border-radius:10px; font-size:0.82rem; font-weight:600;
+  display:inline-flex; align-items:center; gap:8px;
+}
+.info-note {
+  background:var(--bg); border:1.5px solid #d1fae5; border-radius:14px; padding:20px 24px;
+}
+.info-note p { color:#374151; font-size:0.92rem; line-height:1.75; margin:0; }
+.doc-section h2 {
+  font-family:'Playfair Display',serif; font-size:1.4rem; color:#111827;
+  margin-bottom:14px; padding-bottom:10px; border-bottom:2px solid #d1fae5;
+}
+.doc-section p { color:#4b5563; font-size:0.92rem; line-height:1.85; margin-bottom:10px; }
+.doc-section ul { list-style:none; padding-left:0; display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
+.doc-section ul li { font-size:0.9rem; color:#4b5563; line-height:1.7; padding-left:24px; position:relative; }
+.doc-section ul li::before { content:'✦'; position:absolute; left:0; top:2px; color:var(--primary); font-size:0.7rem; }
+.warn-box {
+  background:#fff7ed; border:1.5px solid #fed7aa; border-radius:14px; padding:18px 22px; margin:14px 0;
+}
+.warn-box p { color:#92400e; font-size:0.9rem; line-height:1.75; margin:0; }
+
+footer { background:#0f1f1a; padding:48px 24px 28px; }
+.footer-inner { max-width:1100px; margin:0 auto; }
+.footer-grid { display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:40px; margin-bottom:32px; }
+.footer-logo { font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:700; color:#86efac; margin-bottom:10px; }
+.footer-brand p { color:rgba(255,255,255,.55); font-size:0.85rem; line-height:1.7; }
+.footer-col h5 { color:#fff; font-weight:700; font-size:0.88rem; margin-bottom:14px; letter-spacing:.04em; }
+.footer-col ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
+.footer-col ul li a { color:rgba(255,255,255,.5); font-size:0.85rem; text-decoration:none; transition:color .2s; }
+.footer-col ul li a:hover { color:#86efac; }
+.footer-bottom { padding-top:20px; border-top:1px solid rgba(255,255,255,.08); font-size:0.82rem; color:rgba(255,255,255,.35); text-align:center; }
+
+@media(max-width:700px) {
+  .doc-wrap { grid-template-columns:1fr; }
+  .toc { position:static; }
+  .footer-grid { grid-template-columns:1fr; gap:24px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar page-bg" id="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="nav-logo">&#10022; Travel<span class="dot">Mate</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="destinations.html">Destinations</a></li>
+      <li><a href="main_community.html">Community</a></li>
+      <li><a href="findguides.html">Find Guides</a></li>
+      <li><a href="travel-mate-dashboard.html">Dashboard</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="signup.html">Register</a></li>
+    </ul>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div id="pointsCounter" class="badge badge-teal">0 pts</div>
+    </div>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="doc-hero">
+  <span class="hero-tag">&#10022; Legal</span>
+  <h1>Terms of Service</h1>
+  <p>Last updated: January 2026</p>
+</div>
+
+<div class="doc-wrap">
+  <nav class="toc">
+    <h4>Contents</h4>
+    <ul>
+      <li><a href="#s1">1. Acceptance</a></li>
+      <li><a href="#s2">2. Use of Platform</a></li>
+      <li><a href="#s3">3. Accounts</a></li>
+      <li><a href="#s4">4. User Content</a></li>
+      <li><a href="#s5">5. Guide Bookings</a></li>
+      <li><a href="#s6">6. Points System</a></li>
+      <li><a href="#s7">7. Prohibited Use</a></li>
+      <li><a href="#s8">8. Disclaimer</a></li>
+      <li><a href="#s9">9. Changes</a></li>
+      <li><a href="#s10">10. Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="doc-content">
+    <span class="updated-badge"><i class="fas fa-calendar-check"></i> Effective: January 1, 2026</span>
+
+    <div class="info-note">
+      <p><strong>Note:</strong> Travel Mate is a college project. These terms are provided for educational and demonstration purposes. By using this platform, you acknowledge that it is a student project built with frontend-only technologies.</p>
+    </div>
+
+    <div class="doc-section" id="s1">
+      <h2>1. Acceptance of Terms</h2>
+      <p>By accessing or using Travel Mate, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the platform.</p>
+      <p>These terms apply to all visitors, users, and anyone who accesses or uses Travel Mate.</p>
+    </div>
+
+    <div class="doc-section" id="s2">
+      <h2>2. Use of the Platform</h2>
+      <p>Travel Mate is provided for personal, non-commercial use. You may use the platform to:</p>
+      <ul>
+        <li>Browse and search travel destinations</li>
+        <li>Read and write travel reviews</li>
+        <li>Connect with and book local guides</li>
+        <li>Share travel stories and photos</li>
+        <li>Save destinations to your wishlist</li>
+        <li>Earn and track community points</li>
+      </ul>
+    </div>
+
+    <div class="doc-section" id="s3">
+      <h2>3. User Accounts</h2>
+      <p>To access certain features, you must create an account. You are responsible for:</p>
+      <ul>
+        <li>Maintaining the confidentiality of your password</li>
+        <li>All activities that occur under your account</li>
+        <li>Providing accurate and truthful information during registration</li>
+        <li>Notifying us immediately of any unauthorised use</li>
+      </ul>
+      <div class="warn-box">
+        <p><strong>Important:</strong> All account data is stored in your browser's localStorage. Clearing browser data will permanently delete your account. We cannot recover lost accounts.</p>
+      </div>
+    </div>
+
+    <div class="doc-section" id="s4">
+      <h2>4. User Content</h2>
+      <p>When you post reviews, photos, or stories on Travel Mate, you agree that:</p>
+      <ul>
+        <li>Your content is accurate and not misleading</li>
+        <li>You own or have rights to any content you post</li>
+        <li>Your content does not violate anyone's rights</li>
+        <li>Your content is respectful and not offensive or harmful</li>
+      </ul>
+      <p>We reserve the right to remove any content that violates these terms.</p>
+    </div>
+
+    <div class="doc-section" id="s5">
+      <h2>5. Guide Bookings</h2>
+      <p>Guide booking features on Travel Mate are simulated for demonstration purposes as this is a college project. No real financial transactions are processed.</p>
+      <ul>
+        <li>All booking data is stored locally in your browser</li>
+        <li>No real payments are made or received</li>
+        <li>Guide profiles are sample data for demonstration</li>
+      </ul>
+    </div>
+
+    <div class="doc-section" id="s6">
+      <h2>6. Points System</h2>
+      <p>The Travel Mate points system is a gamification feature. Points are earned by platform activity and are stored in your browser. Points have no monetary value and cannot be redeemed for cash or real-world rewards.</p>
+    </div>
+
+    <div class="doc-section" id="s7">
+      <h2>7. Prohibited Use</h2>
+      <p>You agree not to use Travel Mate to:</p>
+      <ul>
+        <li>Post false, misleading, or defamatory reviews</li>
+        <li>Impersonate other users or real people</li>
+        <li>Harass, abuse, or harm other community members</li>
+        <li>Attempt to exploit or hack the platform</li>
+        <li>Use automated tools to scrape or spam the platform</li>
+        <li>Post illegal or harmful content of any kind</li>
+      </ul>
+    </div>
+
+    <div class="doc-section" id="s8">
+      <h2>8. Disclaimer</h2>
+      <p>Travel Mate is provided "as is" without warranties of any kind. As a college project:</p>
+      <ul>
+        <li>We do not guarantee uninterrupted or error-free operation</li>
+        <li>Destination information may not be current or accurate</li>
+        <li>We are not liable for any travel decisions made based on our content</li>
+        <li>The platform may change, be updated, or be discontinued at any time</li>
+      </ul>
+    </div>
+
+    <div class="doc-section" id="s9">
+      <h2>9. Changes to Terms</h2>
+      <p>We may update these Terms of Service at any time. Continued use of the platform after changes constitutes your acceptance of the new terms. We encourage you to review this page periodically.</p>
+    </div>
+
+    <div class="doc-section" id="s10">
+      <h2>10. Contact Us</h2>
+      <p>Questions about these terms? <a href="contact.html" style="color:var(--primary);font-weight:600;">Contact us here</a> or email <a href="mailto:hello@travelmate.com" style="color:var(--primary);font-weight:600;">hello@travelmate.com</a>.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">&#10022; Travel Mate</div>
+        <p>Your community for authentic travel experiences, honest reviews, and unforgettable journeys worldwide.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Explore</h5>
+        <ul>
+          <li><a href="destinations.html">Destinations</a></li>
+          <li><a href="main_community.html">Community</a></li>
+          <li><a href="findguides.html">Find Guides</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 Travel Mate. All rights reserved. | College Project</div>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('scroll', function() {
+  document.getElementById('navbar').className = window.scrollY > 40 ? 'navbar solid' : 'navbar page-bg';
+});
+document.getElementById('hamburger').addEventListener('click', function() {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+</script>
+</body>
+</html>

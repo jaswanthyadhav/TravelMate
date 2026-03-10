@@ -289,6 +289,7 @@ body{
 .guide-btn{
   margin-left:auto; background:var(--primary); color:white; padding:9px 20px;
   border-radius:50px; cursor:pointer; font-size:0.88rem; border:none; transition:background .2s;
+  text-decoration:none; display:inline-flex; align-items:center;
 }
 .guide-btn:hover{ background:var(--primary-dark); }
 
@@ -356,6 +357,7 @@ body{
   <!-- TABS -->
   <div class="tabs">
     <div class="tab-btn active" data-tab="reviews">Reviews</div>
+    <div class="tab-btn" data-tab="posts">Community Posts</div>
     <div class="tab-btn" data-tab="guides">Guide Section</div>
   </div>
 
@@ -470,9 +472,9 @@ body{
       <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Ramesh">
       <div>
         <div class="guide-name">Ramesh Kumar</div>
-        <div class="guide-sub">5 Years Experience | English & Hindi</div>
+        <div class="guide-sub">5 Years Experience | English &amp; Hindi</div>
       </div>
-      <button class="guide-btn">Contact</button>
+      <a href="findguides.html" class="guide-btn">View &amp; Book</a>
     </div>
     <div class="guide-card">
       <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Anita">
@@ -480,7 +482,12 @@ body{
         <div class="guide-name">Anita Sharma</div>
         <div class="guide-sub">3 Years Experience | English</div>
       </div>
-      <button class="guide-btn">Contact</button>
+      <a href="findguides.html" class="guide-btn">View &amp; Book</a>
+    </div>
+    <div style="text-align:center;margin-top:10px;">
+      <a href="findguides.html" style="display:inline-flex;align-items:center;gap:8px;background:#f0fdf4;color:#16a34a;padding:11px 28px;border-radius:50px;font-weight:600;font-size:0.9rem;text-decoration:none;border:1.5px solid #bbf7d0;transition:all .2s;" onmouseover="this.style.background='#22c55e';this.style.color='white'" onmouseout="this.style.background='#f0fdf4';this.style.color='#16a34a'">
+        <i class="fas fa-compass"></i> Browse All Available Guides
+      </a>
     </div>
   </div>
 
@@ -709,6 +716,54 @@ body{
     box.find("textarea").val("");
     box.slideUp(150);
   });
+
+
+  /* ── Load community posts for this place ── */
+  (function loadCommunityPosts(){
+    const placeKey = (new URLSearchParams(window.location.search).get('place') || 'bali').toLowerCase();
+    const allPosts = JSON.parse(localStorage.getItem('community_posts') || '[]');
+    
+    // Filter posts matching this place (by location containing place name)
+    const matched = allPosts.filter(p =>
+      p.location && p.location.toLowerCase().includes(placeKey.replace(/[^a-z]/g,''))
+    );
+    
+    const container = document.getElementById('communityPostsContainer');
+    const noMsg     = document.getElementById('noPostsMsg');
+
+    if (!matched.length) {
+      noMsg.style.display = 'block';
+      return;
+    }
+
+    matched.forEach(p => {
+      const avatarUrl = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(p.author||'T') + '&background=dcfce7&color=16a34a&size=40';
+      const stars = '★'.repeat(p.rating||0) + '☆'.repeat(5-(p.rating||0));
+      let photosHtml = '';
+      if (p.images && p.images.length > 1) {
+        photosHtml = '<div style="display:flex;overflow-x:auto;gap:6px;scroll-snap-type:x mandatory;scrollbar-width:thin;border-radius:12px;margin-bottom:12px;">' +
+          p.images.map(img => '<img src="'+img+'" style="min-width:280px;height:220px;object-fit:cover;scroll-snap-align:start;border-radius:10px;flex-shrink:0;">').join('') +
+          '</div>';
+      } else if (p.images && p.images.length === 1) {
+        photosHtml = '<img src="'+p.images[0]+'" style="width:100%;height:260px;object-fit:cover;border-radius:12px;margin-bottom:12px;">';
+      }
+
+      const card = document.createElement('div');
+      card.style.cssText = 'background:#fff;border-radius:16px;padding:18px;box-shadow:0 2px 12px rgba(0,0,0,.07);';
+      card.innerHTML =
+        '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">' +
+          '<img src="'+avatarUrl+'" style="width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid #dcfce7;">' +
+          '<div><div style="font-weight:700;font-size:0.95rem;">'+(p.author||'Traveller')+'</div>' +
+          '<div style="font-size:0.78rem;color:#9ca3af;">'+(p.date||'')+'</div></div>' +
+          '<div style="margin-left:auto;color:#f59e0b;font-size:0.95rem;">'+stars+'</div>' +
+        '</div>' +
+        photosHtml +
+        '<p style="font-size:0.92rem;color:#374151;line-height:1.7;margin:0;">'+(p.caption||'')+'</p>' +
+        (p.blog ? '<p style="font-size:0.85rem;color:#6b7280;margin-top:8px;line-height:1.7;">'+p.blog+'</p>' : '');
+      
+      container.appendChild(card);
+    });
+  })();
 
   // SEND — appends bubble ABOVE textarea inside the thread div
   $(document).on("click", ".btn-send", function(){

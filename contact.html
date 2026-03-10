@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us - Travel Mate</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<script src="tm-auth.js"></script>
+<style>
+:root { --primary:#22c55e; --primary-dark:#16a34a; --bg:#f0fdf4; }
+*{ box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Plus Jakarta Sans',sans-serif; background:#fff; color:#1f2937; }
+
+.contact-hero {
+  background:linear-gradient(135deg,#064e3b 0%,#065f46 50%,#047857 100%);
+  padding:140px 24px 100px; text-align:center; position:relative; overflow:hidden;
+}
+.contact-hero::before {
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(ellipse at 70% 50%, rgba(34,197,94,.15) 0%, transparent 60%);
+}
+.hero-tag {
+  display:inline-block; background:rgba(34,197,94,.2); color:#86efac;
+  padding:6px 18px; border-radius:50px; font-size:0.82rem; font-weight:600;
+  letter-spacing:.08em; text-transform:uppercase; margin-bottom:20px;
+  border:1px solid rgba(134,239,172,.3); position:relative;
+}
+.contact-hero h1 {
+  font-family:'Playfair Display',serif; font-size:clamp(2.2rem,5vw,3.4rem);
+  color:#fff; margin-bottom:16px; position:relative;
+}
+.contact-hero p { color:rgba(255,255,255,.8); font-size:1rem; max-width:480px; margin:0 auto; position:relative; }
+
+/* MAIN LAYOUT */
+.contact-wrap { max-width:1100px; margin:0 auto; padding:80px 24px 80px; display:grid; grid-template-columns:1fr 1.4fr; gap:60px; align-items:start; }
+
+/* INFO SIDE */
+.contact-info { display:flex; flex-direction:column; gap:28px; }
+.info-title { font-family:'Playfair Display',serif; font-size:1.8rem; margin-bottom:10px; }
+.info-sub { color:#6b7280; font-size:0.95rem; line-height:1.75; }
+
+.info-card {
+  background:var(--bg); border:1.5px solid #d1fae5; border-radius:18px;
+  padding:22px 24px; display:flex; align-items:flex-start; gap:16px;
+  transition:transform .2s, box-shadow .2s;
+}
+.info-card:hover { transform:translateY(-3px); box-shadow:0 10px 28px rgba(34,197,94,.1); }
+.info-icon {
+  width:46px; height:46px; background:linear-gradient(135deg,#22c55e,#16a34a);
+  border-radius:12px; display:flex; align-items:center; justify-content:center;
+  font-size:1.1rem; color:#fff; flex-shrink:0;
+}
+.info-card h4 { font-weight:700; font-size:0.95rem; margin-bottom:4px; }
+.info-card p, .info-card a { color:#6b7280; font-size:0.88rem; text-decoration:none; line-height:1.6; }
+.info-card a:hover { color:var(--primary); }
+
+.office-hours { background:#fff7ed; border:1.5px solid #fed7aa; border-radius:18px; padding:22px 24px; }
+.office-hours h4 { font-weight:700; margin-bottom:12px; font-size:0.95rem; color:#92400e; }
+.oh-row { display:flex; justify-content:space-between; font-size:0.85rem; padding:5px 0; border-bottom:1px solid #fde68a; color:#374151; }
+.oh-row:last-child { border-bottom:none; }
+.oh-row .day { font-weight:600; }
+.oh-row .time { color:#6b7280; }
+
+/* FORM SIDE */
+.contact-form-card {
+  background:#fff; border-radius:24px; padding:40px;
+  box-shadow:0 4px 30px rgba(0,0,0,.08); border:1px solid #f3f4f6;
+}
+.contact-form-card h3 { font-family:'Playfair Display',serif; font-size:1.5rem; margin-bottom:6px; }
+.contact-form-card .sub { color:#6b7280; font-size:0.88rem; margin-bottom:28px; }
+
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:18px; }
+.form-group { display:flex; flex-direction:column; gap:6px; margin-bottom:18px; }
+.form-group label { font-size:0.82rem; font-weight:700; color:#374151; }
+.form-input {
+  padding:12px 16px; border:1.5px solid #e5e7eb; border-radius:12px;
+  font-family:'Plus Jakarta Sans',sans-serif; font-size:0.9rem; outline:none;
+  transition:border-color .2s, box-shadow .2s; width:100%;
+}
+.form-input:focus { border-color:var(--primary); box-shadow:0 0 0 3px rgba(34,197,94,.12); }
+
+.topic-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:18px; }
+.topic-btn {
+  border:1.5px solid #e5e7eb; background:#fff; border-radius:10px;
+  padding:9px 8px; font-size:0.8rem; font-weight:600; cursor:pointer;
+  text-align:center; transition:all .2s; font-family:'Plus Jakarta Sans',sans-serif;
+  color:#6b7280;
+}
+.topic-btn:hover, .topic-btn.selected { border-color:var(--primary); background:var(--bg); color:var(--primary); }
+
+.submit-btn {
+  width:100%; background:var(--primary); color:#fff; border:none;
+  padding:14px; border-radius:50px; font-size:0.95rem; font-weight:700;
+  cursor:pointer; font-family:'Plus Jakarta Sans',sans-serif;
+  transition:background .2s, transform .15s;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.submit-btn:hover { background:var(--primary-dark); transform:translateY(-2px); }
+
+#formMsg { display:none; padding:12px 16px; border-radius:12px; margin-bottom:16px; font-size:0.88rem; font-weight:600; }
+
+/* FAQ */
+.faq-section { background:var(--bg); padding:80px 24px; }
+.faq-wrap { max-width:760px; margin:0 auto; }
+.faq-title { font-family:'Playfair Display',serif; font-size:2rem; text-align:center; margin-bottom:8px; }
+.faq-sub { text-align:center; color:#6b7280; margin-bottom:40px; }
+.faq-item { background:#fff; border-radius:14px; margin-bottom:12px; overflow:hidden; border:1px solid #e5e7eb; }
+.faq-q {
+  width:100%; text-align:left; padding:18px 22px; background:none; border:none;
+  font-family:'Plus Jakarta Sans',sans-serif; font-size:0.95rem; font-weight:700;
+  cursor:pointer; display:flex; justify-content:space-between; align-items:center;
+  color:#111827; gap:12px;
+}
+.faq-q i { color:var(--primary); flex-shrink:0; transition:transform .3s; }
+.faq-q.open i { transform:rotate(180deg); }
+.faq-a { display:none; padding:0 22px 18px; color:#6b7280; font-size:0.9rem; line-height:1.75; }
+.faq-a.open { display:block; }
+
+@media(max-width:860px){
+  .contact-wrap { grid-template-columns:1fr; }
+  .form-row { grid-template-columns:1fr; }
+  .topic-grid { grid-template-columns:repeat(2,1fr); }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar transparent" id="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="nav-logo">&#10022; Travel<span class="dot">Mate</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="destinations.html">Destinations</a></li>
+      <li><a href="main_community.html">Community</a></li>
+      <li><a href="findguides.html">Find Guides</a></li>
+      <li><a href="travel-mate-dashboard.html">Dashboard</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="signup.html">Register</a></li>
+    </ul>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div id="pointsCounter" class="badge badge-teal">0 pts</div>
+    </div>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<section class="contact-hero">
+  <div class="hero-tag">✦ Get In Touch</div>
+  <h1>We'd Love to Hear<br>From You</h1>
+  <p>Got a question, suggestion, or just want to say hello? We're here for you.</p>
+</section>
+
+<div class="contact-wrap">
+  <!-- INFO -->
+  <div class="contact-info">
+    <div>
+      <h2 class="info-title">Contact Information</h2>
+      <p class="info-sub">Reach out through any of the channels below and we'll get back to you as soon as possible.</p>
+    </div>
+
+    <div class="info-card">
+      <div class="info-icon"><i class="fas fa-envelope"></i></div>
+      <div>
+        <h4>Email Us</h4>
+        <a href="mailto:hello@travelmate.com">hello@travelmate.com</a><br>
+        <a href="mailto:support@travelmate.com">support@travelmate.com</a>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
+      <div>
+        <h4>Call Us</h4>
+        <a href="tel:+918001234567">+91 800 123 4567</a><br>
+        <p style="margin-top:3px;">Mon–Fri, 9 AM – 6 PM IST</p>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-icon"><i class="fas fa-graduation-cap"></i></div>
+      <div>
+        <h4>College Project</h4>
+        <p>This is a student project. We welcome feedback, suggestions, and collaboration from professors and peers alike.</p>
+      </div>
+    </div>
+
+    <div class="office-hours">
+      <h4>⏰ Response Times</h4>
+      <div class="oh-row"><span class="day">Email</span><span class="time">Within 24 hours</span></div>
+      <div class="oh-row"><span class="day">Phone</span><span class="time">Mon–Fri, 9AM–6PM</span></div>
+      <div class="oh-row"><span class="day">Weekends</span><span class="time">Email only</span></div>
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <div class="contact-form-card">
+    <h3>Send Us a Message</h3>
+    <p class="sub">Fill out the form below and we'll respond within 24 hours.</p>
+
+    <div id="formMsg"></div>
+
+    <div class="form-row">
+      <div class="form-group" style="margin-bottom:0;">
+        <label>First Name</label>
+        <input type="text" class="form-input" id="cfFirstName" placeholder="John">
+      </div>
+      <div class="form-group" style="margin-bottom:0;">
+        <label>Last Name</label>
+        <input type="text" class="form-input" id="cfLastName" placeholder="Doe">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" class="form-input" id="cfEmail" placeholder="you@email.com">
+    </div>
+
+    <div class="form-group">
+      <label>Phone Number <span style="font-weight:400;color:#9ca3af;">(optional)</span></label>
+      <input type="tel" class="form-input" id="cfPhone" placeholder="+91 98765 43210">
+    </div>
+
+    <div class="form-group">
+      <label>Topic</label>
+      <div class="topic-grid">
+        <button class="topic-btn selected" onclick="selectTopic(this)">General</button>
+        <button class="topic-btn" onclick="selectTopic(this)">Guide Booking</button>
+        <button class="topic-btn" onclick="selectTopic(this)">Account Help</button>
+        <button class="topic-btn" onclick="selectTopic(this)">Bug Report</button>
+        <button class="topic-btn" onclick="selectTopic(this)">Suggestion</button>
+        <button class="topic-btn" onclick="selectTopic(this)">Partnership</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Message</label>
+      <textarea class="form-input" id="cfMessage" rows="5" placeholder="Tell us how we can help you..."></textarea>
+    </div>
+
+    <button class="submit-btn" onclick="submitForm()">
+      <i class="fas fa-paper-plane"></i> Send Message
+    </button>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="faq-wrap">
+    <h2 class="faq-title">Frequently Asked Questions</h2>
+    <p class="faq-sub">Quick answers to the most common questions.</p>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Is Travel Mate free to use? <i class="fas fa-chevron-down"></i></button>
+      <div class="faq-a">Yes! Creating an account, browsing destinations, writing reviews, and joining the community is completely free. Guide bookings may have a service fee.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">How do I become a guide on Travel Mate? <i class="fas fa-chevron-down"></i></button>
+      <div class="faq-a">Sign up and select "Guide" as your role. Once registered, you can set up your guide profile with your specialties, pricing, and availability.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">How does the points system work? <i class="fas fa-chevron-down"></i></button>
+      <div class="faq-a">You earn points by writing reviews (+50), uploading photos (+10 each), booking guides (+100), and posting travel stories (+50). Points unlock special badges and rewards.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Can I cancel a guide booking? <i class="fas fa-chevron-down"></i></button>
+      <div class="faq-a">Yes. You can view and manage all bookings from your Dashboard. Cancellations made 48+ hours before the trip date are fully refundable.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Is this a real product or a college project? <i class="fas fa-chevron-down"></i></button>
+      <div class="faq-a">Travel Mate is currently a college project. All features are frontend-only and use localStorage for data. We hope to develop it into a full product in the future!</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">&#10022; Travel Mate</div>
+        <p>Your community for authentic travel experiences, honest reviews, and unforgettable journeys worldwide.</p>
+        <div class="social-links">
+          <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Explore</h5>
+        <ul>
+          <li><a href="destinations.html">Destinations</a></li>
+          <li><a href="main_community.html">Community</a></li>
+          <li><a href="findguides.html">Find Guides</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Travel Mate. All rights reserved. | College Project</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function selectTopic(btn) {
+  document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+function toggleFaq(btn) {
+  const isOpen = btn.classList.contains('open');
+  document.querySelectorAll('.faq-q').forEach(b => { b.classList.remove('open'); b.nextElementSibling.classList.remove('open'); });
+  if (!isOpen) { btn.classList.add('open'); btn.nextElementSibling.classList.add('open'); }
+}
+function submitForm() {
+  const first = document.getElementById('cfFirstName').value.trim();
+  const email = document.getElementById('cfEmail').value.trim();
+  const msg   = document.getElementById('cfMessage').value.trim();
+  const el    = document.getElementById('formMsg');
+  if (!first || !email || !msg) {
+    el.style.cssText = 'display:block;background:#fee2e2;color:#dc2626;padding:12px 16px;border-radius:12px;margin-bottom:16px;';
+    el.textContent = '⚠ Please fill in your name, email and message.'; return;
+  }
+  el.style.cssText = 'display:block;background:#dcfce7;color:#16a34a;padding:12px 16px;border-radius:12px;margin-bottom:16px;';
+  el.textContent = '✓ Message sent! We\'ll get back to you within 24 hours.';
+  document.getElementById('cfFirstName').value = '';
+  document.getElementById('cfLastName').value  = '';
+  document.getElementById('cfEmail').value     = '';
+  document.getElementById('cfPhone').value     = '';
+  document.getElementById('cfMessage').value   = '';
+}
+window.addEventListener('scroll', () => {
+  const n = document.getElementById('navbar');
+  n.className = window.scrollY > 40 ? 'navbar solid' : 'navbar transparent';
+});
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+</script>
+</body>
+</html>

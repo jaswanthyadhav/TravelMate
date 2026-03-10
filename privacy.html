@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy - Travel Mate</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<script src="tm-auth.js"></script>
+<style>
+:root { --primary:#22c55e; --primary-dark:#16a34a; --bg:#f0fdf4; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Plus Jakarta Sans',sans-serif; background:#fff; color:#1f2937; }
+
+.doc-hero {
+  background: linear-gradient(135deg,#064e3b 0%,#065f46 50%,#047857 100%);
+  padding: 130px 24px 80px; text-align: center; position: relative; overflow: hidden;
+}
+.doc-hero::before {
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(ellipse at 60% 40%, rgba(34,197,94,.12) 0%, transparent 65%);
+}
+.hero-tag {
+  display:inline-block; background:rgba(34,197,94,.2); color:#86efac;
+  padding:6px 18px; border-radius:50px; font-size:0.8rem; font-weight:600;
+  letter-spacing:.08em; text-transform:uppercase; margin-bottom:16px;
+  border:1px solid rgba(134,239,172,.3); position:relative;
+}
+.doc-hero h1 {
+  font-family:'Playfair Display',serif; font-size:clamp(2rem,4vw,3rem);
+  color:#fff; margin-bottom:12px; position:relative;
+}
+.doc-hero p { color:rgba(255,255,255,.75); font-size:0.9rem; position:relative; }
+
+.doc-wrap {
+  max-width:900px; margin:0 auto; padding:60px 24px 80px;
+  display:grid; grid-template-columns:220px 1fr; gap:48px; align-items:start;
+}
+.toc {
+  position:sticky; top:90px; background:var(--bg);
+  border-radius:16px; padding:24px; border:1.5px solid #d1fae5;
+}
+.toc h4 {
+  font-size:0.78rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--primary); margin-bottom:14px;
+}
+.toc ul { list-style:none; display:flex; flex-direction:column; gap:4px; }
+.toc ul li a {
+  font-size:0.85rem; color:#374151; text-decoration:none;
+  padding:6px 10px; border-radius:8px; display:block; transition:all .15s; font-weight:500;
+}
+.toc ul li a:hover { background:#dcfce7; color:var(--primary); }
+.doc-content { display:flex; flex-direction:column; gap:38px; }
+.updated-badge {
+  background:#fff7ed; color:#92400e; border:1px solid #fed7aa;
+  padding:8px 16px; border-radius:10px; font-size:0.82rem; font-weight:600;
+  display:inline-flex; align-items:center; gap:8px;
+}
+.doc-section h2 {
+  font-family:'Playfair Display',serif; font-size:1.4rem; color:#111827;
+  margin-bottom:14px; padding-bottom:10px; border-bottom:2px solid #d1fae5;
+}
+.doc-section p { color:#4b5563; font-size:0.92rem; line-height:1.85; margin-bottom:10px; }
+.doc-section ul { list-style:none; padding-left:0; display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
+.doc-section ul li { font-size:0.9rem; color:#4b5563; line-height:1.7; padding-left:22px; position:relative; }
+.doc-section ul li::before { content:'✓'; position:absolute; left:0; color:var(--primary); font-weight:700; }
+.highlight-box { background:var(--bg); border:1.5px solid #d1fae5; border-radius:14px; padding:20px 24px; margin:14px 0; }
+.highlight-box p { margin-bottom:0; }
+.contact-note { background:#eff6ff; border:1.5px solid #bfdbfe; border-radius:14px; padding:20px 24px; }
+.contact-note a { color:#2563eb; font-weight:600; }
+
+footer { background:#0f1f1a; padding:48px 24px 28px; }
+.footer-inner { max-width:1100px; margin:0 auto; }
+.footer-grid { display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:40px; margin-bottom:32px; }
+.footer-logo { font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:700; color:#86efac; margin-bottom:10px; }
+.footer-brand p { color:rgba(255,255,255,.55); font-size:0.85rem; line-height:1.7; }
+.footer-col h5 { color:#fff; font-weight:700; font-size:0.88rem; margin-bottom:14px; letter-spacing:.04em; }
+.footer-col ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
+.footer-col ul li a { color:rgba(255,255,255,.5); font-size:0.85rem; text-decoration:none; transition:color .2s; }
+.footer-col ul li a:hover { color:#86efac; }
+.footer-bottom { padding-top:20px; border-top:1px solid rgba(255,255,255,.08); font-size:0.82rem; color:rgba(255,255,255,.35); text-align:center; }
+
+@media(max-width:700px) {
+  .doc-wrap { grid-template-columns:1fr; }
+  .toc { position:static; }
+  .footer-grid { grid-template-columns:1fr; gap:24px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar page-bg" id="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="nav-logo">&#10022; Travel<span class="dot">Mate</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="destinations.html">Destinations</a></li>
+      <li><a href="main_community.html">Community</a></li>
+      <li><a href="findguides.html">Find Guides</a></li>
+      <li><a href="travel-mate-dashboard.html">Dashboard</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="signup.html">Register</a></li>
+    </ul>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div id="pointsCounter" class="badge badge-teal">0 pts</div>
+    </div>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="doc-hero">
+  <span class="hero-tag">&#10022; Legal</span>
+  <h1>Privacy Policy</h1>
+  <p>Last updated: January 2026</p>
+</div>
+
+<div class="doc-wrap">
+  <nav class="toc">
+    <h4>Contents</h4>
+    <ul>
+      <li><a href="#s1">1. Overview</a></li>
+      <li><a href="#s2">2. Data We Collect</a></li>
+      <li><a href="#s3">3. How We Use It</a></li>
+      <li><a href="#s4">4. Data Storage</a></li>
+      <li><a href="#s5">5. Sharing</a></li>
+      <li><a href="#s6">6. Cookies</a></li>
+      <li><a href="#s7">7. Your Rights</a></li>
+      <li><a href="#s8">8. Children</a></li>
+      <li><a href="#s9">9. Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="doc-content">
+    <span class="updated-badge"><i class="fas fa-calendar-check"></i> Effective: January 1, 2026</span>
+
+    <div class="doc-section" id="s1">
+      <h2>1. Overview</h2>
+      <p>Welcome to Travel Mate. This Privacy Policy explains how we collect, use, and protect your personal information. Travel Mate is a college project and all data is stored locally in your browser (localStorage). We do not operate any backend servers or databases.</p>
+      <div class="highlight-box">
+        <p><strong>Important:</strong> As a frontend-only college project, all your data (account, bookings, posts, wishlist) is stored in your browser's localStorage. Clearing your browser data will erase your Travel Mate account and all content.</p>
+      </div>
+    </div>
+
+    <div class="doc-section" id="s2">
+      <h2>2. Information We Collect</h2>
+      <p>When you use Travel Mate, we may store the following information locally on your device:</p>
+      <ul>
+        <li>Name and email address (provided during signup)</li>
+        <li>Password (stored locally, never sent to any server)</li>
+        <li>Profile information such as location and bio</li>
+        <li>Travel posts, reviews, and photos you upload</li>
+        <li>Wishlist destinations you save</li>
+        <li>Guide bookings you make</li>
+        <li>Points earned through platform activity</li>
+      </ul>
+    </div>
+
+    <div class="doc-section" id="s3">
+      <h2>3. How We Use Your Information</h2>
+      <p>We use your information solely to provide the Travel Mate experience:</p>
+      <ul>
+        <li>To create and manage your user account</li>
+        <li>To display your profile and activity on your dashboard</li>
+        <li>To save your wishlist and booking history</li>
+        <li>To track and display your earned points</li>
+        <li>To personalise your navigation experience</li>
+      </ul>
+      <p>We do not use your data for advertising, profiling, or any commercial purpose.</p>
+    </div>
+
+    <div class="doc-section" id="s4">
+      <h2>4. Data Storage</h2>
+      <p>All Travel Mate data is stored in your browser's <strong>localStorage</strong>. This means:</p>
+      <ul>
+        <li>Your data never leaves your device</li>
+        <li>We have no access to your personal information</li>
+        <li>Data is not synced across devices or browsers</li>
+        <li>Clearing your browser's site data will permanently delete your account</li>
+      </ul>
+    </div>
+
+    <div class="doc-section" id="s5">
+      <h2>5. Information Sharing</h2>
+      <p>We do not sell, trade, or share your personal information with any third parties. As a college project with no backend, there is no mechanism for us to access or share your data.</p>
+      <p>Public-facing content such as reviews and travel posts may be visible to other users in the same browser session.</p>
+    </div>
+
+    <div class="doc-section" id="s6">
+      <h2>6. Cookies &amp; Local Storage</h2>
+      <p>Travel Mate uses <strong>localStorage</strong> (not cookies) to store your session and preferences. This data is stored only on your device and is not transmitted anywhere.</p>
+      <p>Third-party services used (Google Fonts, Font Awesome CDN, Unsplash images) may use their own cookies per their respective privacy policies.</p>
+    </div>
+
+    <div class="doc-section" id="s7">
+      <h2>7. Your Rights</h2>
+      <p>You have full control over your data:</p>
+      <ul>
+        <li><strong>Access:</strong> View all your data via your Dashboard</li>
+        <li><strong>Edit:</strong> Update your profile anytime in Dashboard Settings</li>
+        <li><strong>Delete:</strong> Clear your browser's localStorage to remove all data</li>
+        <li><strong>Logout:</strong> End your session at any time via the Logout button</li>
+      </ul>
+    </div>
+
+    <div class="doc-section" id="s8">
+      <h2>8. Children's Privacy</h2>
+      <p>Travel Mate is not directed at children under 13. We do not knowingly collect personal information from children. If you believe a child has created an account, please contact us so we can address it promptly.</p>
+    </div>
+
+    <div class="doc-section" id="s9">
+      <h2>9. Contact Us</h2>
+      <div class="contact-note">
+        <p>Questions about this Privacy Policy? Reach us at <a href="mailto:hello@travelmate.com">hello@travelmate.com</a> or visit our <a href="contact.html">Contact page</a>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">&#10022; Travel Mate</div>
+        <p>Your community for authentic travel experiences, honest reviews, and unforgettable journeys worldwide.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Explore</h5>
+        <ul>
+          <li><a href="destinations.html">Destinations</a></li>
+          <li><a href="main_community.html">Community</a></li>
+          <li><a href="findguides.html">Find Guides</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 Travel Mate. All rights reserved. | College Project</div>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('scroll', function() {
+  document.getElementById('navbar').className = window.scrollY > 40 ? 'navbar solid' : 'navbar page-bg';
+});
+document.getElementById('hamburger').addEventListener('click', function() {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+</script>
+</body>
+</html>

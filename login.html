@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="tm-auth.js"></script>
 
 <style>
 :root{
@@ -20,10 +21,11 @@
 body{
   font-family:'Poppins',sans-serif;
   background:var(--bg);
-  height:100vh;
+  min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
+  padding-top:80px;
 }
 
 .login-card{
@@ -189,7 +191,7 @@ body{
 <body>
 
   <!-- ══════════════ NAVBAR (unified) ══════════════ -->
-  <nav class="navbar transparent" id="navbar">
+  <nav class="navbar page-bg" id="navbar">
     <div class="navbar-inner">
       <a href="index.html" class="nav-logo">&#10022; Travel<span class="dot">Mate</span></a>
       <ul class="nav-links" id="navLinks">
@@ -208,15 +210,6 @@ body{
       </button>
     </div>
   </nav>
-
-<script>
-  (function(){
-    const el = document.getElementById('pointsCounter');
-    if(!el) return;
-    const pts = Number(localStorage.getItem('tm_points') || 0);
-    el.textContent = pts + ' pts';
-  })();
-</script>
 
 <div class="login-card">
 
@@ -259,17 +252,23 @@ body{
 </div>
 
 <script>
-    // Navbar scroll effect
+  /* redirect away if already logged in */
+  (function(){
+    if(TmAuth.isLogged()) window.location.href = 'index.html';
+  })();
+
+  // Navbar scroll effect
   window.addEventListener('scroll', function() {
     const navbar = document.getElementById('navbar');
     if(window.scrollY > 40) {
-      navbar.classList.remove('transparent');
+      navbar.classList.remove('page-bg');
       navbar.classList.add('solid');
     } else {
       navbar.classList.remove('solid');
-      navbar.classList.add('transparent');
+      navbar.classList.add('page-bg');
     }
   });
+
 function selectRole(btn){
   document.querySelectorAll('.role-toggle button').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
@@ -279,9 +278,50 @@ function togglePassword(){
   const pass=document.getElementById("password");
   if(pass.type==="password"){
     pass.type="text";
+    this.textContent="Hide";
   }else{
     pass.type="password";
+    this.textContent="Show";
   }
+}
+
+/* ── Working Login ── */
+document.querySelector('form').addEventListener('submit', function(e){
+  e.preventDefault();
+  const email    = this.querySelector('[type=email]').value.trim();
+  const password = this.querySelector('[type=password]').value;
+  const role     = document.querySelector('.role-toggle button.active').textContent.trim();
+
+  if(!email || !password){
+    showError('Please fill in all fields.');
+    return;
+  }
+
+  /* check if user exists in localStorage */
+  const users = JSON.parse(localStorage.getItem('tm_users') || '[]');
+  const match = users.find(u => u.email === email && u.password === password && u.role === role);
+
+  if(!match){
+    showError('Invalid credentials. Please check your email, password, and role.');
+    return;
+  }
+
+  TmAuth.login(match.name, match.email, match.role, null);
+  showSuccess('Login successful! Redirecting...');
+  setTimeout(() => window.location.href = 'index.html', 1000);
+});
+
+function showError(msg){
+  let el = document.getElementById('authMsg');
+  if(!el){ el = document.createElement('div'); el.id='authMsg'; document.querySelector('.login-card').insertBefore(el, document.querySelector('form')); }
+  el.style.cssText='background:#fee2e2;color:#dc2626;padding:10px 14px;border-radius:10px;margin-bottom:12px;font-size:14px;font-weight:500;';
+  el.textContent = msg;
+}
+function showSuccess(msg){
+  let el = document.getElementById('authMsg');
+  if(!el){ el = document.createElement('div'); el.id='authMsg'; document.querySelector('.login-card').insertBefore(el, document.querySelector('form')); }
+  el.style.cssText='background:#dcfce7;color:#16a34a;padding:10px 14px;border-radius:10px;margin-bottom:12px;font-size:14px;font-weight:500;';
+  el.textContent = msg;
 }
 </script>
 

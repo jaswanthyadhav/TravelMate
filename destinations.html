@@ -2,24 +2,68 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <title>Destinations - Travel Mate</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="style.css">
+<script src="tm-auth.js"></script>
 
 <style>
-body { font-family: Arial; }
+:root { --primary:#22c55e; --primary-dark:#16a34a; --bg:#f0fdf4; }
+body { font-family:'Plus Jakarta Sans','Poppins',Arial,sans-serif; background:var(--bg); }
 
-.card img {
-    height: 200px;
-    object-fit: cover;
+/* Override Bootstrap card to match theme */
+.card {
+  border:none; border-radius:18px;
+  box-shadow:0 4px 20px rgba(34,197,94,.1);
+  overflow:hidden; transition:transform .25s, box-shadow .25s;
 }
+.card:hover { transform:translateY(-5px); box-shadow:0 14px 36px rgba(34,197,94,.15); }
+.card img { height:200px; object-fit:cover; width:100%; display:block; }
+.card-body { padding:16px 18px 18px; }
+.card-body h5 { font-weight:700; font-size:1rem; color:#111827; }
 
+/* Page heading */
+.dest-page-title {
+  font-family:'Playfair Display','Georgia',serif;
+  font-size:clamp(1.8rem,3vw,2.4rem);
+  font-weight:700; color:#111827; margin-bottom:8px;
+}
+.dest-page-sub { color:#6b7280; font-size:0.95rem; margin-bottom:24px; }
+
+/* Search bar */
+.input-group .form-control {
+  border:2px solid #e5e7eb; border-right:none;
+  border-radius:50px 0 0 50px; padding:12px 20px;
+  font-size:0.93rem; outline:none;
+}
+.input-group .form-control:focus { border-color:var(--primary); box-shadow:none; }
+.input-group .btn-primary {
+  background:var(--primary); border:none; border-radius:0 50px 50px 0;
+  padding:12px 24px; font-weight:700; font-size:0.93rem;
+  transition:background .2s;
+}
+.input-group .btn-primary:hover { background:var(--primary-dark); }
+
+/* Suggestion / Filter buttons */
 .suggestion-btn {
-    margin-right: 10px;
-    margin-bottom: 10px;
+  margin-right:8px; margin-bottom:10px;
+  border-radius:50px; padding:8px 20px;
+  font-size:0.85rem; font-weight:600; cursor:pointer;
+  transition:all .2s;
 }
+.btn-outline-primary {
+  border:2px solid var(--primary); color:var(--primary); background:transparent;
+}
+.btn-outline-primary:hover {
+  background:var(--primary); color:#fff;
+}
+.btn-outline-secondary {
+  border:2px solid #9ca3af; color:#6b7280; background:transparent;
+}
+.btn-outline-secondary:hover { background:#6b7280; color:#fff; }
 </style>
 </head>
 
@@ -29,7 +73,7 @@ body { font-family: Arial; }
         <i class="fas fa-arrow-left"></i> Back
     </a>
     <!-- ══════════════ NAVBAR (unified) ══════════════ -->
-    <nav class="navbar transparent" id="navbar">
+    <nav class="navbar page-bg" id="navbar">
         <div class="navbar-inner">
             <a href="index.html" class="nav-logo">&#10022; Travel<span class="dot">Mate</span></a>
             <ul class="nav-links" id="navLinks">
@@ -51,9 +95,10 @@ body { font-family: Arial; }
     </nav>
 
 
-<div class="container mt-5">
+<div class="container" style="padding-top:110px;padding-bottom:60px;">
 
-    <h2 class="mb-3">Explore Destinations 🌍</h2>
+    <h2 class="dest-page-title">Explore Destinations 🌍</h2>
+    <p class="dest-page-sub">Discover the world's most beautiful places — beaches, mountains, cities, and beyond.</p>
 
     <!-- Search Bar -->
     <div class="input-group mb-3">
@@ -121,12 +166,13 @@ function displayDestinations(filteredList) {
                     <div class="card-body">
                         <div style="display:flex;align-items:center;justify-content:space-between;">
                             <h5 style="margin-bottom:0;">${dest.name}</h5>
-                            <div class="msg-actions" style="display:flex;gap:8px;">
-                                <button title="Message" style="background:#e6f9ee;border:none;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:#22c55e;font-size:1.1em;cursor:pointer;"><i class="fas fa-comment-dots"></i></button>
-                                <button title="Call" style="background:#e6f9ee;border:none;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:#22c55e;font-size:1.1em;cursor:pointer;"><i class="fas fa-phone"></i></button>
-                            </div>
                         </div>
-                        <p style="margin-top:8px;">Category: ${dest.category}</p>
+                        <p style="margin-top:6px;margin-bottom:12px;color:#6b7280;font-size:0.88rem;">Category: ${dest.category}</p>
+                        <a href="community.html?place=${dest.name.toLowerCase().replace(/[^a-z]/g,'')}"
+                           style="display:inline-flex;align-items:center;gap:6px;background:#22c55e;color:white;padding:8px 18px;border-radius:50px;font-size:0.85rem;font-weight:600;text-decoration:none;transition:background .2s;"
+                           onmouseover="this.style.background='#16a34a'" onmouseout="this.style.background='#22c55e'">
+                           <i class="fas fa-map-marker-alt"></i> View Details
+                        </a>
                     </div>
                 </div>
             </div>

@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="tm-auth.js"></script>
 
 <style>
 :root{
@@ -204,7 +205,7 @@ body{
 <body>
 
   <!-- ══════════════ NAVBAR ══════════════ -->
-  <nav class="navbar transparent" id="navbar">
+  <nav class="navbar page-bg" id="navbar">
     <div class="navbar-inner">
       <a href="#" class="nav-logo">&#10022; Travel<span class="dot">Mate</span></a>
       <ul class="nav-links" id="navLinks">
@@ -225,15 +226,6 @@ body{
       </button>
     </div>
   </nav>
-
-<script>
-  (function(){
-    const el = document.getElementById('pointsCounter');
-    if(!el) return;
-    const pts = Number(localStorage.getItem('tm_points') || 0);
-    el.textContent = pts + ' pts';
-  })();
-</script>
 
 <div class="signup-card">
 
@@ -282,6 +274,11 @@ body{
 </div>
 
 <script>
+  /* redirect away if already logged in */
+  (function(){
+    if(TmAuth.isLogged()) window.location.href = 'index.html';
+  })();
+
 function selectRole(btn){
   document.querySelectorAll('.role-toggle button').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
@@ -294,8 +291,45 @@ function togglePassword(id){
 
 document.getElementById("signupForm").addEventListener("submit",function(e){
   e.preventDefault();
-  alert("Signup successful (Frontend only)");
+  const name     = document.getElementById('name').value.trim();
+  const email    = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const confirm  = document.getElementById('confirmPassword').value;
+  const role     = document.querySelector('.role-toggle button.active').textContent.trim();
+
+  if(!name || !email || !password || !confirm){
+    showMsg('Please fill in all fields.', 'error'); return;
+  }
+  if(password !== confirm){
+    showMsg('Passwords do not match.', 'error'); return;
+  }
+  if(password.length < 6){
+    showMsg('Password must be at least 6 characters.', 'error'); return;
+  }
+
+  /* save to users list */
+  const users = JSON.parse(localStorage.getItem('tm_users') || '[]');
+  if(users.find(u => u.email === email && u.role === role)){
+    showMsg('An account with this email already exists for this role.', 'error'); return;
+  }
+  users.push({ name, email, password, role });
+  localStorage.setItem('tm_users', JSON.stringify(users));
+
+  /* auto-login */
+  TmAuth.login(name, email, role, null);
+  showMsg('Account created! Redirecting...', 'success');
+  setTimeout(() => window.location.href = 'index.html', 1000);
 });
+
+function showMsg(msg, type){
+  let el = document.getElementById('authMsg');
+  if(!el){ el = document.createElement('div'); el.id='authMsg';
+    document.querySelector('.signup-card').insertBefore(el, document.getElementById('signupForm')); }
+  el.style.cssText = type==='error'
+    ? 'background:#fee2e2;color:#dc2626;padding:10px 14px;border-radius:10px;margin-bottom:12px;font-size:14px;font-weight:500;'
+    : 'background:#dcfce7;color:#16a34a;padding:10px 14px;border-radius:10px;margin-bottom:12px;font-size:14px;font-weight:500;';
+  el.textContent = msg;
+}
 </script>
 
 </body>
